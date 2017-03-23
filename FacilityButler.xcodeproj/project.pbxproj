@@ -8,20 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426733B1E83DE2600BB73C6 /* AppDelegate.swift */; };
-		2426733E1E83DE2600BB73C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426733D1E83DE2600BB73C6 /* ViewController.swift */; };
+		2426733E1E83DE2600BB73C6 /* FloorPlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */; };
 		242673411E83DE2600BB73C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2426733F1E83DE2600BB73C6 /* Main.storyboard */; };
 		242673431E83DE2600BB73C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 242673421E83DE2600BB73C6 /* Assets.xcassets */; };
 		242673461E83DE2600BB73C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */; };
+		2426734F1E83EC3A00BB73C6 /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2426734E1E83EC3A00BB73C6 /* HomeKit.framework */; };
+		2441B7B31E84509100A428D9 /* FloorPlanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2441B7B21E84509100A428D9 /* FloorPlanModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		242673381E83DE2600BB73C6 /* FacilityButler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacilityButler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2426733B1E83DE2600BB73C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2426733D1E83DE2600BB73C6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorPlanController.swift; sourceTree = "<group>"; };
 		242673401E83DE2600BB73C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		242673421E83DE2600BB73C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		242673451E83DE2600BB73C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		242673471E83DE2600BB73C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2426734E1E83EC3A00BB73C6 /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
+		242673501E83FAE800BB73C6 /* FacilityButler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FacilityButler.entitlements; sourceTree = "<group>"; };
+		2441B7B21E84509100A428D9 /* FloorPlanModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorPlanModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2426734F1E83EC3A00BB73C6 /* HomeKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +46,7 @@
 			children = (
 				2426733A1E83DE2600BB73C6 /* FacilityButler */,
 				242673391E83DE2600BB73C6 /* Products */,
+				2426734D1E83EC3900BB73C6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +61,24 @@
 		2426733A1E83DE2600BB73C6 /* FacilityButler */ = {
 			isa = PBXGroup;
 			children = (
+				242673501E83FAE800BB73C6 /* FacilityButler.entitlements */,
 				2426733B1E83DE2600BB73C6 /* AppDelegate.swift */,
-				2426733D1E83DE2600BB73C6 /* ViewController.swift */,
+				2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */,
+				2441B7B21E84509100A428D9 /* FloorPlanModel.swift */,
 				2426733F1E83DE2600BB73C6 /* Main.storyboard */,
 				242673421E83DE2600BB73C6 /* Assets.xcassets */,
 				242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */,
 				242673471E83DE2600BB73C6 /* Info.plist */,
 			);
 			path = FacilityButler;
+			sourceTree = "<group>";
+		};
+		2426734D1E83EC3900BB73C6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2426734E1E83EC3A00BB73C6 /* HomeKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -96,6 +113,7 @@
 				TargetAttributes = {
 					242673371E83DE2600BB73C6 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = JPC698935F;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -136,7 +154,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2426733E1E83DE2600BB73C6 /* ViewController.swift in Sources */,
+				2426733E1E83DE2600BB73C6 /* FloorPlanController.swift in Sources */,
+				2441B7B31E84509100A428D9 /* FloorPlanModel.swift in Sources */,
 				2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,6 +279,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FacilityButler/FacilityButler.entitlements;
+				DEVELOPMENT_TEAM = JPC698935F;
 				INFOPLIST_FILE = FacilityButler/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hpe.FacilityButler;
@@ -272,6 +293,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FacilityButler/FacilityButler.entitlements;
+				DEVELOPMENT_TEAM = JPC698935F;
 				INFOPLIST_FILE = FacilityButler/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hpe.FacilityButler;
@@ -299,6 +322,7 @@
 				2426734C1E83DE2600BB73C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
