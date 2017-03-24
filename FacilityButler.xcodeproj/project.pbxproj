@@ -14,6 +14,8 @@
 		242673461E83DE2600BB73C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */; };
 		2426734F1E83EC3A00BB73C6 /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2426734E1E83EC3A00BB73C6 /* HomeKit.framework */; };
 		2441B7B31E84509100A428D9 /* FloorPlanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2441B7B21E84509100A428D9 /* FloorPlanModel.swift */; };
+		24DB94A61E85176000FC8A94 /* AddAccessoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DB94A51E85176000FC8A94 /* AddAccessoryController.swift */; };
+		24DB94AC1E85200800FC8A94 /* AddAccessoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DB94AB1E85200800FC8A94 /* AddAccessoryTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		2426734E1E83EC3A00BB73C6 /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
 		242673501E83FAE800BB73C6 /* FacilityButler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FacilityButler.entitlements; sourceTree = "<group>"; };
 		2441B7B21E84509100A428D9 /* FloorPlanModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorPlanModel.swift; sourceTree = "<group>"; };
+		24DB94A51E85176000FC8A94 /* AddAccessoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAccessoryController.swift; sourceTree = "<group>"; };
+		24DB94AB1E85200800FC8A94 /* AddAccessoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddAccessoryTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,8 @@
 				2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */,
 				2441B7B21E84509100A428D9 /* FloorPlanModel.swift */,
 				2426733F1E83DE2600BB73C6 /* Main.storyboard */,
+				24DB94A51E85176000FC8A94 /* AddAccessoryController.swift */,
+				24DB94AB1E85200800FC8A94 /* AddAccessoryTableViewController.swift */,
 				242673421E83DE2600BB73C6 /* Assets.xcassets */,
 				242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */,
 				242673471E83DE2600BB73C6 /* Info.plist */,
@@ -154,8 +160,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24DB94A61E85176000FC8A94 /* AddAccessoryController.swift in Sources */,
 				2426733E1E83DE2600BB73C6 /* FloorPlanController.swift in Sources */,
 				2441B7B31E84509100A428D9 /* FloorPlanModel.swift in Sources */,
+				24DB94AC1E85200800FC8A94 /* AddAccessoryTableViewController.swift in Sources */,
 				2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

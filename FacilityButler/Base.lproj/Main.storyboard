@@ -26,7 +26,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="dSh-Ts-4Mc"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="byh-a3-JsY">
                             <connections>
-                                <segue destination="oRI-8X-MsC" kind="presentation" identifier="Add Accessory" id="h6B-yI-zJC"/>
+                                <segue destination="1Zk-gg-Gcw" kind="presentation" id="etB-Xq-f9o"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -36,38 +36,45 @@
             <point key="canvasLocation" x="988" y="-477"/>
         </scene>
         <!--Add Accessory-->
-        <scene sceneID="VNR-78-dia">
+        <scene sceneID="xKI-oB-uER">
             <objects>
-                <viewController id="V23-fp-LAC" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="6gb-ib-AOO"/>
-                        <viewControllerLayoutGuide type="bottom" id="xoK-ew-hEi"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="AdM-LQ-a5f">
+                <tableViewController id="vY7-7x-WbS" customClass="AddAccessoryController" customModule="FacilityButler" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mfa-JG-9BE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ymU-sj-ST8">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="xoK-ew-hEi" firstAttribute="top" secondItem="ymU-sj-ST8" secondAttribute="bottom" id="5Yp-Ph-c7q"/>
-                            <constraint firstItem="ymU-sj-ST8" firstAttribute="leading" secondItem="AdM-LQ-a5f" secondAttribute="leading" id="Aco-cd-bLe"/>
-                            <constraint firstAttribute="trailing" secondItem="ymU-sj-ST8" secondAttribute="trailing" id="JZc-w9-gpQ"/>
-                            <constraint firstItem="ymU-sj-ST8" firstAttribute="top" secondItem="AdM-LQ-a5f" secondAttribute="top" id="gZ6-Vf-cUf"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="Add Accessory" id="Fhd-89-A6k">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="u7r-Tv-Jdh"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="BoZ-wY-oj6"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="accessory_0" textLabel="1wv-WJ-YX8" style="IBUITableViewCellStyleDefault" id="eXh-gx-jb5">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eXh-gx-jb5" id="6VX-s8-rdE">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Ceiling Light" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1wv-WJ-YX8">
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="vY7-7x-WbS" id="nGl-fr-2Au"/>
+                            <outlet property="delegate" destination="vY7-7x-WbS" id="Qum-QI-sJJ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Add Accessory" id="nGG-1d-RPl">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7hN-be-pZs"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="b6s-pE-aR2"/>
                     </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="kAA-vk-2YQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DaF-0i-4DQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2767.1999999999998" y="-477.21139430284859"/>
+            <point key="canvasLocation" x="2792.8000000000002" y="-477.21139430284859"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="0Cg-Fl-M7P">
@@ -90,22 +97,22 @@
             <point key="canvasLocation" x="235" y="-477"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="KMp-Ca-idd">
+        <scene sceneID="EbH-10-xEi">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oRI-8X-MsC" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1Zk-gg-Gcw" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="gUd-3r-jvC">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="8U0-Ob-g0f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="V23-fp-LAC" kind="relationship" relationship="rootViewController" id="emt-fT-6ER"/>
+                        <segue destination="vY7-7x-WbS" kind="relationship" relationship="rootViewController" id="iAZ-Yz-E6Y"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xan-9i-Vhm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ggq-DO-grV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1828" y="-477.21139430284859"/>
+            <point key="canvasLocation" x="1853.5999999999999" y="-477.21139430284859"/>
         </scene>
     </scenes>
 </document>

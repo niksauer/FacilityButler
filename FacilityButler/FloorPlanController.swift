@@ -9,12 +9,11 @@
 import UIKit
 import HomeKit
 
-class FloorPlanController: UIViewController, HMAccessoryBrowserDelegate {
+class FloorPlanController: UIViewController {
     let model = FloorPlanModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        model.accessoryBrowser.delegate = self
     }
     
     // discover new accessory
@@ -31,9 +30,5 @@ class FloorPlanController: UIViewController, HMAccessoryBrowserDelegate {
         scanActive = !scanActive
     }
     
-    func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
-        // add newest item to found accessoires
-        accessoires.append(accessory)
-        print(accessory)
-    }
+    
 }
