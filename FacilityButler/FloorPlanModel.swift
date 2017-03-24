@@ -23,7 +23,7 @@ class FloorPlanModel: NSObject, HMHomeManagerDelegate, HMAccessoryBrowserDelegat
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
         if !manager.homes.isEmpty {
             currentHome = manager.primaryHome
-            print("currently selected home set: ", currentHome!)
+            print("current home: ", currentHome!)
         }
     }
     
@@ -34,9 +34,14 @@ class FloorPlanModel: NSObject, HMHomeManagerDelegate, HMAccessoryBrowserDelegat
     }
     
     // managing accessoires
-    func findNewAccessory() {
+    func startAccessoryScan () {
         // start network scan of accessoires
         accessoryBrowser.startSearchingForNewAccessories()
         print("network scan started")
+    }
+    
+    func stopAccessoryScan() {
+        accessoryBrowser.stopSearchingForNewAccessories()
+        print("network scan stopped")
     }
 }

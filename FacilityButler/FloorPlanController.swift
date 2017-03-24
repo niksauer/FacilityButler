@@ -17,13 +17,23 @@ class FloorPlanController: UIViewController, HMAccessoryBrowserDelegate {
         model.accessoryBrowser.delegate = self
     }
     
+    // discover new accessory
+    var accessoires = [HMAccessory]()
+    var scanActive = false
+    
     @IBAction func setupNewAccessory(_ sender: UIButton) {
-        model.findNewAccessory()
+        if !scanActive {
+            model.startAccessoryScan()
+        } else {
+            model.stopAccessoryScan()
+        }
+        
+        scanActive = !scanActive
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory) {
-        // stop network scan, as accessory has been found
-        browser.stopSearchingForNewAccessories()
-        print("stopped network scan")
+        // add newest item to found accessoires
+        accessoires.append(accessory)
+        print(accessory)
     }
 }
