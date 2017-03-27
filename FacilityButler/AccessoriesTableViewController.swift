@@ -49,7 +49,6 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         home.manager.delegate = self
         list.accessoryBrowser.delegate = self
         
@@ -158,6 +157,7 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
         }
     }
     
+    // INFO: - removes accessory from home
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let accessory = list.accessories[indexPath.section][indexPath.row]
