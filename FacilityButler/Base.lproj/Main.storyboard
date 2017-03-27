@@ -12,7 +12,7 @@
         <!--Ground Floor-->
         <scene sceneID="Tc7-6w-yZE">
             <objects>
-                <viewController id="pTL-tQ-DU7" sceneMemberID="viewController">
+                <viewController id="pTL-tQ-DU7" customClass="FloorPlanController" customModule="FacilityButler" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fHP-rj-CE5"/>
                         <viewControllerLayoutGuide type="bottom" id="4bB-Jh-kaD"/>
@@ -26,7 +26,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="dSh-Ts-4Mc"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="byh-a3-JsY">
                             <connections>
-                                <segue destination="1Zk-gg-Gcw" kind="presentation" id="etB-Xq-f9o"/>
+                                <segue destination="1Zk-gg-Gcw" kind="presentation" identifier="AddAccessory" id="etB-Xq-f9o"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -38,21 +38,28 @@
         <!--Add Accessory-->
         <scene sceneID="xKI-oB-uER">
             <objects>
-                <tableViewController id="vY7-7x-WbS" customClass="AddAccessoryController" customModule="FacilityButler" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Mfa-JG-9BE">
+                <tableViewController id="vY7-7x-WbS" customClass="AccessoriesTableViewController" customModule="FacilityButler" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Mfa-JG-9BE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="accessory_0" textLabel="1wv-WJ-YX8" style="IBUITableViewCellStyleDefault" id="eXh-gx-jb5">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="accessoryUITableViewCell" textLabel="1wv-WJ-YX8" detailTextLabel="2Ki-eu-UcD" style="IBUITableViewCellStyleSubtitle" id="eXh-gx-jb5">
+                                <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eXh-gx-jb5" id="6VX-s8-rdE">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Ceiling Light" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1wv-WJ-YX8">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43"/>
+                                            <rect key="frame" x="15" y="4" width="96" height="21"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2Ki-eu-UcD">
+                                            <rect key="frame" x="15" y="25" width="44" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                             <nil key="textColor"/>
@@ -67,14 +74,35 @@
                             <outlet property="delegate" destination="vY7-7x-WbS" id="Qum-QI-sJJ"/>
                         </connections>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="GJj-dE-9Q3"/>
+                        <barButtonItem title="Select" style="done" id="VNf-tu-CBk">
+                            <connections>
+                                <action selector="save:" destination="vY7-7x-WbS" id="UKN-dd-A5X"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Add Accessory" id="nGG-1d-RPl">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7hN-be-pZs"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="b6s-pE-aR2"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7hN-be-pZs">
+                            <connections>
+                                <action selector="cancel:" destination="vY7-7x-WbS" id="GhP-sy-Oru"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="edit" id="wFg-R3-DRz">
+                            <connections>
+                                <action selector="edit:" destination="vY7-7x-WbS" id="3cw-FN-7pZ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="table" destination="Mfa-JG-9BE" id="KyA-KM-dG8"/>
+                        <segue destination="YQd-ch-Iex" kind="unwind" identifier="unwindToFloorPlan" unwindAction="unwindToFloorPlanWithSegue:" id="v2n-3D-ROc"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DaF-0i-4DQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="YQd-ch-Iex" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2792.8000000000002" y="-477.21139430284859"/>
+            <point key="canvasLocation" x="2463" y="-477"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="0Cg-Fl-M7P">
@@ -99,20 +127,24 @@
         <!--Navigation Controller-->
         <scene sceneID="EbH-10-xEi">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1Zk-gg-Gcw" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="1Zk-gg-Gcw" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8U0-Ob-g0f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="y29-TQ-8Nc">
+                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="vY7-7x-WbS" kind="relationship" relationship="rootViewController" id="iAZ-Yz-E6Y"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ggq-DO-grV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1853.5999999999999" y="-477.21139430284859"/>
+            <point key="canvasLocation" x="1722" y="-477"/>
         </scene>
     </scenes>
 </document>
