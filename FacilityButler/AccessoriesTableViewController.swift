@@ -120,10 +120,10 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
                 cell.accessoryType = .checkmark
                 list.selection.indexPath = oldIndexPath
                 list.selection.accessory = list.accessories[oldIndexPath.section][oldIndexPath.row]
-                os_log("Selected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory as! CVarArg)
+                os_log("Selected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
             case .checkmark:
                 cell.accessoryType = .none
-                os_log("Deselected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory as! CVarArg)
+                os_log("Deselected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
                 list.selection.accessory = nil
                 list.selection.indexPath = nil
             default:
@@ -131,14 +131,14 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
             }
         } else {
             if let oldIndex = list.selection.indexPath {
-                os_log("Deselected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory as! CVarArg)
+                os_log("Deselected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
                 tableView.cellForRow(at: oldIndex)!.accessoryType = .none
             }
             
             list.selection.indexPath = newIndexPath
             list.selection.accessory = list.accessories[newIndexPath.section][newIndexPath.row]
             tableView.cellForRow(at: newIndexPath)!.accessoryType = .checkmark
-            os_log("Selected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory as! CVarArg)
+            os_log("Selected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
         }
     }
     
