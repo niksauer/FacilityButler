@@ -45,7 +45,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="accessoryUITableViewCell" textLabel="1wv-WJ-YX8" detailTextLabel="2Ki-eu-UcD" style="IBUITableViewCellStyleSubtitle" id="eXh-gx-jb5">
-                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eXh-gx-jb5" id="6VX-s8-rdE">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>

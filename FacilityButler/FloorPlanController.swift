@@ -14,21 +14,29 @@ class FloorPlanController: UIViewController {
     // MARK: - Outlets
     
     // MARK: - Instance Properties
-    var placedAccessoires: [HMAccessory]?
+    let home = Home()
     
     // MARK: - Navigation
     // TODO: - Let user place accessory on floor plan
     @IBAction func unwindToFloorPlan(segue: UIStoryboardSegue) {
         if let source = segue.source as? AccessoriesTableViewController, let selectedAccessory = source.list.selection.accessory {
-            placedAccessoires?.append(selectedAccessory)
             os_log("Received accessory: %@", log: OSLog.default, type: .debug, selectedAccessory as CVarArg)
-        } else {
-            os_log("No accessory selection", log: OSLog.default, type: .debug)
+            placeAccessory(accessory: selectedAccessory)
         }
     }
     
     // MARK: - Actions
     override func viewDidLoad() {
+        print(home.placedAccessories)
         super.viewDidLoad()
+    }
+    
+    // MARK: - Private Actions
+    func placeAccessory(accessory: HMAccessory) {
+//        placedAccessoires?.append(accessory)
+//        let button = UIButton(type: .roundedRect)
+//        button.setTitle(accessory.name, for: .normal)
+//        view.addSubview(button)
+//        os_log("Placed accessory: %@", log: OSLog.default, type: .debug, accessory as CVarArg)
     }
 }

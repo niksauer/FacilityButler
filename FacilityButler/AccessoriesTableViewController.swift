@@ -15,9 +15,9 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
     @IBOutlet var table: UITableView!
     
     // MARK: - Properties
-    let list = AccessoryList()
     let home = Home()
-    
+    let list = AccessoryList()
+   
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,17 +37,6 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
         dismiss(animated: true, completion: nil)
     }
     
-    // INFO: - adds selected (un)configured accessory to home, i.e. makes it placeable on floor plan
-    // TODO: - react to result messages
-//    @IBAction func save(_ sender: UIBarButtonItem) {
-//        home.saveAccessory(accessory: list.selection.accessory, completion: { (error) in
-//            if !(self.handledError(error: error)) {
-//                self.list.stopAccessoryScan()
-//                self.transitionToFloorPlan()
-//            }
-//        })
-//    }
-    
     // MARK: - Private Actions
     // INFO: - unwinds to floor plan controller, to be used in completion closure
     private func transitionToFloorPlan() {
@@ -61,13 +50,13 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
             switch error {
             case .noHomeSet:
                 message = "Please create or select home from settings."
-            case .noAccessory:
-                message = "No accessory selected."
             case .failed(let errorMessage):
                 message = "Failed due to unexpected error: \(errorMessage)"
             }
             
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
+            alert.addAction(dismissAction)
             self.present(alert, animated: true, completion: nil)
             
             return true
@@ -139,7 +128,7 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
         list.selection.indexPath = newIndexPath
         list.selection.accessory = list.accessories[newIndexPath.section][newIndexPath.row]
         
-        home.saveAccessory(accessory: list.selection.accessory, completion: { (error) in
+        home.saveAccessory(accessory: list.selection.accessory!, completion: { (error) in
             if !(self.handledError(error: error)) {
                 self.list.stopAccessoryScan()
                 self.transitionToFloorPlan()
@@ -190,7 +179,7 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
         if editingStyle == .delete {
             let accessory = list.accessories[indexPath.section][indexPath.row]
             
-            let title = "Delete \(accessory.name)?"
+            let title = "\(accessory.name)"
             let message = "Are you sure you want to delete this accessory?"
             
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
@@ -217,4 +206,15 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
             present(alertController, animated: true, completion: nil)
         }
     }
+    
+    // INFO: - adds selected (un)configured accessory to home, i.e. makes it placeable on floor plan
+    // TODO: - react to result messages
+    //    @IBAction func save(_ sender: UIBarButtonItem) {
+    //        home.saveAccessory(accessory: list.selection.accessory, completion: { (error) in
+    //            if !(self.handledError(error: error)) {
+    //                self.list.stopAccessoryScan()
+    //                self.transitionToFloorPlan()
+    //            }
+    //        })
+    //    }
 }
