@@ -10,6 +10,12 @@ import Foundation
 import HomeKit
 import os.log
 
+enum HomeError: Error {
+    case noHomeSet
+    case noAccessory
+    case failed(error: Error)
+}
+
 class Home {
     // MARK: - Properties
     var currentHome: HMHome?
@@ -25,9 +31,10 @@ class Home {
     }
     
     // TODO: - Show result messages as popup
-    func saveAccessory(accessory: HMAccessory?, completion: @escaping () -> Void) {
+    func saveAccessory(accessory: HMAccessory?, completion: @escaping (Error?) -> Void) {
         guard let home = currentHome else {
             os_log("No home set", log: OSLog.default, type: .debug)
+            completion(HomeError.noHomeSet)
             return
         }
         
@@ -38,22 +45,26 @@ class Home {
                 home.addAccessory(accessory, completionHandler: { (errorMessage) in
                     if let error = errorMessage {
                         os_log("Failed to add accessory to home: %@", log: OSLog.default, type: .debug, error as CVarArg)
+                        completion(HomeError.failed(error: error))
                     } else {
                         os_log("Added accessory to home", log: OSLog.default, type: .debug)
-                        completion()
+                        completion(nil)
                     }
                 })
             } else {
-                completion()
+                completion(nil)
             }
         } else {
             os_log("No accessory selected", log: OSLog.default, type: .debug)
+            completion(HomeError.noAccessory)
         }
     }
     
-    func deleteAccessory(accessory: HMAccessory, completion: @escaping () -> Void) {
+    // TODO: - Show result messages as popup
+    func deleteAccessory(accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
         guard let home = currentHome else {
             os_log("No home set", log: OSLog.default, type: .debug)
+            completion(HomeError.noHomeSet)
             return
         }
         
@@ -61,13 +72,13 @@ class Home {
             home.removeAccessory(accessory, completionHandler: { (errorMessage) in
                 if let error = errorMessage {
                     os_log("Failed to remove accessory from home: %@", log: OSLog.default, type: .debug, error as CVarArg)
+                    completion(HomeError.failed(error: error))
                 } else {
                     os_log("Removed accessory from home", log: OSLog.default, type: .debug)
-                    completion()
+                    completion(nil)
                 }
             })
         }
-        
     }
 
     // MARK: - Private Actions

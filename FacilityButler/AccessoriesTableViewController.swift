@@ -13,27 +13,10 @@ import os.log
 class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserDelegate, HMHomeManagerDelegate {
     // MARK: - Outlets
     @IBOutlet var table: UITableView!
-    @IBOutlet weak var editButton: UIBarButtonItem!
     
     // MARK: - Properties
     let list = AccessoryList()
     let home = Home()
-    
-    // MARK: - Navigation
-    // INFO: - atomically dismisses modally presented view (self)
-    @IBAction func cancel(_ sender: UIBarButtonItem) {
-        list.stopAccessoryScan()
-        os_log("Canceled to add accessory", log: OSLog.default, type: .debug)
-        dismiss(animated: true, completion: nil)
-    }
-    
-    // INFO: - adds selected (un)configured accessory to home, i.e. makes it placeable on floor plan
-    @IBAction func save(_ sender: UIBarButtonItem) {
-        home.saveAccessory(accessory: list.selection.accessory, completion: {
-            self.list.stopAccessoryScan()
-            self.transitionToFloorPlan()
-        })
-    }
     
     // MARK: - Initialization
     override func viewDidLoad() {
@@ -46,10 +29,51 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
         list.startAccessoryScan()
     }
     
+    // MARK: - Navigation
+    // INFO: - atomically dismisses modally presented view (self)
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        list.stopAccessoryScan()
+        os_log("Canceled to add accessory", log: OSLog.default, type: .debug)
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // INFO: - adds selected (un)configured accessory to home, i.e. makes it placeable on floor plan
+    // TODO: - react to result messages
+    @IBAction func save(_ sender: UIBarButtonItem) {
+        home.saveAccessory(accessory: list.selection.accessory, completion: { (error) in
+            if !(self.handledError(error: error)) {
+                self.list.stopAccessoryScan()
+                self.transitionToFloorPlan()
+            }
+        })
+    }
+    
     // MARK: - Private Actions
     // INFO: - unwinds to floor plan controller, to be used in completion closure
     private func transitionToFloorPlan() {
         performSegue(withIdentifier: "unwindToFloorPlan", sender: self)
+    }
+    
+    private func handledError(error: Error?) -> Bool {
+        if let error = error as? HomeError {
+            var message: String
+            
+            switch error {
+            case .noHomeSet:
+                message = "Please create or select home from settings."
+            case .noAccessory:
+                message = "No accessory selected."
+            case .failed(let errorMessage):
+                message = "Failed due to unexpected error: \(errorMessage)"
+            }
+            
+            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            self.present(alert, animated: true, completion: nil)
+            
+            return true
+        } else {
+            return false
+        }
     }
     
     // MARK: - Accessory Browser Delegate
@@ -164,14 +188,16 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 self.list.removeFromSection(indexPath.section, accessory: accessory)
                 self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
-                self.home.deleteAccessory(accessory: accessory, completion: {
-                    if self.list.accessories[indexPath.section].count == 0 {
-                        self.editButtonItem.isEnabled = false
-                    } else {
-                        self.editButtonItem.isEnabled = true
+                self.home.deleteAccessory(accessory: accessory, completion: { (error) in
+                    if !(self.handledError(error: error)) {
+                        if self.list.accessories[indexPath.section].count == 0 {
+                            self.editButtonItem.isEnabled = false
+                        } else {
+                            self.editButtonItem.isEnabled = true
+                        }
+                        
+                        self.setEditing(false, animated: true)
                     }
-                    
-                    self.setEditing(false, animated: true)
                 })
             })
             

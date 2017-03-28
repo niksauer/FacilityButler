@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6dQ-Kf-vAa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6dQ-Kf-vAa">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -45,7 +45,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="accessoryUITableViewCell" textLabel="1wv-WJ-YX8" detailTextLabel="2Ki-eu-UcD" style="IBUITableViewCellStyleSubtitle" id="eXh-gx-jb5">
-                                <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eXh-gx-jb5" id="6VX-s8-rdE">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -91,7 +91,6 @@
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="edit" id="wFg-R3-DRz"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="editButton" destination="wFg-R3-DRz" id="nE2-Fa-qro"/>
                         <outlet property="table" destination="Mfa-JG-9BE" id="KyA-KM-dG8"/>
                         <segue destination="YQd-ch-Iex" kind="unwind" identifier="unwindToFloorPlan" unwindAction="unwindToFloorPlanWithSegue:" id="v2n-3D-ROc"/>
                     </connections>
