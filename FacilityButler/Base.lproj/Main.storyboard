@@ -48,18 +48,18 @@
                                 <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eXh-gx-jb5" id="6VX-s8-rdE">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Ceiling Light" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1wv-WJ-YX8">
-                                            <rect key="frame" x="15" y="4" width="96" height="21"/>
+                                            <rect key="frame" x="15" y="5" width="95.5" height="20.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2Ki-eu-UcD">
-                                            <rect key="frame" x="15" y="25" width="44" height="15"/>
+                                            <rect key="frame" x="15" y="25.5" width="44" height="14.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
                                             <nil key="textColor"/>
@@ -88,13 +88,10 @@
                                 <action selector="cancel:" destination="vY7-7x-WbS" id="GhP-sy-Oru"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="edit" id="wFg-R3-DRz">
-                            <connections>
-                                <action selector="edit:" destination="vY7-7x-WbS" id="3cw-FN-7pZ"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="edit" id="wFg-R3-DRz"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="wFg-R3-DRz" id="nE2-Fa-qro"/>
                         <outlet property="table" destination="Mfa-JG-9BE" id="KyA-KM-dG8"/>
                         <segue destination="YQd-ch-Iex" kind="unwind" identifier="unwindToFloorPlan" unwindAction="unwindToFloorPlanWithSegue:" id="v2n-3D-ROc"/>
                     </connections>

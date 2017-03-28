@@ -13,6 +13,7 @@ import os.log
 class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserDelegate, HMHomeManagerDelegate {
     // MARK: - Outlets
     @IBOutlet var table: UITableView!
+    @IBOutlet weak var editButton: UIBarButtonItem!
     
     // MARK: - Properties
     let list = AccessoryList()
@@ -34,28 +35,15 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
         })
     }
     
-    // INFO: - allows configured items to be removed from home
-    // TODO: - Set button title according to action state
-    @IBAction func edit(_ sender: UIBarButtonItem) {
-        if isEditing {
-//            sender.title = "Edit"
-            setEditing(false, animated: true)
-        } else {
-//            sender.title = "Done"
-            setEditing(true, animated: true)
-        }
-    }
-    
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
         home.manager.delegate = self
         list.accessoryBrowser.delegate = self
         
-        list.startAccessoryScan()
+        navigationItem.rightBarButtonItem = editButtonItem
         
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        list.startAccessoryScan()
     }
     
     // MARK: - Private Actions
@@ -87,6 +75,12 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
             for accessory in home.currentHome!.accessories {
                 let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
                 tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
+            }
+            
+            if list.accessories[sectionIndex].count == 0 {
+                editButtonItem.isEnabled = false
+            } else {
+                editButtonItem.isEnabled = true
             }
         })
     }
@@ -170,7 +164,15 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 self.list.removeFromSection(indexPath.section, accessory: accessory)
                 self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
-                self.home.deleteAccessory(accessory: accessory, completion: { })
+                self.home.deleteAccessory(accessory: accessory, completion: {
+                    if self.list.accessories[indexPath.section].count == 0 {
+                        self.editButtonItem.isEnabled = false
+                    } else {
+                        self.editButtonItem.isEnabled = true
+                    }
+                    
+                    self.setEditing(false, animated: true)
+                })
             })
             
             alertController.addAction(cancelAction)
