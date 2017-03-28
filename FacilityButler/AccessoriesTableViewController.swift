@@ -39,14 +39,14 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
     
     // INFO: - adds selected (un)configured accessory to home, i.e. makes it placeable on floor plan
     // TODO: - react to result messages
-    @IBAction func save(_ sender: UIBarButtonItem) {
-        home.saveAccessory(accessory: list.selection.accessory, completion: { (error) in
-            if !(self.handledError(error: error)) {
-                self.list.stopAccessoryScan()
-                self.transitionToFloorPlan()
-            }
-        })
-    }
+//    @IBAction func save(_ sender: UIBarButtonItem) {
+//        home.saveAccessory(accessory: list.selection.accessory, completion: { (error) in
+//            if !(self.handledError(error: error)) {
+//                self.list.stopAccessoryScan()
+//                self.transitionToFloorPlan()
+//            }
+//        })
+//    }
     
     // MARK: - Private Actions
     // INFO: - unwinds to floor plan controller, to be used in completion closure
@@ -134,36 +134,46 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
         return cell
     }
     
-    // INFO: - (un)marks single selected row
+    // INFO: -  current:  adds selected (un)configured accessory to home, i.e. makes it placeable on floor plan | old: (un)marks single selected row
     override func tableView(_ tableView: UITableView, didSelectRowAt newIndexPath: IndexPath) {
-        if let oldIndexPath = list.selection.indexPath, newIndexPath == oldIndexPath {
-            let cell = tableView.cellForRow(at: oldIndexPath)!
-            
-            switch cell.accessoryType {
-            case .none:
-                cell.accessoryType = .checkmark
-                list.selection.indexPath = oldIndexPath
-                list.selection.accessory = list.accessories[oldIndexPath.section][oldIndexPath.row]
-                os_log("Selected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
-            case .checkmark:
-                cell.accessoryType = .none
-                os_log("Deselected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
-                list.selection.accessory = nil
-                list.selection.indexPath = nil
-            default:
-                break
+        list.selection.indexPath = newIndexPath
+        list.selection.accessory = list.accessories[newIndexPath.section][newIndexPath.row]
+        
+        home.saveAccessory(accessory: list.selection.accessory, completion: { (error) in
+            if !(self.handledError(error: error)) {
+                self.list.stopAccessoryScan()
+                self.transitionToFloorPlan()
             }
-        } else {
-            if let oldIndex = list.selection.indexPath {
-                os_log("Deselected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
-                tableView.cellForRow(at: oldIndex)!.accessoryType = .none
-            }
-            
-            list.selection.indexPath = newIndexPath
-            list.selection.accessory = list.accessories[newIndexPath.section][newIndexPath.row]
-            tableView.cellForRow(at: newIndexPath)!.accessoryType = .checkmark
-            os_log("Selected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
-        }
+        })
+        
+//        if let oldIndexPath = list.selection.indexPath, newIndexPath == oldIndexPath {
+//            let cell = tableView.cellForRow(at: oldIndexPath)!
+//            
+//            switch cell.accessoryType {
+//            case .none:
+//                cell.accessoryType = .checkmark
+//                list.selection.indexPath = oldIndexPath
+//                list.selection.accessory = list.accessories[oldIndexPath.section][oldIndexPath.row]
+//                os_log("Selected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
+//            case .checkmark:
+//                cell.accessoryType = .none
+//                os_log("Deselected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
+//                list.selection.accessory = nil
+//                list.selection.indexPath = nil
+//            default:
+//                break
+//            }
+//        } else {
+//            if let oldIndex = list.selection.indexPath {
+//                os_log("Deselected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
+//                tableView.cellForRow(at: oldIndex)!.accessoryType = .none
+//            }
+//            
+//            list.selection.indexPath = newIndexPath
+//            list.selection.accessory = list.accessories[newIndexPath.section][newIndexPath.row]
+//            tableView.cellForRow(at: newIndexPath)!.accessoryType = .checkmark
+//            os_log("Selected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
+//        }
     }
     
     // INFO: - allows conditional editing of the table

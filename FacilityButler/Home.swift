@@ -30,7 +30,6 @@ class Home {
         }
     }
     
-    // TODO: - Show result messages as popup
     func saveAccessory(accessory: HMAccessory?, completion: @escaping (Error?) -> Void) {
         guard let home = currentHome else {
             os_log("No home set", log: OSLog.default, type: .debug)
@@ -60,7 +59,6 @@ class Home {
         }
     }
     
-    // TODO: - Show result messages as popup
     func deleteAccessory(accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
         guard let home = currentHome else {
             os_log("No home set", log: OSLog.default, type: .debug)

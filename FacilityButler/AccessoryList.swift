@@ -44,6 +44,7 @@ class AccessoryList {
         os_log("Stopped network accessory scan", log: OSLog.default, type: .debug)
     }
     
+    // INFO: - return row index for use as indexPath
     @discardableResult func insertIntoSection(_ section: Int, accessory: HMAccessory) -> Int {
         accessories[section].append(accessory)
         return accessories[section].endIndex-1

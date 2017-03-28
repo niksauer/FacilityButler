@@ -76,11 +76,6 @@
                     </tableView>
                     <toolbarItems>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="GJj-dE-9Q3"/>
-                        <barButtonItem title="Select" style="done" id="VNf-tu-CBk">
-                            <connections>
-                                <action selector="save:" destination="vY7-7x-WbS" id="UKN-dd-A5X"/>
-                            </connections>
-                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Add Accessory" id="nGG-1d-RPl">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7hN-be-pZs">
@@ -123,7 +118,7 @@
         <!--Navigation Controller-->
         <scene sceneID="EbH-10-xEi">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" toolbarHidden="NO" id="1Zk-gg-Gcw" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="1Zk-gg-Gcw" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8U0-Ob-g0f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
