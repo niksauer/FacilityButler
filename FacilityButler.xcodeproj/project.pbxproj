@@ -16,6 +16,13 @@
 		2441B7B31E84509100A428D9 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2441B7B21E84509100A428D9 /* Home.swift */; };
 		24865D291E895CDE00676F0F /* AccessoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24865D281E895CDE00676F0F /* AccessoryList.swift */; };
 		24A8BE761E8AFA8B008D3E73 /* FloorPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */; };
+		24A8BE871E8BF045008D3E73 /* AES256CBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE801E8BF045008D3E73 /* AES256CBC.swift */; };
+		24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE811E8BF045008D3E73 /* BaseDestination.swift */; };
+		24A8BE891E8BF045008D3E73 /* ConsoleDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE821E8BF045008D3E73 /* ConsoleDestination.swift */; };
+		24A8BE8A1E8BF045008D3E73 /* FileDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE831E8BF045008D3E73 /* FileDestination.swift */; };
+		24A8BE8B1E8BF045008D3E73 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE841E8BF045008D3E73 /* Filter.swift */; };
+		24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */; };
+		24A8BE8D1E8BF045008D3E73 /* SwiftyBeaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */; };
 		24DB94AC1E85200800FC8A94 /* AccessoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DB94AB1E85200800FC8A94 /* AccessoriesTableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +39,13 @@
 		2441B7B21E84509100A428D9 /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		24865D281E895CDE00676F0F /* AccessoryList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryList.swift; sourceTree = "<group>"; };
 		24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorPlan.swift; sourceTree = "<group>"; };
+		24A8BE801E8BF045008D3E73 /* AES256CBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AES256CBC.swift; sourceTree = "<group>"; };
+		24A8BE811E8BF045008D3E73 /* BaseDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDestination.swift; sourceTree = "<group>"; };
+		24A8BE821E8BF045008D3E73 /* ConsoleDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleDestination.swift; sourceTree = "<group>"; };
+		24A8BE831E8BF045008D3E73 /* FileDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDestination.swift; sourceTree = "<group>"; };
+		24A8BE841E8BF045008D3E73 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SBPlatformDestination.swift; sourceTree = "<group>"; };
+		24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyBeaver.swift; sourceTree = "<group>"; };
 		24DB94AB1E85200800FC8A94 /* AccessoriesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoriesTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,6 +81,7 @@
 		2426733A1E83DE2600BB73C6 /* FacilityButler */ = {
 			isa = PBXGroup;
 			children = (
+				24A8BE7F1E8BF045008D3E73 /* SwiftyBeaver */,
 				24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */,
 				24865D281E895CDE00676F0F /* AccessoryList.swift */,
 				242673501E83FAE800BB73C6 /* FacilityButler.entitlements */,
@@ -88,6 +103,21 @@
 				2426734E1E83EC3A00BB73C6 /* HomeKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		24A8BE7F1E8BF045008D3E73 /* SwiftyBeaver */ = {
+			isa = PBXGroup;
+			children = (
+				24A8BE801E8BF045008D3E73 /* AES256CBC.swift */,
+				24A8BE811E8BF045008D3E73 /* BaseDestination.swift */,
+				24A8BE821E8BF045008D3E73 /* ConsoleDestination.swift */,
+				24A8BE831E8BF045008D3E73 /* FileDestination.swift */,
+				24A8BE841E8BF045008D3E73 /* Filter.swift */,
+				24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */,
+				24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */,
+			);
+			name = SwiftyBeaver;
+			path = Sources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,10 +194,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				2426733E1E83DE2600BB73C6 /* FloorPlanController.swift in Sources */,
+				24A8BE871E8BF045008D3E73 /* AES256CBC.swift in Sources */,
+				24A8BE8B1E8BF045008D3E73 /* Filter.swift in Sources */,
 				24A8BE761E8AFA8B008D3E73 /* FloorPlan.swift in Sources */,
+				24A8BE8D1E8BF045008D3E73 /* SwiftyBeaver.swift in Sources */,
+				24A8BE891E8BF045008D3E73 /* ConsoleDestination.swift in Sources */,
 				24865D291E895CDE00676F0F /* AccessoryList.swift in Sources */,
+				24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */,
 				2441B7B31E84509100A428D9 /* Home.swift in Sources */,
+				24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */,
 				24DB94AC1E85200800FC8A94 /* AccessoriesTableViewController.swift in Sources */,
+				24A8BE8A1E8BF045008D3E73 /* FileDestination.swift in Sources */,
 				2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

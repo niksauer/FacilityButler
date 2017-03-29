@@ -33,7 +33,7 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
     // INFO: - atomically dismisses modally presented view (self)
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         list.stopAccessoryScan()
-//        os_log("Canceled to add accessory", log: OSLog.default, type: .debug)
+        log.debug("cancled to add accessory")
         dismiss(animated: true, completion: nil)
     }
     
@@ -73,14 +73,14 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
         let sectionIndex = list.sectionTitles.index(of: list.unconfiguredSection)!
         let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
         tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
-//        os_log("Found accessory: %@", log: OSLog.default, type: .debug, accessory as CVarArg)
+        log.info("found accessory \(accessory)")
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory) {
         let sectionIndex = list.sectionTitles.index(of: list.unconfiguredSection)!
         let rowIndex = list.removeFromSection(sectionIndex, accessory: accessory)
         tableView.deleteRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
-//        os_log("Lost accessory: %@", log: OSLog.default, type: .debug, accessory as CVarArg)
+        log.info("lost accessory \(accessory)")
     }
     
     // MARK: - Home Manager Delegate

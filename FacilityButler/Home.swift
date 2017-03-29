@@ -35,14 +35,14 @@ class Home {
     func setHome(completion: () -> Void) {
         if let home = manager.primaryHome, self.home == nil {
             self.home = home
-//            os_log("Set home: %@ with accessoires: %@", log: OSLog.default, type: .debug, self.home!, self.home!.accessories)
+            log.info("set home \(self.home!) with accessories \(self.home!.accessories)")
             completion()
         }
     }
     
     func saveAccessory(accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
         guard let home = home else {
-//            os_log("No home set", log: OSLog.default, type: .debug)
+            log.warning("no home set")
             completion(HomeError.noHomeSet)
             return
         }
@@ -50,21 +50,22 @@ class Home {
         if home.accessories.contains(accessory) == false {
             home.addAccessory(accessory, completionHandler: { (errorMessage) in
                 if let error = errorMessage {
-//                    os_log("Failed to add accessory to home: %@", log: OSLog.default, type: .debug, error as CVarArg)
+                    log.error("failed to add accessory to home, due to: \(error)")
                     completion(HomeError.failed(error: error))
                 } else {
-//                    os_log("Added accessory to home: %@", log: OSLog.default, type: .debug, accessory as CVarArg)
+                    log.info("added accessory \(accessory) to home")
                     completion(nil)
                 }
             })
         } else {
+            log.debug("accessory \(accessory) already added to home")
             completion(nil)
         }
     }
     
     func deleteAccessory(accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
         guard let home = home else {
-//            os_log("No home set", log: OSLog.default, type: .debug)
+            log.warning("no home set")
             completion(HomeError.noHomeSet)
             return
         }
@@ -72,13 +73,15 @@ class Home {
         if home.accessories.contains(accessory) {
             home.removeAccessory(accessory, completionHandler: { (errorMessage) in
                 if let error = errorMessage {
-//                    os_log("Failed to remove accessory from home: %@", log: OSLog.default, type: .debug, error as CVarArg)
+                    log.error("failed to remove accessory \(accessory) from home")
                     completion(HomeError.failed(error: error))
                 } else {
-//                    os_log("Removed accessory from home: %@", log: OSLog.default, type: .debug, accessory as CVarArg)
+                    log.info("removed accessory \(accessory) from home")
                     completion(nil)
                 }
             })
+        } else {
+            log.debug("accessory \(accessory) doesn't belong to home, cancelling removal")
         }
     }
 
@@ -87,13 +90,13 @@ class Home {
         if let floorIndex = floors.index(where: { $0.etage == currentFloor }) {
             if floors[floorIndex].accessoires.contains(where: { $0.uniqueIdentifier == accessory.uniqueIdentifier }) == false {
                 floors[floorIndex].accessoires.append(accessory)
-//                os_log("Placed accessory: %@ on current floor", log: OSLog.default, type: .debug, accessory as CVarArg)
+                log.info("placed accessory \(accessory) on floor #\(currentFloor)")
             } else {
-//                os_log("Accessory already placed on current floor", log: OSLog.default, type: .debug)
+                log.debug("accessory \(accessory) already placed on current floor")
                 throw HomeError.alreadyPlaced
             }
         } else {
-//            os_log("Can't find floor, cancelling placement", log: OSLog.default, type: .debug, currentFloor as CVarArg)
+            log.warning("can't find floor #\(currentFloor), cancelling placement")
             throw HomeError.floorNotFound
         }
     }
@@ -101,6 +104,9 @@ class Home {
     func createFloor(number: Int) {
         if floors.contains(where: { $0.etage == number }) == false {
             floors.append(FloorPlan(etage: number))
+            log.info("created floor #\(number)")
+        } else {
+            log.debug("floor #\(number) already exists, cancelling creation")
         }
     }
     
