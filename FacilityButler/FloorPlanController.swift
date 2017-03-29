@@ -32,11 +32,10 @@ class FloorPlanController: UIViewController {
             let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
             let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
                 self.home.createFloor(number: floorNumber)
-                print("Created floor \(floorNumber)")
                 self.switchToFloor(number: floorNumber)
             })
             let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
-                sender.value = Double(floorNumber-1)
+                sender.value = floorNumber >= 0 ? Double(floorNumber-1) : (Double(floorNumber+1))
             })
             
             actionController.addAction(createAction)
@@ -58,7 +57,7 @@ class FloorPlanController: UIViewController {
         if segue.identifier == "AddAccessory" {
             if let accessoriesTable = segue.destination.childViewControllers[0] as? AccessoriesTableViewController {
                 accessoriesTable.list.placedAccessories.append(contentsOf: home.getPlacedAccessoires())
-                os_log("Prepared AccessoriesTableViewController", log: OSLog.default, type: .debug)
+//                os_log("Prepared AccessoriesTableViewController", log: OSLog.default, type: .debug)
             }
         }
     }
@@ -67,11 +66,11 @@ class FloorPlanController: UIViewController {
     func placeAccessory(accessory: HMAccessory) {
         do {
             try home.placeAccessory(accessory)
-            os_log("Placed accessory: %@ on current floor #%@", log: OSLog.default, type: .debug, accessory as CVarArg, home.currentFloor)
+//            os_log("Placed accessory: %@ on current floor #%@", log: OSLog.default, type: .debug, accessory as CVarArg, home.currentFloor)
         } catch HomeError.floorNotFound {
-            os_log("Can't find floor #%@, cancelling placement", log: OSLog.default, type: .debug, home.currentFloor)
+//            os_log("Can't find floor #%@, cancelling placement", log: OSLog.default, type: .debug, home.currentFloor)
         } catch HomeError.alreadyPlaced {
-            os_log("Accessory already placed on current floor", log: OSLog.default, type: .debug)
+//            os_log("Accessory already placed on current floor", log: OSLog.default, type: .debug)
         } catch {
             
         }
@@ -81,6 +80,6 @@ class FloorPlanController: UIViewController {
     private func switchToFloor(number: Int) {
         currentFloor.text = "\(number)"
         navigationItem.title = FloorPlan.getOrdinalFloorNumber(of: number, capitalized: true)
-        print("Switched to floor \(number)")
+//        os_log("Switched to floor: %@", log: OSLog.default, type: .debug, number as CVarArg)
     }
 }

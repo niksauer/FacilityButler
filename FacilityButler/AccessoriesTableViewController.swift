@@ -33,7 +33,7 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
     // INFO: - atomically dismisses modally presented view (self)
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         list.stopAccessoryScan()
-        os_log("Canceled to add accessory", log: OSLog.default, type: .debug)
+//        os_log("Canceled to add accessory", log: OSLog.default, type: .debug)
         dismiss(animated: true, completion: nil)
     }
     
@@ -54,6 +54,7 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
                 message = "Failed due to unexpected error: \(errorMessage)"
             default:
                 message = ""
+                break
             }
             
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -72,14 +73,14 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
         let sectionIndex = list.sectionTitles.index(of: list.unconfiguredSection)!
         let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
         tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
-        os_log("Found accessory: %@", log: OSLog.default, type: .debug, accessory as CVarArg)
+//        os_log("Found accessory: %@", log: OSLog.default, type: .debug, accessory as CVarArg)
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory) {
         let sectionIndex = list.sectionTitles.index(of: list.unconfiguredSection)!
         let rowIndex = list.removeFromSection(sectionIndex, accessory: accessory)
         tableView.deleteRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
-        os_log("Lost accessory: %@", log: OSLog.default, type: .debug, accessory as CVarArg)
+//        os_log("Lost accessory: %@", log: OSLog.default, type: .debug, accessory as CVarArg)
     }
     
     // MARK: - Home Manager Delegate

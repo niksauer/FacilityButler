@@ -37,12 +37,12 @@ class AccessoryList {
     // MARK: - Actions
     func startAccessoryScan () {
         accessoryBrowser.startSearchingForNewAccessories()
-        os_log("Started network accessory scan", log: OSLog.default, type: .debug)
+//        os_log("Started network accessory scan", log: OSLog.default, type: .debug)
     }
     
     func stopAccessoryScan() {
         accessoryBrowser.stopSearchingForNewAccessories()
-        os_log("Stopped network accessory scan", log: OSLog.default, type: .debug)
+//        os_log("Stopped network accessory scan", log: OSLog.default, type: .debug)
     }
     
     // INFO: - return row index for use as indexPath
