@@ -35,7 +35,7 @@ class Home {
     func setHome(completion: () -> Void) {
         if let home = manager.primaryHome, self.home == nil {
             self.home = home
-            log.info("set home \(self.home!) with accessories \(self.home!.accessories)")
+            log.debug("set home \(self.home!) with accessories \(self.home!.accessories)")
             completion()
         }
     }
@@ -90,13 +90,10 @@ class Home {
         if let floorIndex = floors.index(where: { $0.etage == currentFloor }) {
             if floors[floorIndex].accessoires.contains(where: { $0.uniqueIdentifier == accessory.uniqueIdentifier }) == false {
                 floors[floorIndex].accessoires.append(accessory)
-                log.info("placed accessory \(accessory) on floor #\(currentFloor)")
             } else {
-                log.debug("accessory \(accessory) already placed on current floor")
                 throw HomeError.alreadyPlaced
             }
         } else {
-            log.warning("can't find floor #\(currentFloor), cancelling placement")
             throw HomeError.floorNotFound
         }
     }

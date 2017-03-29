@@ -58,8 +58,9 @@ class FloorPlanController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddAccessory" {
             if let accessoriesTable = segue.destination.childViewControllers[0] as? AccessoriesTableViewController {
-                accessoriesTable.list.placedAccessories.append(contentsOf: home.getPlacedAccessoires())
-                log.debug("setup AccessoriesTableViewController with currently placed accessoires")
+                let placedAccessories = home.getPlacedAccessoires()
+                accessoriesTable.list.placedAccessories.append(contentsOf: placedAccessories)
+                log.debug("setup AccessoriesTableViewController with currently placed accessoires \(placedAccessories)")
             }
         }
     }
@@ -80,8 +81,9 @@ class FloorPlanController: UIViewController {
     
     // MARK: - Private Action
     private func switchToFloor(number: Int) {
+        home.currentFloor = number
         currentFloor.text = "\(number)"
         navigationItem.title = FloorPlan.getOrdinalFloorNumber(of: number, capitalized: true)
-        log.debug("switched to floor #\(number)")
+        log.debug("switched to floor #\(number) with accessoires \(home.floors[home.currentFloor].accessoires)")
     }
 }

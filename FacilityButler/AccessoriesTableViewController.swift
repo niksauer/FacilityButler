@@ -73,14 +73,14 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
         let sectionIndex = list.sectionTitles.index(of: list.unconfiguredSection)!
         let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
         tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
-        log.info("found accessory \(accessory)")
+        log.debug("found accessory \(accessory)")
     }
     
     func accessoryBrowser(_ browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory) {
         let sectionIndex = list.sectionTitles.index(of: list.unconfiguredSection)!
         let rowIndex = list.removeFromSection(sectionIndex, accessory: accessory)
         tableView.deleteRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
-        log.info("lost accessory \(accessory)")
+        log.debug("lost accessory \(accessory)")
     }
     
     // MARK: - Home Manager Delegate
