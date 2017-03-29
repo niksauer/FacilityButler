@@ -16,27 +16,39 @@ class FloorPlanController: UIViewController {
     // MARK: - Instance Properties
     let home = Home()
     
+    // MARK: - Initialization
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     // MARK: - Navigation
-    // TODO: - Let user place accessory on floor plan
     @IBAction func unwindToFloorPlan(segue: UIStoryboardSegue) {
         if let source = segue.source as? AccessoriesTableViewController, let selectedAccessory = source.list.selection.accessory {
-            os_log("Received accessory: %@", log: OSLog.default, type: .debug, selectedAccessory as CVarArg)
             placeAccessory(accessory: selectedAccessory)
         }
     }
     
-    // MARK: - Actions
-    override func viewDidLoad() {
-        print(home.placedAccessories)
-        super.viewDidLoad()
+    // INFO: - prepares destination view controller data before transitioning to it
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddAccessory" {
+            if let accessoriesTable = segue.destination.childViewControllers[0] as? AccessoriesTableViewController {
+                accessoriesTable.list.placedAccessories.append(contentsOf: home.getPlacedAccessoires())
+                os_log("Prepared AccessoriesTableViewController", log: OSLog.default, type: .debug)
+            }
+        }
     }
     
-    // MARK: - Private Actions
+    // MARK: - Actions
     func placeAccessory(accessory: HMAccessory) {
-//        placedAccessoires?.append(accessory)
-//        let button = UIButton(type: .roundedRect)
-//        button.setTitle(accessory.name, for: .normal)
-//        view.addSubview(button)
-//        os_log("Placed accessory: %@", log: OSLog.default, type: .debug, accessory as CVarArg)
+        do {
+            try home.placeAccessory(accessory)
+            os_log("Placed accessory: %@ on current floor #%@", log: OSLog.default, type: .debug, accessory as CVarArg, home.currentFloor)
+        } catch HomeError.floorNotFound {
+            os_log("Can't find floor #%@, cancelling placement", log: OSLog.default, type: .debug, home.currentFloor)
+        } catch HomeError.alreadyPlaced {
+            os_log("Accessory already placed on current floor", log: OSLog.default, type: .debug)
+        } catch {
+            
+        }
     }
 }

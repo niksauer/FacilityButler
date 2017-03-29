@@ -52,6 +52,8 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
                 message = "Please create or select home from settings."
             case .failed(let errorMessage):
                 message = "Failed due to unexpected error: \(errorMessage)"
+            default:
+                message = ""
             }
             
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -82,12 +84,14 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
     
     // MARK: - Home Manager Delegate
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        home.setCurrentHome(manager.primaryHome, completion: {
+        home.setHome(completion: {
             let sectionIndex = list.sectionTitles.index(of: list.configuredSection)!
             
-            for accessory in home.currentHome!.accessories {
-                let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
-                tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
+            for accessory in home.home!.accessories {
+                if list.placedAccessories.contains(where: { $0.uniqueIdentifier == accessory.uniqueIdentifier }) == false {
+                    let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
+                    tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
+                }
             }
             
             if list.accessories[sectionIndex].count == 0 {
@@ -206,15 +210,4 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
             present(alertController, animated: true, completion: nil)
         }
     }
-    
-    // INFO: - adds selected (un)configured accessory to home, i.e. makes it placeable on floor plan
-    // TODO: - react to result messages
-    //    @IBAction func save(_ sender: UIBarButtonItem) {
-    //        home.saveAccessory(accessory: list.selection.accessory, completion: { (error) in
-    //            if !(self.handledError(error: error)) {
-    //                self.list.stopAccessoryScan()
-    //                self.transitionToFloorPlan()
-    //            }
-    //        })
-    //    }
 }
