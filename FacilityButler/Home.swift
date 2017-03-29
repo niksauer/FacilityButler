@@ -27,7 +27,7 @@ class Home {
     // MARK: - Initialization
     // INFO: - Creates empty ground floor
     init() {
-        let groundFloor = FloorPlan(etage: 0, name: "Ground Floor")
+        let groundFloor = FloorPlan(etage: 0)
         floors.append(groundFloor)
     }
     

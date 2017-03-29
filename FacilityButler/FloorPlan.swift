@@ -12,17 +12,50 @@ import HomeKit
 class FloorPlan {
     // MARK: - Instance Properties
     let etage: Int
-    let name: String?
     var accessoires = [HMAccessory]()
+    
+    // MARK: - Data Structures
+    enum OrdinalNumber: String {
+        case ground
+        case first = "st"
+        case second = "nd"
+        case third = "rd"
+        case fourth = "th"
+    }
     
     // MARK: - Initialization
     init(etage: Int) {
         self.etage = etage
-        self.name = nil
     }
     
-    init(etage: Int, name: String) {
-        self.etage = etage
-        self.name = name
+    // MARK: - Class Functions
+    // INFO: - returns etage as ordinal string, i.e.: 3 -> "3rd upper floor"
+    static func getOrdinalFloorNumber(of number: Int, capitalized: Bool) -> String {
+        let ordinalNumber: OrdinalNumber
+        let result: String
+        
+        switch number {
+        case 0:
+            ordinalNumber = .ground
+        case -1, 1:
+            ordinalNumber = .first
+        case -2, 2:
+            ordinalNumber = .second
+        case -3, 3:
+            ordinalNumber = .third
+        default:
+            ordinalNumber = .fourth
+        }
+        
+        if ordinalNumber != .ground {
+            let floorType = number > 0 ? "upper" : "lower"
+            let floorNumber = "\(abs(number))\(ordinalNumber.rawValue)"
+            let floorName = "\(floorType) floor"
+            result = capitalized ? "\(floorNumber) \(floorName.capitalized)" : "\(floorNumber) \(floorName)"
+            return result
+        } else {
+            result = "\(ordinalNumber) floor"
+            return capitalized ? result.capitalized : result
+        }
     }
 }

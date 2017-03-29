@@ -12,6 +12,7 @@ import os.log
 
 class FloorPlanController: UIViewController {
     // MARK: - Outlets
+    @IBOutlet weak var currentFloor: UILabel!
     
     // MARK: - Instance Properties
     let home = Home()
@@ -22,6 +23,30 @@ class FloorPlanController: UIViewController {
     }
     
     // MARK: - Navigation
+    @IBAction func goToFloor(_ sender: UIStepper) {
+        let floorNumber = Int(sender.value)
+        
+        if home.floors.contains(where: { $0.etage == floorNumber }) == false {
+            let ordinalFloor = FloorPlan.getOrdinalFloorNumber(of: floorNumber, capitalized: false)
+            
+            let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
+            let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
+                self.home.createFloor(number: floorNumber)
+                print("Created floor \(floorNumber)")
+                self.switchToFloor(number: floorNumber)
+            })
+            let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
+                sender.value = Double(floorNumber-1)
+            })
+            
+            actionController.addAction(createAction)
+            actionController.addAction(dismissAction)
+            present(actionController, animated: true, completion: nil)
+        } else {
+            switchToFloor(number: floorNumber)
+        }
+    }
+    
     @IBAction func unwindToFloorPlan(segue: UIStoryboardSegue) {
         if let source = segue.source as? AccessoriesTableViewController, let selectedAccessory = source.list.selection.accessory {
             placeAccessory(accessory: selectedAccessory)
@@ -50,5 +75,12 @@ class FloorPlanController: UIViewController {
         } catch {
             
         }
+    }
+    
+    // MARK: - Private Action
+    private func switchToFloor(number: Int) {
+        currentFloor.text = "\(number)"
+        navigationItem.title = FloorPlan.getOrdinalFloorNumber(of: number, capitalized: true)
+        print("Switched to floor \(number)")
     }
 }

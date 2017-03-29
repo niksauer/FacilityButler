@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,7 +21,28 @@
                     <view key="view" contentMode="scaleToFill" id="fdv-LO-c1p">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumValue="-2" maximumValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="wkK-s5-hZl">
+                                <rect key="frame" x="265" y="618" width="94" height="29"/>
+                                <connections>
+                                    <action selector="goToFloor:" destination="pTL-tQ-DU7" eventType="valueChanged" id="JYO-qH-sIK"/>
+                                </connections>
+                            </stepper>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VCt-6d-eTY">
+                                <rect key="frame" x="16" y="618" width="12.5" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wkK-s5-hZl" firstAttribute="trailing" secondItem="fdv-LO-c1p" secondAttribute="trailingMargin" id="gOO-Nx-qeh"/>
+                            <constraint firstItem="wkK-s5-hZl" firstAttribute="height" secondItem="VCt-6d-eTY" secondAttribute="height" id="neF-yk-1B7"/>
+                            <constraint firstItem="4bB-Jh-kaD" firstAttribute="top" secondItem="wkK-s5-hZl" secondAttribute="bottom" constant="20" id="nrP-4o-uzB"/>
+                            <constraint firstItem="4bB-Jh-kaD" firstAttribute="top" secondItem="VCt-6d-eTY" secondAttribute="bottom" constant="20" id="p7L-Qj-iHE"/>
+                            <constraint firstItem="VCt-6d-eTY" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leadingMargin" id="uXD-oK-ywW"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Ground Floor" id="YHe-dh-RCe">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="dSh-Ts-4Mc"/>
@@ -30,10 +52,13 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="currentFloor" destination="VCt-6d-eTY" id="TWW-7Z-siW"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NhM-HD-aQV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="988" y="-477"/>
+            <point key="canvasLocation" x="988" y="-477.21139430284859"/>
         </scene>
         <!--Add Accessory-->
         <scene sceneID="xKI-oB-uER">
