@@ -8,7 +8,6 @@
 
 import Foundation
 import HomeKit
-import os.log
 
 class AccessoryList {
     // MARK: - Properties
@@ -17,12 +16,12 @@ class AccessoryList {
     var sectionTitles: [String]
     
     var accessories = Array(repeating: [HMAccessory](), count: 2)
-    var placedAccessories = [HMAccessory]()
+    var placedAccessories = [UUID]()
     var selection = selectedAccessory()
     
     let accessoryBrowser = HMAccessoryBrowser()
     
-    // MARK: - Data Structures
+    // MARK: - Types
     struct selectedAccessory {
         var accessory: HMAccessory?
         var indexPath: IndexPath?

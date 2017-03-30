@@ -8,9 +8,8 @@
 
 import UIKit
 import HomeKit
-import os.log
 
-class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserDelegate, HMHomeManagerDelegate {
+class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate, HMHomeManagerDelegate {
     // MARK: - Outlets
     @IBOutlet var table: UITableView!
     
@@ -50,7 +49,7 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
             switch error {
             case .noHomeSet:
                 message = "Please create or select home from settings."
-            case .failed(let errorMessage):
+            case .actionFailed(let errorMessage):
                 message = "Failed due to unexpected error: \(errorMessage)"
             default:
                 message = ""
@@ -89,7 +88,7 @@ class AccessoriesTableViewController: UITableViewController, HMAccessoryBrowserD
             let sectionIndex = list.sectionTitles.index(of: list.configuredSection)!
             
             for accessory in home.home!.accessories {
-                if list.placedAccessories.contains(where: { $0.uniqueIdentifier == accessory.uniqueIdentifier }) == false {
+                if list.placedAccessories.contains(where: { $0 == accessory.uniqueIdentifier }) == false {
                     let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
                     tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
                 }

@@ -8,19 +8,19 @@
 
 import Foundation
 import HomeKit
-import os.log
 
+// MARK: - Global Types
 enum HomeError: Error {
     case noHomeSet
     case floorNotFound
-    case alreadyPlaced
-    case failed(error: Error)
+    case actionFailed(error: Error)
 }
 
 class Home {
     // MARK: - Instance Properties
     let manager = HMHomeManager()
     var home: HMHome?
+//    var uniqueIdentifier: UUID
     var floors = [FloorPlan]()
     var currentFloor = 0
     
@@ -35,6 +35,7 @@ class Home {
     func setHome(completion: () -> Void) {
         if let home = manager.primaryHome, self.home == nil {
             self.home = home
+//            self.uniqueIdentifier = home.uniqueIdentifier
             log.debug("set home \(self.home!) with accessories \(self.home!.accessories)")
             completion()
         }
@@ -51,7 +52,7 @@ class Home {
             home.addAccessory(accessory, completionHandler: { (errorMessage) in
                 if let error = errorMessage {
                     log.error("failed to add accessory to home, due to: \(error)")
-                    completion(HomeError.failed(error: error))
+                    completion(HomeError.actionFailed(error: error))
                 } else {
                     log.info("added accessory \(accessory) to home")
                     completion(nil)
@@ -74,7 +75,7 @@ class Home {
             home.removeAccessory(accessory, completionHandler: { (errorMessage) in
                 if let error = errorMessage {
                     log.error("failed to remove accessory \(accessory) from home")
-                    completion(HomeError.failed(error: error))
+                    completion(HomeError.actionFailed(error: error))
                 } else {
                     log.info("removed accessory \(accessory) from home")
                     completion(nil)
@@ -90,10 +91,12 @@ class Home {
         if let floorIndex = floors.index(where: { $0.etage == currentFloor }) {
             if floors[floorIndex].accessoires.contains(where: { $0.uniqueIdentifier == accessory.uniqueIdentifier }) == false {
                 floors[floorIndex].accessoires.append(accessory)
+                log.info("placed accessory \(accessory) on floor #\(currentFloor)")
             } else {
-                throw HomeError.alreadyPlaced
+                log.debug("accessory \(accessory) already placed on floor #\(currentFloor)")
             }
         } else {
+            log.warning("can't find floor #\(currentFloor), cancelling placement")
             throw HomeError.floorNotFound
         }
     }
@@ -107,15 +110,15 @@ class Home {
         }
     }
     
-    func getPlacedAccessoires() -> [HMAccessory] {
-        var placed =  [HMAccessory]()
+    func getPlacedAccessoires() -> [UUID] {
+        var placed =  [UUID]()
         
         for floor in floors {
             for accessory in floor.accessoires {
-                placed.append(accessory)
+                placed.append(accessory.uniqueIdentifier)
             }
         }
-        
+    
         return placed
     }
 }

@@ -48,7 +48,7 @@ class FloorPlanController: UIViewController {
     }
     
     @IBAction func unwindToFloorPlan(segue: UIStoryboardSegue) {
-        if let source = segue.source as? AccessoriesTableViewController, let selectedAccessory = source.list.selection.accessory {
+        if let source = segue.source as? AccessoryListController, let selectedAccessory = source.list.selection.accessory {
             log.debug("unwinded to FloorPlanController from AccessoriesTableViewController")
             placeAccessory(accessory: selectedAccessory)
         }
@@ -57,7 +57,7 @@ class FloorPlanController: UIViewController {
     // INFO: - prepares destination view controller data before transitioning to it
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddAccessory" {
-            if let accessoriesTable = segue.destination.childViewControllers[0] as? AccessoriesTableViewController {
+            if let accessoriesTable = segue.destination.childViewControllers[0] as? AccessoryListController {
                 let placedAccessories = home.getPlacedAccessoires()
                 accessoriesTable.list.placedAccessories.append(contentsOf: placedAccessories)
                 log.debug("setup AccessoriesTableViewController with currently placed accessoires \(placedAccessories)")
@@ -66,20 +66,19 @@ class FloorPlanController: UIViewController {
     }
     
     // MARK: - Actions
-    func placeAccessory(accessory: HMAccessory) {
+    
+    // MARK: - Private Action
+    private func placeAccessory(accessory: HMAccessory) {
         do {
             try home.placeAccessory(accessory)
-            log.info("placed accessory \(accessory) on floor #\(home.currentFloor)")
+            
         } catch HomeError.floorNotFound {
-            log.warning("can't find floor #\(home.currentFloor), cancelling placement")
-        } catch HomeError.alreadyPlaced {
-            log.debug("accessory \(accessory) already placed on floor #\(home.currentFloor)")
+            
         } catch {
             
         }
     }
     
-    // MARK: - Private Action
     private func switchToFloor(number: Int) {
         home.currentFloor = number
         currentFloor.text = "\(number)"

@@ -23,7 +23,7 @@
 		24A8BE8B1E8BF045008D3E73 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE841E8BF045008D3E73 /* Filter.swift */; };
 		24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */; };
 		24A8BE8D1E8BF045008D3E73 /* SwiftyBeaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */; };
-		24DB94AC1E85200800FC8A94 /* AccessoriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DB94AB1E85200800FC8A94 /* AccessoriesTableViewController.swift */; };
+		24DB94AC1E85200800FC8A94 /* AccessoryListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DB94AB1E85200800FC8A94 /* AccessoryListController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,7 +46,7 @@
 		24A8BE841E8BF045008D3E73 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SBPlatformDestination.swift; sourceTree = "<group>"; };
 		24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyBeaver.swift; sourceTree = "<group>"; };
-		24DB94AB1E85200800FC8A94 /* AccessoriesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoriesTableViewController.swift; sourceTree = "<group>"; };
+		24DB94AB1E85200800FC8A94 /* AccessoryListController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryListController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,14 +82,14 @@
 			isa = PBXGroup;
 			children = (
 				24A8BE7F1E8BF045008D3E73 /* SwiftyBeaver */,
-				24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */,
-				24865D281E895CDE00676F0F /* AccessoryList.swift */,
 				242673501E83FAE800BB73C6 /* FacilityButler.entitlements */,
-				2426733B1E83DE2600BB73C6 /* AppDelegate.swift */,
-				2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */,
-				2441B7B21E84509100A428D9 /* Home.swift */,
 				2426733F1E83DE2600BB73C6 /* Main.storyboard */,
-				24DB94AB1E85200800FC8A94 /* AccessoriesTableViewController.swift */,
+				2426733B1E83DE2600BB73C6 /* AppDelegate.swift */,
+				2441B7B21E84509100A428D9 /* Home.swift */,
+				24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */,
+				2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */,
+				24865D281E895CDE00676F0F /* AccessoryList.swift */,
+				24DB94AB1E85200800FC8A94 /* AccessoryListController.swift */,
 				242673421E83DE2600BB73C6 /* Assets.xcassets */,
 				242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */,
 				242673471E83DE2600BB73C6 /* Info.plist */,
@@ -203,7 +203,7 @@
 				24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */,
 				2441B7B31E84509100A428D9 /* Home.swift in Sources */,
 				24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */,
-				24DB94AC1E85200800FC8A94 /* AccessoriesTableViewController.swift in Sources */,
+				24DB94AC1E85200800FC8A94 /* AccessoryListController.swift in Sources */,
 				24A8BE8A1E8BF045008D3E73 /* FileDestination.swift in Sources */,
 				2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */,
 			);
