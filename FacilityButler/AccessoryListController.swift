@@ -14,13 +14,14 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
     @IBOutlet var table: UITableView!
     
     // MARK: - Properties
-    let home = Home()
+    var home: Facility?
     let list = AccessoryList()
+    let homeManager = HMHomeManager()
    
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
-        home.manager.delegate = self
+        homeManager.delegate = self
         list.accessoryBrowser.delegate = self
         
         navigationItem.rightBarButtonItem = editButtonItem
@@ -43,17 +44,15 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
     }
     
     private func handledError(error: Error?) -> Bool {
-        if let error = error as? HomeError {
+        if let error = error as? FacilityError {
             var message: String
             
             switch error {
-            case .noHomeSet:
-                message = "Please create or select home from settings."
-            case .actionFailed(let errorMessage):
-                message = "Failed due to unexpected error: \(errorMessage)"
-            default:
+            case .floorNotFound:
                 message = ""
                 break
+            case .actionFailed(let errorMessage):
+                message = "Failed due to unexpected error: \(errorMessage)"
             }
             
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -84,10 +83,12 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
     
     // MARK: - Home Manager Delegate
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        home.setHome(completion: {
+        if homeIsSet() == false, let home = Facility(manager: manager) {
+            self.home = home
+            
             let sectionIndex = list.sectionTitles.index(of: list.configuredSection)!
             
-            for accessory in home.home!.accessories {
+            for accessory in home.instance.accessories {
                 if list.placedAccessories.contains(where: { $0 == accessory.uniqueIdentifier }) == false {
                     let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
                     tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
@@ -99,7 +100,7 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
             } else {
                 editButtonItem.isEnabled = true
             }
-        })
+        }
     }
     
     // MARK: - Table View Controller
@@ -132,7 +133,7 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
         list.selection.indexPath = newIndexPath
         list.selection.accessory = list.accessories[newIndexPath.section][newIndexPath.row]
         
-        home.saveAccessory(accessory: list.selection.accessory!, completion: { (error) in
+        home?.saveAccessory(list.selection.accessory!, completion: { (error) in
             if !(self.handledError(error: error)) {
                 self.list.stopAccessoryScan()
                 self.transitionToFloorPlan()
@@ -191,7 +192,7 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 self.list.removeFromSection(indexPath.section, accessory: accessory)
                 self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
-                self.home.deleteAccessory(accessory: accessory, completion: { (error) in
+                self.home?.deleteAccessory(accessory, completion: { (error) in
                     if !(self.handledError(error: error)) {
                         if self.list.accessories[indexPath.section].count == 0 {
                             self.editButtonItem.isEnabled = false
@@ -208,6 +209,14 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
             alertController.addAction(deleteAction)
             
             present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    private func homeIsSet() -> Bool {
+        if home != nil {
+            return true
+        } else {
+            return false
         }
     }
 }

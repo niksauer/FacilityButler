@@ -9,12 +9,17 @@
 import Foundation
 import HomeKit
 
+// MARK: - Global Types
+struct Coordinate {
+    var x: Int
+    var y: Int
+}
+
 class FloorPlan {
     // MARK: - Instance Properties
     let etage: Int
-    var accessoires = [HMAccessory]()
     
-    // MARK: - Data Structures
+    // MARK: - Types
     enum OrdinalNumber: String {
         case ground
         case first = "st"
@@ -27,7 +32,7 @@ class FloorPlan {
     init(etage: Int) {
         self.etage = etage
     }
-    
+
     // MARK: - Class Functions
     // INFO: - returns etage as ordinal string, i.e.: 3 -> "3rd upper floor"
     static func getOrdinalFloorNumber(of number: Int, capitalized: Bool) -> String {

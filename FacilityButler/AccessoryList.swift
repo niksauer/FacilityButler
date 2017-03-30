@@ -15,8 +15,8 @@ class AccessoryList {
     let unconfiguredSection = "newly discovered"
     var sectionTitles: [String]
     
-    var accessories = Array(repeating: [HMAccessory](), count: 2)
     var placedAccessories = [UUID]()
+    var accessories = Array(repeating: [HMAccessory](), count: 2)
     var selection = selectedAccessory()
     
     let accessoryBrowser = HMAccessoryBrowser()

@@ -8,30 +8,35 @@
 
 import UIKit
 import HomeKit
-import os.log
 
-class FloorPlanController: UIViewController {
+class FloorPlanController: UIViewController, HMHomeManagerDelegate {
     // MARK: - Outlets
-    @IBOutlet weak var currentFloor: UILabel!
+    @IBOutlet var currentFloor: UILabel!
     
     // MARK: - Instance Properties
-    let home = Home()
+    var home: Facility?
+    let homeManager = HMHomeManager()
     
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
+        homeManager.delegate = self
     }
     
     // MARK: - Navigation
     @IBAction func goToFloor(_ sender: UIStepper) {
+        guard homeIsSet() else {
+            return
+        }
+        
         let floorNumber = Int(sender.value)
         
-        if home.floors.contains(where: { $0.etage == floorNumber }) == false {
+        if home!.floors.contains(where: { $0.etage == floorNumber }) == false {
             let ordinalFloor = FloorPlan.getOrdinalFloorNumber(of: floorNumber, capitalized: false)
             
             let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
             let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
-                self.home.createFloor(number: floorNumber)
+                self.home!.createFloor(number: floorNumber)
                 self.switchToFloor(number: floorNumber)
             })
             let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
@@ -57,10 +62,9 @@ class FloorPlanController: UIViewController {
     // INFO: - prepares destination view controller data before transitioning to it
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddAccessory" {
-            if let accessoriesTable = segue.destination.childViewControllers[0] as? AccessoryListController {
-                let placedAccessories = home.getPlacedAccessoires()
-                accessoriesTable.list.placedAccessories.append(contentsOf: placedAccessories)
-                log.debug("setup AccessoriesTableViewController with currently placed accessoires \(placedAccessories)")
+            if let accessoriesTable = segue.destination.childViewControllers[0] as? AccessoryListController, let placed = home?.getPlacedAccessoires() {
+                accessoriesTable.list.placedAccessories = placed
+                log.debug("setup AccessoryListController with currently placed accessoires \(placed)")
             }
         }
     }
@@ -69,10 +73,13 @@ class FloorPlanController: UIViewController {
     
     // MARK: - Private Action
     private func placeAccessory(accessory: HMAccessory) {
+        guard homeIsSet() else {
+            return
+        }
+        
         do {
-            try home.placeAccessory(accessory)
-            
-        } catch HomeError.floorNotFound {
+            try home!.placeAccessory(accessory)
+        } catch FacilityError.floorNotFound {
             
         } catch {
             
@@ -80,9 +87,28 @@ class FloorPlanController: UIViewController {
     }
     
     private func switchToFloor(number: Int) {
-        home.currentFloor = number
+        guard homeIsSet() else {
+            return
+        }
+        
+        home!.currentFloor = number
         currentFloor.text = "\(number)"
         navigationItem.title = FloorPlan.getOrdinalFloorNumber(of: number, capitalized: true)
-        log.debug("switched to floor #\(number) with accessoires \(home.floors[home.currentFloor].accessoires)")
+        log.debug("switched to floor #\(number) with accessoires \(home!.getPlacedAccessoriesOfFloor(number))")
+    }
+    
+    private func homeIsSet() -> Bool {
+        if home != nil {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    // MARK: - Home Manager Delegate
+    func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
+        if homeIsSet() == false, let home = Facility(manager: manager) {
+            self.home = home
+        }
     }
 }

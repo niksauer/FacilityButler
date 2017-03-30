@@ -13,7 +13,7 @@
 		242673431E83DE2600BB73C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 242673421E83DE2600BB73C6 /* Assets.xcassets */; };
 		242673461E83DE2600BB73C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */; };
 		2426734F1E83EC3A00BB73C6 /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2426734E1E83EC3A00BB73C6 /* HomeKit.framework */; };
-		2441B7B31E84509100A428D9 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2441B7B21E84509100A428D9 /* Home.swift */; };
+		2441B7B31E84509100A428D9 /* Facility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2441B7B21E84509100A428D9 /* Facility.swift */; };
 		24865D291E895CDE00676F0F /* AccessoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24865D281E895CDE00676F0F /* AccessoryList.swift */; };
 		24A8BE761E8AFA8B008D3E73 /* FloorPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */; };
 		24A8BE871E8BF045008D3E73 /* AES256CBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE801E8BF045008D3E73 /* AES256CBC.swift */; };
@@ -36,7 +36,7 @@
 		242673471E83DE2600BB73C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2426734E1E83EC3A00BB73C6 /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
 		242673501E83FAE800BB73C6 /* FacilityButler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FacilityButler.entitlements; sourceTree = "<group>"; };
-		2441B7B21E84509100A428D9 /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		2441B7B21E84509100A428D9 /* Facility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Facility.swift; sourceTree = "<group>"; };
 		24865D281E895CDE00676F0F /* AccessoryList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryList.swift; sourceTree = "<group>"; };
 		24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorPlan.swift; sourceTree = "<group>"; };
 		24A8BE801E8BF045008D3E73 /* AES256CBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AES256CBC.swift; sourceTree = "<group>"; };
@@ -85,7 +85,7 @@
 				242673501E83FAE800BB73C6 /* FacilityButler.entitlements */,
 				2426733F1E83DE2600BB73C6 /* Main.storyboard */,
 				2426733B1E83DE2600BB73C6 /* AppDelegate.swift */,
-				2441B7B21E84509100A428D9 /* Home.swift */,
+				2441B7B21E84509100A428D9 /* Facility.swift */,
 				24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */,
 				2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */,
 				24865D281E895CDE00676F0F /* AccessoryList.swift */,
@@ -201,7 +201,7 @@
 				24A8BE891E8BF045008D3E73 /* ConsoleDestination.swift in Sources */,
 				24865D291E895CDE00676F0F /* AccessoryList.swift in Sources */,
 				24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */,
-				2441B7B31E84509100A428D9 /* Home.swift in Sources */,
+				2441B7B31E84509100A428D9 /* Facility.swift in Sources */,
 				24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */,
 				24DB94AC1E85200800FC8A94 /* AccessoryListController.swift in Sources */,
 				24A8BE8A1E8BF045008D3E73 /* FileDestination.swift in Sources */,
