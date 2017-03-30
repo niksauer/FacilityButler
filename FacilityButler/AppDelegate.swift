@@ -19,8 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // SwiftyBeaver Configuration
         let console = ConsoleDestination()
+//        let cloud = SBPlatformDestination(appID: "9Gz0eM", appSecret: "klls2lowuwrKfrkxejgpav9af7njz3iy", encryptionKey: "fksbHprdhu5PxesYkljuadafbeisu1Bj")
 //        let file = FileDestination()
+        
+        console.format = "$DHH:mm:ss$d $L: $M"
+        
         log.addDestination(console)
+//        log.addDestination(cloud)
 //        log.addDestination(file)
         
         return true
