@@ -1,5 +1,5 @@
 //
-//  AddAccessoryTableViewController.swift
+//  AccessoryListController.swift
 //  FacilityButler
 //
 //  Created by Niklas Sauer on 24.03.17.
@@ -10,9 +10,6 @@ import UIKit
 import HomeKit
 
 class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate {
-    
-    // MARK: - Outlets
-    @IBOutlet weak var table: UITableView!
     
     // MARK: - Instance Properties
     let list = AccessoryList()

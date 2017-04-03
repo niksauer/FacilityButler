@@ -10,25 +10,20 @@ import UIKit
 import HomeKit
 
 let log = SwiftyBeaver.self
+var facility: Facility!
+let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var home: Facility?
     
     // INFO: - Override point for customization after application launch.
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let console = ConsoleDestination()
-//        let cloud = SBPlatformDestination(appID: "9Gz0eM", appSecret: "klls2lowuwrKfrkxejgpav9af7njz3iy", encryptionKey: "fksbHprdhu5PxesYkljuadafbeisu1Bj")
-//        let file = FileDestination()
-        
-//        console.format = "$DHH:mm:ss$d $L: $M"
-        
         log.addDestination(console)
-//        log.addDestination(cloud)
-//        log.addDestination(file)
         
+        log.info("Documents path: \(DocumentsDirectory)")
         return true
     }
 

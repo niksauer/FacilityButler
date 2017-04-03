@@ -9,13 +9,8 @@
 import Foundation
 import HomeKit
 
-// MARK: - Global Types
-struct Coordinate {
-    var x: Int
-    var y: Int
-}
-
 class FloorPlan: NSObject, NSCoding {
+    
     // MARK: - Instance Properties
     let etage: Int
     
@@ -27,11 +22,7 @@ class FloorPlan: NSObject, NSCoding {
         case third = "rd"
         case fourth = "th"
     }
-    
-    struct PropertyKey {
-        static let etage = "etage"
-    }
-    
+
     // MARK: - Initialization
     init(etage: Int) {
         self.etage = etage
@@ -77,4 +68,5 @@ class FloorPlan: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(etage, forKey: PropertyKey.etage)
     }
+    
 }

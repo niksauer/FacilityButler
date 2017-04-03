@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FloorPlanController.swift
 //  FacilityButler
 //
 //  Created by Niklas Sauer on 23.03.17.
@@ -14,12 +14,10 @@ class FloorPlanController: UIViewController {
     // MARK: - Outlets
     @IBOutlet weak var currentFloorLabel: UILabel!
     
-    // MARK: - Instance Properties
-    
     // MARK: - Initialization
     // TODO: - load appropriate floor, i.e. facility.currentFloor
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        switchToFloor(number: facility.currentFloor)
     }
     
     // MARK: - Navigation
@@ -32,6 +30,13 @@ class FloorPlanController: UIViewController {
             let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
             let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
                 facility.createFloor(number: floorNumber)
+                
+                do {
+                    try facility.save()
+                } catch {
+                    
+                }
+                
                 self.switchToFloor(number: floorNumber)
             })
             let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
@@ -53,25 +58,19 @@ class FloorPlanController: UIViewController {
             placeAccessory(accessory: selectedAccessory)
         }
     }
-    
-    // MARK: - Actions
-    
+
     // MARK: - Private Actions
     // TODO: - save facility after placement
-    private func placeAccessory(accessory: HMAccessory) {
+    func placeAccessory(accessory: HMAccessory) {
         do {
             try facility.placeAccessory(accessory)
-//            try Facility.saveFacility(facility)
-        } catch FacilityError.floorNotFound {
-            
-        } catch FacilityError.actionFailed(_) {
-            
+            try facility.save()
         } catch {
             
         }
     }
     
-    private func switchToFloor(number: Int) {
+    func switchToFloor(number: Int) {
         facility.currentFloor = number
         currentFloorLabel.text = "\(number)"
         navigationItem.title = FloorPlan.getOrdinalFloorNumber(of: number, capitalized: true)

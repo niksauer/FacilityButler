@@ -10,6 +10,7 @@ import Foundation
 import HomeKit
 
 class AccessoryList {
+    
     // MARK: - Properties
     let configuredSection = "not placed"
     let unconfiguredSection = "newly discovered"
@@ -55,4 +56,5 @@ class AccessoryList {
         accessories[section].remove(at: row)
         return row
     }
+    
 }

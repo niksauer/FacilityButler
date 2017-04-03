@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24055B141E927DAA00845C98 /* GlobalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24055B131E927DAA00845C98 /* GlobalTypes.swift */; };
 		240F6A401E8FAF890092DA10 /* LaunchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240F6A3F1E8FAF890092DA10 /* LaunchController.swift */; };
 		240F6A421E8FBB320092DA10 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240F6A411E8FBB320092DA10 /* SettingsController.swift */; };
 		241090E71E92383100F78D45 /* Comments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 241090E61E92383100F78D45 /* Comments.rtf */; };
+		241090E91E924A0600F78D45 /* PlacedAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241090E81E924A0600F78D45 /* PlacedAccessory.swift */; };
 		2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426733B1E83DE2600BB73C6 /* AppDelegate.swift */; };
 		2426733E1E83DE2600BB73C6 /* FloorPlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */; };
 		242673411E83DE2600BB73C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2426733F1E83DE2600BB73C6 /* Main.storyboard */; };
@@ -30,9 +32,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		24055B131E927DAA00845C98 /* GlobalTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalTypes.swift; sourceTree = "<group>"; };
 		240F6A3F1E8FAF890092DA10 /* LaunchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchController.swift; sourceTree = "<group>"; };
 		240F6A411E8FBB320092DA10 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		241090E61E92383100F78D45 /* Comments.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Comments.rtf; sourceTree = "<group>"; };
+		241090E81E924A0600F78D45 /* PlacedAccessory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacedAccessory.swift; sourceTree = "<group>"; };
 		242673381E83DE2600BB73C6 /* FacilityButler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacilityButler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2426733B1E83DE2600BB73C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorPlanController.swift; sourceTree = "<group>"; };
@@ -92,10 +96,12 @@
 				2426733F1E83DE2600BB73C6 /* Main.storyboard */,
 				2426733B1E83DE2600BB73C6 /* AppDelegate.swift */,
 				240F6A3F1E8FAF890092DA10 /* LaunchController.swift */,
-				240F6A411E8FBB320092DA10 /* SettingsController.swift */,
-				2441B7B21E84509100A428D9 /* Facility.swift */,
-				24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */,
 				2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */,
+				2441B7B21E84509100A428D9 /* Facility.swift */,
+				24055B131E927DAA00845C98 /* GlobalTypes.swift */,
+				24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */,
+				241090E81E924A0600F78D45 /* PlacedAccessory.swift */,
+				240F6A411E8FBB320092DA10 /* SettingsController.swift */,
 				24865D281E895CDE00676F0F /* AccessoryList.swift */,
 				24DB94AB1E85200800FC8A94 /* AccessoryListController.swift */,
 				241090E61E92383100F78D45 /* Comments.rtf */,
@@ -208,6 +214,7 @@
 				24A8BE8B1E8BF045008D3E73 /* Filter.swift in Sources */,
 				24A8BE761E8AFA8B008D3E73 /* FloorPlan.swift in Sources */,
 				24A8BE8D1E8BF045008D3E73 /* SwiftyBeaver.swift in Sources */,
+				241090E91E924A0600F78D45 /* PlacedAccessory.swift in Sources */,
 				24A8BE891E8BF045008D3E73 /* ConsoleDestination.swift in Sources */,
 				240F6A421E8FBB320092DA10 /* SettingsController.swift in Sources */,
 				24865D291E895CDE00676F0F /* AccessoryList.swift in Sources */,
@@ -215,6 +222,7 @@
 				2441B7B31E84509100A428D9 /* Facility.swift in Sources */,
 				24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */,
 				24DB94AC1E85200800FC8A94 /* AccessoryListController.swift in Sources */,
+				24055B141E927DAA00845C98 /* GlobalTypes.swift in Sources */,
 				24A8BE8A1E8BF045008D3E73 /* FileDestination.swift in Sources */,
 				240F6A401E8FAF890092DA10 /* LaunchController.swift in Sources */,
 				2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */,
