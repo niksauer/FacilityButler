@@ -9,34 +9,29 @@
 import UIKit
 import HomeKit
 
-class FloorPlanController: UIViewController, HMHomeManagerDelegate {
+class FloorPlanController: UIViewController {
+    
     // MARK: - Outlets
-    @IBOutlet var currentFloor: UILabel!
+    @IBOutlet weak var currentFloorLabel: UILabel!
     
     // MARK: - Instance Properties
-    var home: Facility?
-    let homeManager = HMHomeManager()
     
     // MARK: - Initialization
+    // TODO: - load appropriate floor, i.e. facility.currentFloor
     override func viewDidLoad() {
         super.viewDidLoad()
-        homeManager.delegate = self
     }
     
     // MARK: - Navigation
     @IBAction func goToFloor(_ sender: UIStepper) {
-        guard homeIsSet() else {
-            return
-        }
-        
         let floorNumber = Int(sender.value)
         
-        if home!.floors.contains(where: { $0.etage == floorNumber }) == false {
+        if facility.floors.contains(where: { $0.etage == floorNumber }) == false {
             let ordinalFloor = FloorPlan.getOrdinalFloorNumber(of: floorNumber, capitalized: false)
             
             let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
             let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
-                self.home!.createFloor(number: floorNumber)
+                facility.createFloor(number: floorNumber)
                 self.switchToFloor(number: floorNumber)
             })
             let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
@@ -59,27 +54,17 @@ class FloorPlanController: UIViewController, HMHomeManagerDelegate {
         }
     }
     
-    // INFO: - prepares destination view controller data before transitioning to it
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "AddAccessory" {
-            if let accessoriesTable = segue.destination.childViewControllers[0] as? AccessoryListController, let placed = home?.getPlacedAccessoires() {
-                accessoriesTable.list.placedAccessories = placed
-                log.debug("setup AccessoryListController with currently placed accessoires \(placed)")
-            }
-        }
-    }
-    
     // MARK: - Actions
     
-    // MARK: - Private Action
+    // MARK: - Private Actions
+    // TODO: - save facility after placement
     private func placeAccessory(accessory: HMAccessory) {
-        guard homeIsSet() else {
-            return
-        }
-        
         do {
-            try home!.placeAccessory(accessory)
+            try facility.placeAccessory(accessory)
+//            try Facility.saveFacility(facility)
         } catch FacilityError.floorNotFound {
+            
+        } catch FacilityError.actionFailed(_) {
             
         } catch {
             
@@ -87,28 +72,10 @@ class FloorPlanController: UIViewController, HMHomeManagerDelegate {
     }
     
     private func switchToFloor(number: Int) {
-        guard homeIsSet() else {
-            return
-        }
-        
-        home!.currentFloor = number
-        currentFloor.text = "\(number)"
+        facility.currentFloor = number
+        currentFloorLabel.text = "\(number)"
         navigationItem.title = FloorPlan.getOrdinalFloorNumber(of: number, capitalized: true)
-        log.debug("switched to floor #\(number) with accessoires \(home!.getPlacedAccessoriesOfFloor(number))")
+        log.debug("switched to floor #\(number) with accessoires \(facility.getPlacedAccessoriesOfFloor(number))")
     }
     
-    private func homeIsSet() -> Bool {
-        if home != nil {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    // MARK: - Home Manager Delegate
-    func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        if homeIsSet() == false, let home = Facility(manager: manager) {
-            self.home = home
-        }
-    }
 }

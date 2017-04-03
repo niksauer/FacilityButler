@@ -15,7 +15,7 @@ struct Coordinate {
     var y: Int
 }
 
-class FloorPlan {
+class FloorPlan: NSObject, NSCoding {
     // MARK: - Instance Properties
     let etage: Int
     
@@ -26,6 +26,10 @@ class FloorPlan {
         case second = "nd"
         case third = "rd"
         case fourth = "th"
+    }
+    
+    struct PropertyKey {
+        static let etage = "etage"
     }
     
     // MARK: - Initialization
@@ -62,5 +66,15 @@ class FloorPlan {
             result = "\(ordinalNumber) floor"
             return capitalized ? result.capitalized : result
         }
+    }
+    
+    // MARK: - NSCoding Protocol
+    required convenience init?(coder aDecoder: NSCoder) {
+        let etage = aDecoder.decodeInteger(forKey: PropertyKey.etage)
+        self.init(etage: etage)
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(etage, forKey: PropertyKey.etage)
     }
 }

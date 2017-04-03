@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="6dQ-Kf-vAa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="87S-Us-Lia">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -45,7 +45,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Ground Floor" id="YHe-dh-RCe">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" id="dSh-Ts-4Mc"/>
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="dSh-Ts-4Mc">
+                            <connections>
+                                <segue destination="b1x-v4-Tlu" kind="show" identifier="ShowSettings" id="FWe-wD-4Wr"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="byh-a3-JsY">
                             <connections>
                                 <segue destination="1Zk-gg-Gcw" kind="presentation" identifier="AddAccessory" id="etB-Xq-f9o"/>
@@ -53,7 +57,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="currentFloor" destination="VCt-6d-eTY" id="TWW-7Z-siW"/>
+                        <outlet property="currentFloorLabel" destination="VCt-6d-eTY" id="BSQ-vp-pAy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NhM-HD-aQV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -70,7 +74,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="accessoryUITableViewCell" textLabel="1wv-WJ-YX8" detailTextLabel="2Ki-eu-UcD" style="IBUITableViewCellStyleSubtitle" id="eXh-gx-jb5">
-                                <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eXh-gx-jb5" id="6VX-s8-rdE">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -111,7 +115,7 @@
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="edit" id="wFg-R3-DRz"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="table" destination="Mfa-JG-9BE" id="KyA-KM-dG8"/>
+                        <outlet property="table" destination="Mfa-JG-9BE" id="eHZ-zf-R51"/>
                         <segue destination="YQd-ch-Iex" kind="unwind" identifier="unwindToFloorPlan" unwindAction="unwindToFloorPlanWithSegue:" id="v2n-3D-ROc"/>
                     </connections>
                 </tableViewController>
@@ -119,6 +123,52 @@
                 <exit id="YQd-ch-Iex" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2463" y="-477"/>
+        </scene>
+        <!--Launch Controller-->
+        <scene sceneID="yic-KX-OaV">
+            <objects>
+                <viewController id="87S-Us-Lia" customClass="LaunchController" customModule="FacilityButler" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hoA-q8-baL"/>
+                        <viewControllerLayoutGuide type="bottom" id="DNo-Jv-gcC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="wPA-Re-LqY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wxT-iY-CCw">
+                                <rect key="frame" x="124" y="531" width="127" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Create Facility"/>
+                                <connections>
+                                    <segue destination="b1x-v4-Tlu" kind="show" id="dji-bN-qnu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K0N-Qn-Iu8">
+                                <rect key="frame" x="164" y="475" width="47" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <state key="normal" title="Enter"/>
+                                <connections>
+                                    <segue destination="6dQ-Kf-vAa" kind="show" id="GYX-py-ukM"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="wxT-iY-CCw" firstAttribute="top" secondItem="K0N-Qn-Iu8" secondAttribute="bottom" constant="20" id="1iM-ky-dez"/>
+                            <constraint firstItem="DNo-Jv-gcC" firstAttribute="top" secondItem="wxT-iY-CCw" secondAttribute="bottom" constant="100" id="AZn-rJ-xPs"/>
+                            <constraint firstItem="wxT-iY-CCw" firstAttribute="centerX" secondItem="wPA-Re-LqY" secondAttribute="centerX" id="XSM-rE-viP"/>
+                            <constraint firstItem="K0N-Qn-Iu8" firstAttribute="centerX" secondItem="wPA-Re-LqY" secondAttribute="centerX" id="gnV-1i-nPr"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="createButton" destination="wxT-iY-CCw" id="VBf-OW-HE3"/>
+                        <outlet property="enterButton" destination="K0N-Qn-Iu8" id="WtO-76-0qX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fA8-BZ-7Tc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-540" y="285"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="0Cg-Fl-M7P">
@@ -162,5 +212,62 @@
             </objects>
             <point key="canvasLocation" x="1722" y="-477"/>
         </scene>
+        <!--Settings-->
+        <scene sceneID="XZl-uq-xWl">
+            <objects>
+                <tableViewController id="uq7-YC-3KE" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="KAd-vK-tJx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="settingUITableViewCell" id="7fy-4W-faj">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7fy-4W-faj" id="XKc-8I-dRM">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="uq7-YC-3KE" id="XHR-Wa-9u6"/>
+                            <outlet property="delegate" destination="uq7-YC-3KE" id="xHv-5Y-HYd"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="4Jp-bv-AhF">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="Q48-Wz-cyP">
+                            <connections>
+                                <segue destination="8ey-j3-SOU" kind="unwind" unwindAction="unwindToFloorPlanWithSegue:" id="Meg-Uv-epi"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NrL-M7-wVF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="8ey-j3-SOU" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="1721" y="285"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="vxM-Tv-Igu">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="b1x-v4-Tlu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7CG-zq-VHe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="uq7-YC-3KE" kind="relationship" relationship="rootViewController" id="T5K-hC-b9I"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZvV-VP-YOv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="988" y="285"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="FWe-wD-4Wr"/>
+    </inferredMetricsTieBreakers>
 </document>

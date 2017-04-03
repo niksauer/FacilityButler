@@ -7,22 +7,23 @@
 //
 
 import UIKit
+import HomeKit
+
 let log = SwiftyBeaver.self
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var home: Facility?
     
+    // INFO: - Override point for customization after application launch.
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        
-        // SwiftyBeaver Configuration
         let console = ConsoleDestination()
 //        let cloud = SBPlatformDestination(appID: "9Gz0eM", appSecret: "klls2lowuwrKfrkxejgpav9af7njz3iy", encryptionKey: "fksbHprdhu5PxesYkljuadafbeisu1Bj")
 //        let file = FileDestination()
         
-        console.format = "$DHH:mm:ss$d $L: $M"
+//        console.format = "$DHH:mm:ss$d $L: $M"
         
         log.addDestination(console)
 //        log.addDestination(cloud)
@@ -52,7 +53,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
 
 }
 

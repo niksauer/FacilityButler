@@ -9,31 +9,29 @@
 import UIKit
 import HomeKit
 
-class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate, HMHomeManagerDelegate {
-    // MARK: - Outlets
-    @IBOutlet var table: UITableView!
+class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate {
     
-    // MARK: - Properties
-    var home: Facility?
+    // MARK: - Outlets
+    @IBOutlet weak var table: UITableView!
+    
+    // MARK: - Instance Properties
     let list = AccessoryList()
-    let homeManager = HMHomeManager()
    
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
-        homeManager.delegate = self
         list.accessoryBrowser.delegate = self
-        
+        list.startAccessoryScan()
         navigationItem.rightBarButtonItem = editButtonItem
         
-        list.startAccessoryScan()
+        insertUnplacedFacilityAccessories()
     }
     
     // MARK: - Navigation
     // INFO: - atomically dismisses modally presented view (self)
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         list.stopAccessoryScan()
-        log.debug("cancled to add accessory")
+        log.debug("canceled to add accessory")
         dismiss(animated: true, completion: nil)
     }
     
@@ -48,11 +46,11 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
             var message: String
             
             switch error {
-            case .floorNotFound:
-                message = ""
-                break
             case .actionFailed(let errorMessage):
                 message = "Failed due to unexpected error: \(errorMessage)"
+            default:
+                message = ""
+                break
             }
             
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -63,6 +61,24 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
             return true
         } else {
             return false
+        }
+    }
+    
+    private func insertUnplacedFacilityAccessories() {
+        let sectionIndex = list.sectionTitles.index(of: list.configuredSection)!
+        let placedAccessories = facility.getPlacedAccessoires()
+        
+        for accessory in facility.instance.accessories {
+            if placedAccessories.contains(accessory.uniqueIdentifier) == false {
+                let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
+                tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
+            }
+        }
+        
+        if list.accessories[sectionIndex].count == 0 {
+            editButtonItem.isEnabled = false
+        } else {
+            editButtonItem.isEnabled = true
         }
     }
     
@@ -79,28 +95,6 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
         let rowIndex = list.removeFromSection(sectionIndex, accessory: accessory)
         tableView.deleteRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
         log.debug("lost accessory \(accessory)")
-    }
-    
-    // MARK: - Home Manager Delegate
-    func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        if homeIsSet() == false, let home = Facility(manager: manager) {
-            self.home = home
-            
-            let sectionIndex = list.sectionTitles.index(of: list.configuredSection)!
-            
-            for accessory in home.instance.accessories {
-                if list.placedAccessories.contains(where: { $0 == accessory.uniqueIdentifier }) == false {
-                    let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
-                    tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
-                }
-            }
-            
-            if list.accessories[sectionIndex].count == 0 {
-                editButtonItem.isEnabled = false
-            } else {
-                editButtonItem.isEnabled = true
-            }
-        }
     }
     
     // MARK: - Table View Controller
@@ -128,46 +122,17 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
         return cell
     }
     
-    // INFO: -  current:  adds selected (un)configured accessory to home, i.e. makes it placeable on floor plan | old: (un)marks single selected row
+    // INFO: -  current:  adds selected (un)configured accessory to home, i.e. makes it placeable on floor plan
     override func tableView(_ tableView: UITableView, didSelectRowAt newIndexPath: IndexPath) {
         list.selection.indexPath = newIndexPath
         list.selection.accessory = list.accessories[newIndexPath.section][newIndexPath.row]
-        
-        home?.saveAccessory(list.selection.accessory!, completion: { (error) in
+
+        facility.saveAccessory(list.selection.accessory!, completion: { (error) in
             if !(self.handledError(error: error)) {
                 self.list.stopAccessoryScan()
                 self.transitionToFloorPlan()
             }
         })
-        
-//        if let oldIndexPath = list.selection.indexPath, newIndexPath == oldIndexPath {
-//            let cell = tableView.cellForRow(at: oldIndexPath)!
-//            
-//            switch cell.accessoryType {
-//            case .none:
-//                cell.accessoryType = .checkmark
-//                list.selection.indexPath = oldIndexPath
-//                list.selection.accessory = list.accessories[oldIndexPath.section][oldIndexPath.row]
-//                os_log("Selected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
-//            case .checkmark:
-//                cell.accessoryType = .none
-//                os_log("Deselected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
-//                list.selection.accessory = nil
-//                list.selection.indexPath = nil
-//            default:
-//                break
-//            }
-//        } else {
-//            if let oldIndex = list.selection.indexPath {
-//                os_log("Deselected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
-//                tableView.cellForRow(at: oldIndex)!.accessoryType = .none
-//            }
-//            
-//            list.selection.indexPath = newIndexPath
-//            list.selection.accessory = list.accessories[newIndexPath.section][newIndexPath.row]
-//            tableView.cellForRow(at: newIndexPath)!.accessoryType = .checkmark
-//            os_log("Selected accessory: %@", log: OSLog.default, type: .debug, list.selection.accessory!)
-//        }
     }
     
     // INFO: - allows conditional editing of the table
@@ -192,7 +157,7 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 self.list.removeFromSection(indexPath.section, accessory: accessory)
                 self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
-                self.home?.deleteAccessory(accessory, completion: { (error) in
+                facility.deleteAccessory(accessory, completion: { (error) in
                     if !(self.handledError(error: error)) {
                         if self.list.accessories[indexPath.section].count == 0 {
                             self.editButtonItem.isEnabled = false
@@ -212,11 +177,4 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
         }
     }
     
-    private func homeIsSet() -> Bool {
-        if home != nil {
-            return true
-        } else {
-            return false
-        }
-    }
 }
