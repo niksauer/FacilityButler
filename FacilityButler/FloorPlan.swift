@@ -27,9 +27,19 @@ class FloorPlan: NSObject, NSCoding {
     init(etage: Int) {
         self.etage = etage
     }
-
+    
+    // MARK: - NSCoding Protocol
+    required convenience init?(coder aDecoder: NSCoder) {
+        let etage = aDecoder.decodeInteger(forKey: PropertyKey.etage)
+        self.init(etage: etage)
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(etage, forKey: PropertyKey.etage)
+    }
+    
     // MARK: - Class Functions
-    // INFO: - returns etage as ordinal string, i.e.: 3 -> "3rd upper floor"
+    // INFO: returns etage as ordinal string, i.e.: 3 -> "3rd upper floor"
     static func getOrdinalFloorNumber(of number: Int, capitalized: Bool) -> String {
         let ordinalNumber: OrdinalNumber
         let result: String
@@ -58,15 +68,5 @@ class FloorPlan: NSObject, NSCoding {
             return capitalized ? result.capitalized : result
         }
     }
-    
-    // MARK: - NSCoding Protocol
-    required convenience init?(coder aDecoder: NSCoder) {
-        let etage = aDecoder.decodeInteger(forKey: PropertyKey.etage)
-        self.init(etage: etage)
-    }
-    
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(etage, forKey: PropertyKey.etage)
-    }
-    
+
 }

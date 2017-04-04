@@ -15,8 +15,8 @@ class FloorPlanController: UIViewController {
     @IBOutlet weak var currentFloorLabel: UILabel!
     
     // MARK: - Initialization
-    // TODO: - load appropriate floor, i.e. facility.currentFloor
-    override func viewWillAppear(_ animated: Bool) {
+    // TODO: load appropriate floor, i.e. facility.currentFloor
+    override func viewDidLoad() {
         switchToFloor(number: facility.currentFloor)
     }
     
@@ -59,8 +59,8 @@ class FloorPlanController: UIViewController {
         }
     }
 
-    // MARK: - Private Actions
-    // TODO: - save facility after placement
+    // MARK: - Actions
+    // TODO: save facility after placement
     func placeAccessory(accessory: HMAccessory) {
         do {
             try facility.placeAccessory(accessory)
@@ -70,6 +70,7 @@ class FloorPlanController: UIViewController {
         }
     }
     
+    // TODO: re-draw floor plan after switching
     func switchToFloor(number: Int) {
         facility.currentFloor = number
         currentFloorLabel.text = "\(number)"

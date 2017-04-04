@@ -9,12 +9,6 @@
 import Foundation
 
 // MARK: - Global Types
-enum FacilityError: Error {
-    case noPrimaryHome
-    case floorNotFound
-    case actionFailed(error: Error)
-}
-
 struct PropertyKey {
     static let instance = "instance"
     static let floors = "floors"
@@ -25,7 +19,9 @@ struct PropertyKey {
     static let etage = "etage"
 }
 
+/*
 struct Coordinate {
     var x: Int
     var y: Int
 }
+*/

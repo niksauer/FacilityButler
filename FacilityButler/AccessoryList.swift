@@ -16,7 +16,6 @@ class AccessoryList {
     let unconfiguredSection = "newly discovered"
     var sectionTitles: [String]
     
-    var placedAccessories = [UUID]()
     var accessories = Array(repeating: [HMAccessory](), count: 2)
     var selection = selectedAccessory()
     
@@ -29,7 +28,7 @@ class AccessoryList {
     }
     
     // MARK: - Initialization
-    // INFO: - for possible rearrangement of sections
+    // INFO: for possible rearrangement of sections
     init() {
         sectionTitles = [configuredSection, unconfiguredSection]
     }
@@ -45,7 +44,7 @@ class AccessoryList {
         log.debug("stopped network scan")
     }
     
-    // INFO: - return row index for use as indexPath
+    // INFO: returns row index for use as indexPath
     @discardableResult func insertIntoSection(_ section: Int, accessory: HMAccessory) -> Int {
         accessories[section].append(accessory)
         return accessories[section].endIndex-1

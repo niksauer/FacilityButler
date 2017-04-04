@@ -9,6 +9,11 @@
 import Foundation
 import HomeKit
 
+enum FacilityError: Error {
+    case floorNotFound
+    case actionFailed(error: Error)
+}
+
 class Facility: NSObject, NSCoding {
     
     // MARK: - Instance Properties
@@ -18,7 +23,6 @@ class Facility: NSObject, NSCoding {
     var placedAccessoires: [PlacedAccessory]
     
     // MARK: - Initialization
-    // INFO: - failes if no primary home is set, creates empty ground floor
     private init(instance: HMHome, floors: [FloorPlan], currentFloor: Int, placedAccessories: [PlacedAccessory]) {
         self.instance = instance
         self.floors = floors
@@ -27,10 +31,20 @@ class Facility: NSObject, NSCoding {
         super.init()
     }
     
-    required convenience init?(home: HMHome) {
+    required convenience init(home: HMHome) {
         let groundFloor = FloorPlan(etage: 0)
         self.init(instance: home, floors: [groundFloor], currentFloor: 0, placedAccessories: [PlacedAccessory]())
         log.debug("Created new facility \(self) of instance \(self.instance) with accessories \(self.instance.accessories)")
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        if let instance = aDecoder.decodeObject(forKey: PropertyKey.instance) as? HMHome, let floors = aDecoder.decodeObject(forKey: PropertyKey.floors) as? [FloorPlan], let placedAccessories = aDecoder.decodeObject(forKey: PropertyKey.placedAccessories) as? [PlacedAccessory] {
+            let etage = aDecoder.decodeInteger(forKey: PropertyKey.currentFloor)
+            self.init(instance: instance, floors: floors, currentFloor: etage, placedAccessories: placedAccessories)
+            log.debug("Loaded previously saved facility \(self) of instance \(self.instance) with accessories \(self.instance.accessories)")
+        } else {
+            return nil
+        }
     }
     
     // MARK: - Actions
@@ -67,7 +81,7 @@ class Facility: NSObject, NSCoding {
         }
     }
 
-    // INFO: - places accessory on current floor
+    // INFO: places accessory on current floor
     func placeAccessory(_ accessory: HMAccessory) throws {
         if floors.index(where: { $0.etage == currentFloor }) != nil {
             if placedAccessoires.contains(where: { $0.uniqueIdentifier == accessory.uniqueIdentifier }) == false {
@@ -113,17 +127,7 @@ class Facility: NSObject, NSCoding {
         return accessories
     }
     
-    // MARK: - NSCoding Protocol
-    required convenience init?(coder aDecoder: NSCoder) {
-        if let instance = aDecoder.decodeObject(forKey: PropertyKey.instance) as? HMHome, let floors = aDecoder.decodeObject(forKey: PropertyKey.floors) as? [FloorPlan], let placedAccessories = aDecoder.decodeObject(forKey: PropertyKey.placedAccessories) as? [PlacedAccessory] {
-            let etage = aDecoder.decodeInteger(forKey: PropertyKey.currentFloor)
-            self.init(instance: instance, floors: floors, currentFloor: etage, placedAccessories: placedAccessories)
-            log.debug("Loaded previously saved facility \(self) of instance \(self.instance) with accessories \(self.instance.accessories)")
-        } else {
-            return nil
-        }
-    }
-    
+    // MARK: - NSCoding Protocol & Archiving
     func encode(with aCoder: NSCoder) {
         aCoder.encode(instance, forKey: PropertyKey.instance)
         aCoder.encode(floors, forKey: PropertyKey.floors)
@@ -131,7 +135,6 @@ class Facility: NSObject, NSCoding {
         aCoder.encode(placedAccessoires, forKey: PropertyKey.placedAccessories)
     }
     
-    // MARK: - Archiving
     static func loadFacility(identifier: UUID) -> Facility? {
         let archiveURL = DocumentsDirectory.appendingPathComponent("facility_\(identifier)")
         return NSKeyedUnarchiver.unarchiveObject(withFile: archiveURL.path) as? Facility

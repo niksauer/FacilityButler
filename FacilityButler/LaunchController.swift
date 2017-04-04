@@ -25,6 +25,10 @@ class LaunchController: UIViewController, HMHomeManagerDelegate {
     }
     
     // MARK: - Home Manager Delegate
+    
+    // INFO:
+    // sets and transitions to current facility, either by loading previously saved configuration or creating new instance
+    // both requiring presence of primary HMHOME, otherwise user will be directed to create new home
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
         if facility == nil, let primaryHome = manager.primaryHome {
             if let savedFacility = Facility.loadFacility(identifier: primaryHome.uniqueIdentifier) {
