@@ -13,10 +13,12 @@ class FloorPlanController: UIViewController {
     
     // MARK: - Outlets
     @IBOutlet weak var currentFloorLabel: UILabel!
+    @IBOutlet weak var currentFloorStepper: UIStepper!
     
     // MARK: - Initialization
     // TODO: load appropriate floor, i.e. facility.currentFloor
     override func viewDidLoad() {
+        currentFloorStepper.value = Double(facility.currentFloor)
         switchToFloor(number: facility.currentFloor)
     }
     
@@ -30,14 +32,13 @@ class FloorPlanController: UIViewController {
             let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
             let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
                 facility.createFloor(number: floorNumber)
+                self.switchToFloor(number: floorNumber)
                 
                 do {
                     try facility.save()
                 } catch {
                     
                 }
-                
-                self.switchToFloor(number: floorNumber)
             })
             let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
                 sender.value = floorNumber >= 0 ? Double(floorNumber-1) : (Double(floorNumber+1))
@@ -53,7 +54,7 @@ class FloorPlanController: UIViewController {
     }
     
     @IBAction func unwindToFloorPlan(segue: UIStoryboardSegue) {
-        if let source = segue.source as? AccessoryListController, let selectedAccessory = source.list.selection.accessory {
+        if let source = segue.source as? AccessoryController, let selectedAccessory = source.list.selection.accessory {
             log.debug("unwinded to FloorPlanController from AccessoriesTableViewController")
             placeAccessory(accessory: selectedAccessory)
         }

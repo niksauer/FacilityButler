@@ -9,7 +9,7 @@
 import UIKit
 import HomeKit
 
-class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate {
+class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     
     // MARK: - Instance Properties
     let list = AccessoryList()
@@ -65,8 +65,8 @@ class AccessoryListController: UITableViewController, HMAccessoryBrowserDelegate
         let sectionIndex = list.sectionTitles.index(of: list.configuredSection)!
         let placedAccessories = facility.getPlacedAccessoires()
         
-        for accessory in facility.instance.accessories {
-            if placedAccessories.contains(accessory.uniqueIdentifier) == false {
+        for accessory in instance.accessories {
+            if placedAccessories.contains(accessory.uniqueIdentifier.uuidString) == false {
                 let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
                 tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
             }

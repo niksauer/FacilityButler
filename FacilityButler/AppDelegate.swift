@@ -10,8 +10,9 @@ import UIKit
 import HomeKit
 
 let log = SwiftyBeaver.self
-var facility: Facility!
 let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+var facility: Facility!
+var instance: HMHome!
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -23,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let console = ConsoleDestination()
         log.addDestination(console)
         
-        log.info("Documents path: \(DocumentsDirectory)")
+        log.debug("Documents path: \(DocumentsDirectory)")
         return true
     }
 

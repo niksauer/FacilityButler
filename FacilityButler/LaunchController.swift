@@ -30,13 +30,17 @@ class LaunchController: UIViewController, HMHomeManagerDelegate {
     // sets and transitions to current facility, either by loading previously saved configuration or creating new instance
     // both requiring presence of primary HMHOME, otherwise user will be directed to create new home
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        if facility == nil, let primaryHome = manager.primaryHome {
-            if let savedFacility = Facility.loadFacility(identifier: primaryHome.uniqueIdentifier) {
+        if facility == nil, instance == nil, let primaryHome = manager.primaryHome {
+            instance = primaryHome
+            log.info("Home \(instance!) has acessories \(instance!.accessories)")
+            
+            if let savedFacility = Facility.loadFacility(identifier: primaryHome.uniqueIdentifier.uuidString) {
                 facility = savedFacility
             } else {
-                facility = Facility(home: primaryHome)
+                facility = Facility()
             }
             
+    
             enterButton.isEnabled = true
             performSegue(withIdentifier: "showFloorPlan", sender: self)
         } else {

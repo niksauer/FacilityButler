@@ -19,6 +19,11 @@ struct PropertyKey {
     static let etage = "etage"
 }
 
+enum FacilityError: Error {
+    case floorNotFound
+    case actionFailed(error: Error)
+}
+
 /*
 struct Coordinate {
     var x: Int

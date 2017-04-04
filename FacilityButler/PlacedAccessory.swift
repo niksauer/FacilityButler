@@ -11,18 +11,18 @@ import Foundation
 class PlacedAccessory: NSObject, NSCoding {
     
     // MARK: - Instance Properties
-    let uniqueIdentifier: UUID
+    let uniqueIdentifier: String
     var floorNumber: Int
     
     // MARK: - Initialization
-    init(uniqueIdentifier: UUID, floorNumber: Int) {
+    init(uniqueIdentifier: String, floorNumber: Int) {
         self.uniqueIdentifier = uniqueIdentifier
         self.floorNumber = floorNumber
     }
     
     // MARK: - NSCoding Protocol
     required convenience init?(coder aDecoder: NSCoder) {
-        if let identifier = aDecoder.decodeObject(forKey: PropertyKey.uniqueIdentifier) as? UUID {
+        if let identifier = aDecoder.decodeObject(forKey: PropertyKey.uniqueIdentifier) as? String {
             let floorNumber = aDecoder.decodeInteger(forKey: PropertyKey.floorNumber)
             self.init(uniqueIdentifier: identifier, floorNumber: floorNumber)
         } else {

@@ -9,39 +9,33 @@
 import Foundation
 import HomeKit
 
-enum FacilityError: Error {
-    case floorNotFound
-    case actionFailed(error: Error)
-}
-
 class Facility: NSObject, NSCoding {
     
     // MARK: - Instance Properties
-    let instance: HMHome
     var floors: [FloorPlan]
     var currentFloor: Int
     var placedAccessoires: [PlacedAccessory]
     
     // MARK: - Initialization
-    private init(instance: HMHome, floors: [FloorPlan], currentFloor: Int, placedAccessories: [PlacedAccessory]) {
-        self.instance = instance
-        self.floors = floors
-        self.currentFloor = currentFloor
-        self.placedAccessoires = placedAccessories
-        super.init()
-    }
-    
-    required convenience init(home: HMHome) {
+    override init() {
         let groundFloor = FloorPlan(etage: 0)
-        self.init(instance: home, floors: [groundFloor], currentFloor: 0, placedAccessories: [PlacedAccessory]())
-        log.debug("Created new facility \(self) of instance \(self.instance) with accessories \(self.instance.accessories)")
+        self.floors = [groundFloor]
+        self.currentFloor = 0
+        self.placedAccessoires = [PlacedAccessory]()
+        super.init()
+        log.debug("Created new facility \(self)")
     }
     
-    required convenience init?(coder aDecoder: NSCoder) {
-        if let instance = aDecoder.decodeObject(forKey: PropertyKey.instance) as? HMHome, let floors = aDecoder.decodeObject(forKey: PropertyKey.floors) as? [FloorPlan], let placedAccessories = aDecoder.decodeObject(forKey: PropertyKey.placedAccessories) as? [PlacedAccessory] {
-            let etage = aDecoder.decodeInteger(forKey: PropertyKey.currentFloor)
-            self.init(instance: instance, floors: floors, currentFloor: etage, placedAccessories: placedAccessories)
-            log.debug("Loaded previously saved facility \(self) of instance \(self.instance) with accessories \(self.instance.accessories)")
+    required init?(coder aDecoder: NSCoder) {
+        if let floors = aDecoder.decodeObject(forKey: PropertyKey.floors) as? [FloorPlan], let placed = aDecoder.decodeObject(forKey: PropertyKey.placedAccessories) as? [PlacedAccessory] {
+            let currentFloor = aDecoder.decodeInteger(forKey: PropertyKey.currentFloor)
+            
+            self.floors = floors
+            self.currentFloor = currentFloor
+            self.placedAccessoires = placed
+            super.init()
+            
+            log.info("Loaded previously saved facility \(self)")
         } else {
             return nil
         }
@@ -84,8 +78,8 @@ class Facility: NSObject, NSCoding {
     // INFO: places accessory on current floor
     func placeAccessory(_ accessory: HMAccessory) throws {
         if floors.index(where: { $0.etage == currentFloor }) != nil {
-            if placedAccessoires.contains(where: { $0.uniqueIdentifier == accessory.uniqueIdentifier }) == false {
-                placedAccessoires.append(PlacedAccessory(uniqueIdentifier: accessory.uniqueIdentifier, floorNumber: currentFloor))
+            if placedAccessoires.contains(where: { $0.uniqueIdentifier == accessory.uniqueIdentifier.uuidString }) == false {
+                placedAccessoires.append(PlacedAccessory(uniqueIdentifier: accessory.uniqueIdentifier.uuidString, floorNumber: currentFloor))
                 log.info("placed accessory \(accessory) on floor #\(currentFloor)")
             } else {
                 log.debug("accessory \(accessory) already placed on floor #\(currentFloor)")
@@ -105,8 +99,8 @@ class Facility: NSObject, NSCoding {
         }
     }
     
-    func getPlacedAccessoires() -> [UUID] {
-        var accessoires = [UUID]()
+    func getPlacedAccessoires() -> [String] {
+        var accessoires = [String]()
         
         for accessory in placedAccessoires {
             accessoires.append(accessory.uniqueIdentifier)
@@ -115,8 +109,8 @@ class Facility: NSObject, NSCoding {
         return accessoires
     }
     
-    func getPlacedAccessoriesOfFloor(_ number: Int) -> [UUID] {
-        var accessories = [UUID]()
+    func getPlacedAccessoriesOfFloor(_ number: Int) -> [String] {
+        var accessories = [String]()
         
         for accessory in placedAccessoires {
             if accessory.floorNumber == number {
@@ -129,13 +123,12 @@ class Facility: NSObject, NSCoding {
     
     // MARK: - NSCoding Protocol & Archiving
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(instance, forKey: PropertyKey.instance)
         aCoder.encode(floors, forKey: PropertyKey.floors)
         aCoder.encode(currentFloor, forKey: PropertyKey.currentFloor)
         aCoder.encode(placedAccessoires, forKey: PropertyKey.placedAccessories)
     }
     
-    static func loadFacility(identifier: UUID) -> Facility? {
+    static func loadFacility(identifier: String) -> Facility? {
         let archiveURL = DocumentsDirectory.appendingPathComponent("facility_\(identifier)")
         return NSKeyedUnarchiver.unarchiveObject(withFile: archiveURL.path) as? Facility
     }
