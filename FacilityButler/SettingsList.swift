@@ -7,22 +7,19 @@
 //
 
 import Foundation
-import HomeKit
 
 class SettingsList {
     
-    // MARK: - Properties
-    let homeSection = "my homes"
+    // MARK: - Instance Properties
+    let homeSection = "my facilities"
     let designSection = "look & feel"
     var sectionTitles: [String]
-    var homes = [HMHome]()
-    let homeBrowser = HMHomeManager()
+    var primaryFacility: IndexPath?
     
     // MARK: - Initialization
-    // INFO: for possible rearrangement of sections
+    /// allows rearrangement of sections without changing code references
     init() {
         sectionTitles = [homeSection, designSection]
     }
-    
-    
+
 }

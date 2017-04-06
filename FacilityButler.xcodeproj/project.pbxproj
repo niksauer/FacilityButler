@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		24055B141E927DAA00845C98 /* Global Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24055B131E927DAA00845C98 /* Global Types.swift */; };
 		240F6A401E8FAF890092DA10 /* LaunchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240F6A3F1E8FAF890092DA10 /* LaunchController.swift */; };
 		241090E71E92383100F78D45 /* Comments.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 241090E61E92383100F78D45 /* Comments.rtf */; };
 		241090E91E924A0600F78D45 /* PlacedAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241090E81E924A0600F78D45 /* PlacedAccessory.swift */; };
@@ -21,7 +20,8 @@
 		24865D291E895CDE00676F0F /* AccessoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24865D281E895CDE00676F0F /* AccessoryList.swift */; };
 		248B09181E939E3A00524AFD /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248B09171E939E3A00524AFD /* SettingsController.swift */; };
 		248B091A1E939E4C00524AFD /* SettingsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248B09191E939E4C00524AFD /* SettingsList.swift */; };
-		248B091C1E93BC7200524AFD /* AddFacilityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248B091B1E93BC7200524AFD /* AddFacilityController.swift */; };
+		248B091E1E94323200524AFD /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248B091D1E94323200524AFD /* Global.swift */; };
+		248B09201E94E9C800524AFD /* FacilityButler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248B091F1E94E9C800524AFD /* FacilityButler.swift */; };
 		24A8BE761E8AFA8B008D3E73 /* FloorPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */; };
 		24A8BE871E8BF045008D3E73 /* AES256CBC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE801E8BF045008D3E73 /* AES256CBC.swift */; };
 		24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE811E8BF045008D3E73 /* BaseDestination.swift */; };
@@ -34,7 +34,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		24055B131E927DAA00845C98 /* Global Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Global Types.swift"; sourceTree = "<group>"; };
 		240F6A3F1E8FAF890092DA10 /* LaunchController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchController.swift; sourceTree = "<group>"; };
 		241090E61E92383100F78D45 /* Comments.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Comments.rtf; sourceTree = "<group>"; };
 		241090E81E924A0600F78D45 /* PlacedAccessory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacedAccessory.swift; sourceTree = "<group>"; };
@@ -51,7 +50,8 @@
 		24865D281E895CDE00676F0F /* AccessoryList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryList.swift; sourceTree = "<group>"; };
 		248B09171E939E3A00524AFD /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		248B09191E939E4C00524AFD /* SettingsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsList.swift; sourceTree = "<group>"; };
-		248B091B1E93BC7200524AFD /* AddFacilityController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFacilityController.swift; sourceTree = "<group>"; };
+		248B091D1E94323200524AFD /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		248B091F1E94E9C800524AFD /* FacilityButler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacilityButler.swift; sourceTree = "<group>"; };
 		24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorPlan.swift; sourceTree = "<group>"; };
 		24A8BE801E8BF045008D3E73 /* AES256CBC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AES256CBC.swift; sourceTree = "<group>"; };
 		24A8BE811E8BF045008D3E73 /* BaseDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDestination.swift; sourceTree = "<group>"; };
@@ -96,18 +96,17 @@
 			isa = PBXGroup;
 			children = (
 				24A8BE7F1E8BF045008D3E73 /* SwiftyBeaver */,
+				248B09161E93955900524AFD /* FacilityButler */,
 				242673501E83FAE800BB73C6 /* FacilityButler.entitlements */,
 				2426733F1E83DE2600BB73C6 /* Main.storyboard */,
-				248B091B1E93BC7200524AFD /* AddFacilityController.swift */,
 				2426733B1E83DE2600BB73C6 /* AppDelegate.swift */,
-				248B09161E93955900524AFD /* Facility */,
 				240F6A3F1E8FAF890092DA10 /* LaunchController.swift */,
 				2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */,
 				248B09171E939E3A00524AFD /* SettingsController.swift */,
 				248B09191E939E4C00524AFD /* SettingsList.swift */,
 				24DB94AB1E85200800FC8A94 /* AccessoryController.swift */,
 				24865D281E895CDE00676F0F /* AccessoryList.swift */,
-				24055B131E927DAA00845C98 /* Global Types.swift */,
+				248B091D1E94323200524AFD /* Global.swift */,
 				241090E61E92383100F78D45 /* Comments.rtf */,
 				242673421E83DE2600BB73C6 /* Assets.xcassets */,
 				242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */,
@@ -124,14 +123,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		248B09161E93955900524AFD /* Facility */ = {
+		248B09161E93955900524AFD /* FacilityButler */ = {
 			isa = PBXGroup;
 			children = (
+				248B091F1E94E9C800524AFD /* FacilityButler.swift */,
 				2441B7B21E84509100A428D9 /* Facility.swift */,
 				24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */,
 				241090E81E924A0600F78D45 /* PlacedAccessory.swift */,
 			);
-			name = Facility;
+			name = FacilityButler;
 			sourceTree = "<group>";
 		};
 		24A8BE7F1E8BF045008D3E73 /* SwiftyBeaver */ = {
@@ -233,13 +233,13 @@
 				24A8BE891E8BF045008D3E73 /* ConsoleDestination.swift in Sources */,
 				24865D291E895CDE00676F0F /* AccessoryList.swift in Sources */,
 				24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */,
-				248B091C1E93BC7200524AFD /* AddFacilityController.swift in Sources */,
 				2441B7B31E84509100A428D9 /* Facility.swift in Sources */,
 				24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */,
 				24DB94AC1E85200800FC8A94 /* AccessoryController.swift in Sources */,
-				24055B141E927DAA00845C98 /* Global Types.swift in Sources */,
 				248B091A1E939E4C00524AFD /* SettingsList.swift in Sources */,
 				24A8BE8A1E8BF045008D3E73 /* FileDestination.swift in Sources */,
+				248B091E1E94323200524AFD /* Global.swift in Sources */,
+				248B09201E94E9C800524AFD /* FacilityButler.swift in Sources */,
 				240F6A401E8FAF890092DA10 /* LaunchController.swift in Sources */,
 				2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */,
 			);

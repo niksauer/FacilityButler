@@ -10,39 +10,68 @@ import UIKit
 import HomeKit
 
 class SettingsController: UITableViewController, HMHomeManagerDelegate {
-
+    
+    // MARK: - Outlets
+    weak var createAlertAction: UIAlertAction?
+    
     // MARK: - Instance Properties
+    // TODO: apply DIP principle
     let list = SettingsList()
     
     // MARK: - Initialization
+    /// tells network discovery agent to redirect home results here
     override func viewDidLoad() {
         super.viewDidLoad()
-        list.homeBrowser.delegate = self
-        navigationItem.rightBarButtonItem = editButtonItem
+        model.butler.delegate = self
     }
-
-    // MARK: - Home Manager Delegate
-    func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        if !(manager.homes.isEmpty) {
-            let sectionIndex = list.sectionTitles.index(of: list.homeSection)!
-            var rowIndex = 0
-            
-            for home in manager.homes {
-                list.homes.append(home)
-                rowIndex = list.homes.endIndex
-                tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
-            }
-        }
+    
+    // MARK: - Actions
+    /// creates facility from given user input
+    func addHome() {
+        let title = "New Facility"
+        let message = "Please enter a name for this facility."
+        
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        alertController.addTextField(configurationHandler: { (textField) in
+            textField.addTarget(self, action: #selector(self.textChanged(_:)), for: .editingChanged)
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let createAction = UIAlertAction(title: "Create", style: .default, handler: { (action) -> Void in
+            let facilityName = (alertController.textFields![0].text)!
+            model.createFacility(name: facilityName, completion: { (error) in
+                if !(presentError(viewController: self, error: error)) {
+                    let sectionIndex = self.list.sectionTitles.index(of: self.list.homeSection)!
+                    let rowIndex = model.butler.homes.count
+                    self.tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
+                }
+            })
+        })
+        
+        createAction.isEnabled = false
+        createAlertAction = createAction
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(createAction)
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    /// dis/enables create home alert action depending on input length
+    /// - Parameter sender: textfield that receives input
+    func textChanged(_ sender: UITextField) {
+        createAlertAction?.isEnabled = ((sender.text?.utf16.count)! >= 1)
     }
     
     // MARK: - Table View Controller
     override func numberOfSections(in tableView: UITableView) -> Int {
         return list.sectionTitles.count
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let homeSectionIndex = list.sectionTitles.index(of: list.homeSection), homeSectionIndex == section {
-            return (list.homes.count+1)
+            return (model.butler.homes.count+1)
         } else {
             return 1
         }
@@ -54,57 +83,90 @@ class SettingsController: UITableViewController, HMHomeManagerDelegate {
         let cell: UITableViewCell
         
         if let homeSectionIndex = list.sectionTitles.index(of: list.homeSection), homeSectionIndex == sectionIndex {
-            if rowIndex == 0 {
+            if indexPath.row == 0 {
                 cell = tableView.dequeueReusableCell(withIdentifier: "addHomeUITableViewCell", for: indexPath)
             } else {
-                let home = list.homes[rowIndex-1]
-                cell = tableView.dequeueReusableCell(withIdentifier: "homeUITableViewCell", for: indexPath)
+                let home = model.butler.homes[rowIndex-1]
                 
+                cell = tableView.dequeueReusableCell(withIdentifier: "homeUITableViewCell", for: indexPath)
                 cell.textLabel?.text = home.name
-                cell.detailTextLabel?.text = home.isPrimary ? "Primary home" : ""
+                
+                if home.isPrimary {
+                    list.primaryFacility = indexPath
+                    cell.accessoryType = .checkmark
+                    cell.detailTextLabel?.text = "Primary home"
+                }
             }
         } else {
             cell = tableView.dequeueReusableCell(withIdentifier: "settingUITableViewCell", for: indexPath)
         }
-
+        
         return cell
     }
-
+    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        let homeSectionIndex = list.sectionTitles.index(of: list.homeSection)!
-        
-        if homeSectionIndex == indexPath.section, indexPath.row != 0 {
+        if tableView.cellForRow(at: indexPath)?.reuseIdentifier == "homeUITableViewCell" {
             return true
         } else {
             return false
         }
     }
-
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return list.sectionTitles[section]
     }
     
-    /*
-     
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            let home = model.butler.homes[indexPath.row-1]
+            
+            let title = "\(home.name)"
+            let message = "Are you sure you want to delete this facility?"
+            
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
+                model.deleteFacility(home: home, completion: { (error) in
+                    if !(presentError(viewController: self, error: error)) {
+                        self.tableView.reloadData()
+                    }
+                })
+            })
+            
+            alertController.addAction(cancelAction)
+            alertController.addAction(deleteAction)
+            
+            present(alertController, animated: true, completion: nil)
+        }
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let identifier = (tableView.cellForRow(at: indexPath)?.reuseIdentifier)!
+        
+        switch identifier {
+        case "homeUITableViewCell":
+            let home = model.butler.homes[indexPath.row-1]
+            
+            model.setCurrentFacility(home: home, completion: { (error) in
+                if !(presentError(viewController: self, error: error)) {
+                    if let oldPrimaryIndexPath = self.list.primaryFacility, let oldPrimaryFacilityCell = tableView.cellForRow(at: oldPrimaryIndexPath) {
+                        oldPrimaryFacilityCell.accessoryType = .none
+                        oldPrimaryFacilityCell.detailTextLabel?.text = ""
+                    }
+                    
+                    self.list.primaryFacility = indexPath
+                    let newPrimaryFacilityCell = tableView.cellForRow(at: indexPath)
+                    newPrimaryFacilityCell?.accessoryType = .checkmark
+                    newPrimaryFacilityCell?.detailTextLabel?.text = "Primary Facility"
+                }
+            })
+        case "addHomeUITableViewCell":
+            addHome()
+            break
+        default:
+            break
+        }
+        
     }
-    */
-
+    
 }

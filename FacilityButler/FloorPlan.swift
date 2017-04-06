@@ -40,7 +40,7 @@ class FloorPlan: NSObject, NSCoding {
     
     // MARK: - Class Functions
     // INFO: returns etage as ordinal string, i.e.: 3 -> "3rd upper floor"
-    static func getOrdinalFloorNumber(of number: Int, capitalized: Bool) -> String {
+    static func getOrdinal(ofFloor number: Int, capitalized: Bool) -> String {
         let ordinalNumber: OrdinalNumber
         let result: String
         

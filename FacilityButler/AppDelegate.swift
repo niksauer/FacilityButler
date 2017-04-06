@@ -11,20 +11,19 @@ import HomeKit
 
 let log = SwiftyBeaver.self
 let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
-var facility: Facility!
-var instance: HMHome!
+let model = FacilityButler()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    // INFO: override point for customization after application launch.
+    /// configures logging output + prints DocumentsDirectory
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let console = ConsoleDestination()
         log.addDestination(console)
-        
         log.debug("Documents path: \(DocumentsDirectory)")
+        
         return true
     }
 

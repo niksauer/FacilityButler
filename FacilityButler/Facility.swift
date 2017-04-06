@@ -43,8 +43,8 @@ class Facility: NSObject, NSCoding {
     
     // MARK: - Actions
     func saveAccessory(_ accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
-        if instance.accessories.contains(accessory) == false {
-            instance.addAccessory(accessory, completionHandler: { (errorMessage) in
+        if model.instance.accessories.contains(accessory) == false {
+            model.instance.addAccessory(accessory, completionHandler: { (errorMessage) in
                 if let error = errorMessage {
                     log.error("failed to add accessory to home, due to: \(error)")
                     completion(FacilityError.actionFailed(error: error))
@@ -60,8 +60,8 @@ class Facility: NSObject, NSCoding {
     }
     
     func deleteAccessory(_ accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
-        if instance.accessories.contains(accessory) {
-            instance.removeAccessory(accessory, completionHandler: { (errorMessage) in
+        if model.instance.accessories.contains(accessory) {
+            model.instance.removeAccessory(accessory, completionHandler: { (errorMessage) in
                 if let error = errorMessage {
                     log.error("failed to remove accessory \(accessory) from home")
                     completion(FacilityError.actionFailed(error: error))
@@ -109,7 +109,7 @@ class Facility: NSObject, NSCoding {
         return accessoires
     }
     
-    func getPlacedAccessoriesOfFloor(_ number: Int) -> [String] {
+    func getPlacedAccessories(ofFloor number: Int) -> [String] {
         var accessories = [String]()
         
         for accessory in placedAccessoires {
@@ -127,20 +127,15 @@ class Facility: NSObject, NSCoding {
         aCoder.encode(currentFloor, forKey: PropertyKey.currentFloor)
         aCoder.encode(placedAccessoires, forKey: PropertyKey.placedAccessories)
     }
-    
-    static func loadFacility(identifier: String) -> Facility? {
-        let archiveURL = DocumentsDirectory.appendingPathComponent("facility_\(identifier)")
-        return NSKeyedUnarchiver.unarchiveObject(withFile: archiveURL.path) as? Facility
-    }
-    
+
     func save() throws {
-        let archiveURL = DocumentsDirectory.appendingPathComponent("facility_\(instance.uniqueIdentifier)")
+        let archiveURL = DocumentsDirectory.appendingPathComponent("facility_\(model.instance.uniqueIdentifier)")
         
         if NSKeyedArchiver.archiveRootObject(self as Any, toFile: archiveURL.path) {
             log.info("Saved current state")
         } else {
             log.error("Failed to save current state")
-            throw FacilityError.actionFailed(error: "Failed to save current state" as! Error)
+            throw FacilityError.saveFailed
         }
     }
     

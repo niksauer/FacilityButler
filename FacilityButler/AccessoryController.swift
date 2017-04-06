@@ -38,34 +38,11 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
         performSegue(withIdentifier: "unwindToFloorPlan", sender: self)
     }
     
-    private func handledError(error: Error?) -> Bool {
-        if let error = error as? FacilityError {
-            var message: String
-            
-            switch error {
-            case .actionFailed(let errorMessage):
-                message = "Failed due to unexpected error: \(errorMessage)"
-            default:
-                message = ""
-                break
-            }
-            
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-            let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
-            alert.addAction(dismissAction)
-            self.present(alert, animated: true, completion: nil)
-            
-            return true
-        } else {
-            return false
-        }
-    }
-    
     private func insertUnplacedFacilityAccessories() {
         let sectionIndex = list.sectionTitles.index(of: list.configuredSection)!
-        let placedAccessories = facility.getPlacedAccessoires()
+        let placedAccessories = model.facility.getPlacedAccessoires()
         
-        for accessory in instance.accessories {
+        for accessory in model.instance.accessories {
             if placedAccessories.contains(accessory.uniqueIdentifier.uuidString) == false {
                 let rowIndex = list.insertIntoSection(sectionIndex, accessory: accessory)
                 tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
@@ -124,8 +101,8 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
         list.selection.indexPath = newIndexPath
         list.selection.accessory = list.accessories[newIndexPath.section][newIndexPath.row]
 
-        facility.saveAccessory(list.selection.accessory!, completion: { (error) in
-            if !(self.handledError(error: error)) {
+        model.facility.saveAccessory(list.selection.accessory!, completion: { (error) in
+            if !(presentError(viewController: self, error: error)) {
                 self.list.stopAccessoryScan()
                 self.transitionToFloorPlan()
             }
@@ -154,8 +131,8 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 self.list.removeFromSection(indexPath.section, accessory: accessory)
                 self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
-                facility.deleteAccessory(accessory, completion: { (error) in
-                    if !(self.handledError(error: error)) {
+                model.facility.deleteAccessory(accessory, completion: { (error) in
+                    if !(presentError(viewController: self, error: error)) {
                         if self.list.accessories[indexPath.section].count == 0 {
                             self.editButtonItem.isEnabled = false
                         } else {
