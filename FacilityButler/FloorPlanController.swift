@@ -51,7 +51,7 @@ class FloorPlanController: UIViewController {
     // TODO: re-draw floor plan if facility has changed
     /// receives and attempts to place selected accessory
     @IBAction func unwindToFloorPlan(segue: UIStoryboardSegue) {
-        if let source = segue.source as? AccessoryController, let selectedAccessory = source.list.selection.accessory {
+        if let source = segue.source as? AccessoryController, let selectedAccessory = source.list.selection {
             log.debug("unwinded to FloorPlanController from AccessoriesTableViewController")
             placeAccessory(accessory: selectedAccessory)
         }

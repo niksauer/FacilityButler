@@ -17,7 +17,7 @@ class SettingsList {
     var primaryFacility: IndexPath?
     
     // MARK: - Initialization
-    /// allows rearrangement of sections without changing code references
+    /// allows rearrangement of sections
     init() {
         sectionTitles = [homeSection, designSection]
     }

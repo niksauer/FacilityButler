@@ -12,6 +12,7 @@ import HomeKit
 class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     
     // MARK: - Instance Properties
+    // TODO: apply DIP principle
     let list = AccessoryList()
    
     // MARK: - Initialization
@@ -25,7 +26,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     }
     
     // MARK: - Navigation
-    // INFO: atomically dismisses modally presented view (self)
+    /// atomically dismisses modally presented view (self)
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         list.stopAccessoryScan()
         log.debug("canceled to add accessory")
@@ -33,7 +34,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     }
     
     // MARK: - Private Actions
-    // INFO: unwinds to floor plan controller, to be used in completion closure
+    /// unwinds to floor plan controller, to be used in completion closure
     private func transitionToFloorPlan() {
         performSegue(withIdentifier: "unwindToFloorPlan", sender: self)
     }
@@ -85,8 +86,6 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Table view cells are reused and should be dequeued using a cell identifier (as specified in IB)
-        // returns new UITableViewCell if none can be found
         let cell = tableView.dequeueReusableCell(withIdentifier: "accessoryUITableViewCell", for: indexPath)
         let accessory = list.accessories[indexPath.section][indexPath.row]
         
@@ -96,12 +95,11 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
         return cell
     }
     
-    // INFO: adds selected (un)configured accessory to home, i.e. makes it placeable on floor plan
+    /// adds selected (un)configured accessory to facility, i.e. hands it off to floor plan
     override func tableView(_ tableView: UITableView, didSelectRowAt newIndexPath: IndexPath) {
-        list.selection.indexPath = newIndexPath
-        list.selection.accessory = list.accessories[newIndexPath.section][newIndexPath.row]
+        let accessory = list.accessories[newIndexPath.section][newIndexPath.row]
 
-        model.facility.saveAccessory(list.selection.accessory!, completion: { (error) in
+        model.facility.saveAccessory(accessory, completion: { (error) in
             if !(presentError(viewController: self, error: error)) {
                 self.list.stopAccessoryScan()
                 self.transitionToFloorPlan()
@@ -109,7 +107,6 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
         })
     }
     
-    // INFO: allows conditional editing of the table
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if let section = list.sectionTitles.index(of: list.configuredSection), indexPath.section == section {
             return true
@@ -118,7 +115,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
         }
     }
     
-    // INFO: removes accessory from home
+    /// removes accessory from facility
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let accessory = list.accessories[indexPath.section][indexPath.row]

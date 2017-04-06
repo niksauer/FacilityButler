@@ -11,24 +11,16 @@ import HomeKit
 
 class AccessoryList {
     
-    // MARK: - Properties
+    // MARK: - Instance Properties
     let configuredSection = "not placed"
     let unconfiguredSection = "newly discovered"
     var sectionTitles: [String]
-    
     var accessories = Array(repeating: [HMAccessory](), count: 2)
-    var selection = selectedAccessory()
-    
     let accessoryBrowser = HMAccessoryBrowser()
-    
-    // MARK: - Types
-    struct selectedAccessory {
-        var accessory: HMAccessory?
-        var indexPath: IndexPath?
-    }
+    var selection: HMAccessory?
     
     // MARK: - Initialization
-    // INFO: for possible rearrangement of sections
+    /// allows rearrangement of sections
     init() {
         sectionTitles = [configuredSection, unconfiguredSection]
     }
