@@ -126,47 +126,6 @@
             </objects>
             <point key="canvasLocation" x="2452" y="-526.6866566716642"/>
         </scene>
-        <!--FacilityButler-->
-        <scene sceneID="yic-KX-OaV">
-            <objects>
-                <viewController id="87S-Us-Lia" customClass="LaunchController" customModule="FacilityButler" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="hoA-q8-baL"/>
-                        <viewControllerLayoutGuide type="bottom" id="DNo-Jv-gcC"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="wPA-Re-LqY">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wxT-iY-CCw">
-                                <rect key="frame" x="124" y="531" width="127" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Create Facility"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K0N-Qn-Iu8">
-                                <rect key="frame" x="164" y="475" width="47" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Enter"/>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="wxT-iY-CCw" firstAttribute="top" secondItem="K0N-Qn-Iu8" secondAttribute="bottom" constant="20" id="1iM-ky-dez"/>
-                            <constraint firstItem="DNo-Jv-gcC" firstAttribute="top" secondItem="wxT-iY-CCw" secondAttribute="bottom" constant="100" id="AZn-rJ-xPs"/>
-                            <constraint firstItem="wxT-iY-CCw" firstAttribute="centerX" secondItem="wPA-Re-LqY" secondAttribute="centerX" id="XSM-rE-viP"/>
-                            <constraint firstItem="K0N-Qn-Iu8" firstAttribute="centerX" secondItem="wPA-Re-LqY" secondAttribute="centerX" id="gnV-1i-nPr"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="FacilityButler" id="yxS-hS-eTv"/>
-                    <connections>
-                        <outlet property="createButton" destination="wxT-iY-CCw" id="VBf-OW-HE3"/>
-                        <outlet property="enterButton" destination="K0N-Qn-Iu8" id="WtO-76-0qX"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fA8-BZ-7Tc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1908" y="-340"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="EbH-10-xEi">
             <objects>
@@ -278,24 +237,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NrL-M7-wVF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="938" y="219"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="r4L-Ih-PQ7">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="LbK-m2-C7H" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="cWB-WG-MGz">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="87S-Us-Lia" kind="relationship" relationship="rootViewController" id="uYo-kO-Fjp"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rLE-KV-RNl" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2714" y="-340"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="OLE-K7-tc1">
