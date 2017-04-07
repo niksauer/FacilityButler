@@ -256,6 +256,10 @@
         <scene sceneID="tck-rD-pld">
             <objects>
                 <viewController id="vFe-If-ulU" customClass="DrawToolController" customModule="FacilityButler" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2lN-aL-IIY"/>
+                        <viewControllerLayoutGuide type="bottom" id="46u-2c-3qL"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="NV7-56-KY5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
