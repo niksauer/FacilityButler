@@ -102,6 +102,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
 
         model.saveAccessory(accessory, completion: { (error) in
             if !(presentError(viewController: self, error: error)) {
+                self.list.selection = accessory
                 self.list.stopAccessoryScan()
                 self.transitionToFloorPlan()
             }
@@ -148,4 +149,5 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
             present(alertController, animated: true, completion: nil)
         }
     }
+    
 }

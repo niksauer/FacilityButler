@@ -14,18 +14,26 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
     // MARK: - Outlets
     @IBOutlet weak var currentFloorLabel: UILabel!
     @IBOutlet weak var currentFloorStepper: UIStepper!
+    @IBOutlet weak var addAccessoryButton: UIBarButtonItem!
     
     // MARK: - Instance Properties
     var model: FacilityButler!
-    
-    // MARK: - Initialization
-    /// loads most recently used floor plan
-    override func viewDidLoad() {
-        print("test")
-        currentFloorStepper.value = Double(model.facility.currentFloor)
-        switchToFloor(number: model.facility.currentFloor)
+    var isUIEnabled: Bool = false {
+        didSet {
+            let state = isUIEnabled ? "enabled" : "disabled"
+            log.debug("UI is \(state)")
+            
+            if isUIEnabled {
+                addAccessoryButton.isEnabled = true
+                currentFloorStepper.isEnabled = true
+            } else {
+                addAccessoryButton.isEnabled = false
+                currentFloorStepper.isEnabled = false
+            }
+        }
     }
     
+    // MARK: - Initialization
     override func viewWillAppear(_ animated: Bool) {
         model.delegate = self
     }
@@ -34,8 +42,8 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
     /// loads or creates requested floor
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = segue.destination
-        
-        if let accessoryVC = destination as? AccessoryController {
+    
+        if let navController = destination as? UINavigationController, let accessoryVC = navController.topViewController as? AccessoryController {
             accessoryVC.model = model
         } else if let settingsVC = destination as? SettingsController {
             settingsVC.model = model
@@ -66,7 +74,6 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
         }
     }
     
-    // TODO: re-draw floor plan if facility has changed
     /// receives and attempts to place selected accessory
     @IBAction func unwindToFloorPlan(segue: UIStoryboardSegue) {
         if let source = segue.source as? AccessoryController, let selectedAccessory = source.list.selection {
@@ -103,10 +110,14 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
     }
 
     // MARK: - Facility Butler Delegate
+    /// loads most recently used floor plan
     func didUpdateFacility(isSet: Bool) {
         if isSet {
+            isUIEnabled = true
             currentFloorStepper.value = Double(model.facility.currentFloor)
             switchToFloor(number: model.facility.currentFloor)
+        } else {
+            isUIEnabled = false
         }
     }
     

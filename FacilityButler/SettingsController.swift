@@ -9,7 +9,7 @@
 import UIKit
 import HomeKit
 
-class SettingsController: UITableViewController, FacilityButlerDelegate {
+class SettingsController: UITableViewController {
     
     // MARK: - Outlets
     weak var createAlertAction: UIAlertAction?
@@ -18,11 +18,6 @@ class SettingsController: UITableViewController, FacilityButlerDelegate {
     // TODO: apply DIP principle
     let list = SettingsList()
     var model: FacilityButler!
-    
-    override func viewDidLoad() {
-        print("settings loaded")
-        model.delegate = self
-    }
     
     // MARK: - Actions
     /// creates facility from given user input
@@ -128,6 +123,9 @@ class SettingsController: UITableViewController, FacilityButlerDelegate {
                 self.model.deleteFacility(home: home, completion: { (error) in
                     if !(presentError(viewController: self, error: error)) {
                         self.tableView.reloadData()
+                        if self.model.butler.primaryHome == nil {
+                            presentError(viewController: self, error: FacilityError.noFaciltiySet)
+                        }
                     }
                 })
             })
@@ -166,15 +164,6 @@ class SettingsController: UITableViewController, FacilityButlerDelegate {
             break
         }
         
-    }
-    
-    // MARK: - Facility Butler Delegate
-    func didUpdateFacility(isSet: Bool) {
-        if isSet {
-            navigationItem.hidesBackButton = false
-        } else {
-            navigationItem.hidesBackButton = true
-        }
     }
     
 }

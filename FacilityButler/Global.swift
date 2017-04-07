@@ -21,6 +21,7 @@ struct PropertyKey {
 }
 
 enum FacilityError: Error {
+    case noFaciltiySet
     case floorNotFound
     case saveFailed
     case actionFailed(error: Error)
@@ -36,6 +37,8 @@ enum FacilityError: Error {
         var message: String
         
         switch error {
+        case .noFaciltiySet:
+            message = "Please select or create a facility for continued use."
         case .floorNotFound:
             message = "The requested floor couldn't be found."
         case .saveFailed:

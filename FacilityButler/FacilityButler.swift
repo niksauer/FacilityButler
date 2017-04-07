@@ -26,9 +26,10 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
     
     // MARK: - Actions
     func createFacility(name: String, completion: @escaping (Error?) -> Void) {
-        createInstance(name: name, completion: { (error) in
-            if error == nil {
-                self.delegate?.didUpdateFacility(isSet: true)
+        createInstance(name: name, completion: { (home, error) in
+            if error == nil, self.butler.homes.count == 1 {
+                self.instance = home!
+                self.loadFacility(ofInstance: home!)
             }
             
             completion(error)
@@ -115,14 +116,14 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
     }
     
     // MARK: - Private Actions
-    private func createInstance(name: String, completion: @escaping (Error?) -> Void) {
+    private func createInstance(name: String, completion: @escaping (HMHome?, Error?) -> Void) {
         butler.addHome(withName: name, completionHandler: { (home, errorMessage) in
             if let error = errorMessage {
                 log.error("failed to create home \(name)")
-                completion(FacilityError.actionFailed(error: error))
+                completion(nil, FacilityError.actionFailed(error: error))
             } else if let home = home {
                 log.info("created home \(home)")
-                completion(nil)
+                completion(home, nil)
             }
         })
     }
