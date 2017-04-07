@@ -9,7 +9,7 @@
 import UIKit
 import HomeKit
 
-class SettingsController: UITableViewController, HMHomeManagerDelegate {
+class SettingsController: UITableViewController, FacilityButlerDelegate {
     
     // MARK: - Outlets
     weak var createAlertAction: UIAlertAction?
@@ -17,12 +17,11 @@ class SettingsController: UITableViewController, HMHomeManagerDelegate {
     // MARK: - Instance Properties
     // TODO: apply DIP principle
     let list = SettingsList()
+    var model: FacilityButler!
     
-    // MARK: - Initialization
-    /// tells network discovery agent to redirect home results here
     override func viewDidLoad() {
-        super.viewDidLoad()
-        model.butler.delegate = self
+        print("settings loaded")
+        model.delegate = self
     }
     
     // MARK: - Actions
@@ -40,10 +39,10 @@ class SettingsController: UITableViewController, HMHomeManagerDelegate {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         let createAction = UIAlertAction(title: "Create", style: .default, handler: { (action) -> Void in
             let facilityName = (alertController.textFields![0].text)!
-            model.createFacility(name: facilityName, completion: { (error) in
+            self.model.createFacility(name: facilityName, completion: { (error) in
                 if !(presentError(viewController: self, error: error)) {
                     let sectionIndex = self.list.sectionTitles.index(of: self.list.homeSection)!
-                    let rowIndex = model.butler.homes.count
+                    let rowIndex = self.model.butler.homes.count
                     self.tableView.insertRows(at: [IndexPath(row: rowIndex, section: sectionIndex)], with: .automatic)
                 }
             })
@@ -126,7 +125,7 @@ class SettingsController: UITableViewController, HMHomeManagerDelegate {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
-                model.deleteFacility(home: home, completion: { (error) in
+                self.model.deleteFacility(home: home, completion: { (error) in
                     if !(presentError(viewController: self, error: error)) {
                         self.tableView.reloadData()
                     }
@@ -167,6 +166,15 @@ class SettingsController: UITableViewController, HMHomeManagerDelegate {
             break
         }
         
+    }
+    
+    // MARK: - Facility Butler Delegate
+    func didUpdateFacility(isSet: Bool) {
+        if isSet {
+            navigationItem.hidesBackButton = false
+        } else {
+            navigationItem.hidesBackButton = true
+        }
     }
     
 }

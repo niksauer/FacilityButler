@@ -9,21 +9,39 @@
 import UIKit
 import HomeKit
 
-class FloorPlanController: UIViewController {
+class FloorPlanController: UIViewController, FacilityButlerDelegate {
     
     // MARK: - Outlets
     @IBOutlet weak var currentFloorLabel: UILabel!
     @IBOutlet weak var currentFloorStepper: UIStepper!
     
+    // MARK: - Instance Properties
+    var model: FacilityButler!
+    
     // MARK: - Initialization
     /// loads most recently used floor plan
     override func viewDidLoad() {
+        print("test")
         currentFloorStepper.value = Double(model.facility.currentFloor)
         switchToFloor(number: model.facility.currentFloor)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        model.delegate = self
+    }
+    
     // MARK: - Navigation
     /// loads or creates requested floor
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination
+        
+        if let accessoryVC = destination as? AccessoryController {
+            accessoryVC.model = model
+        } else if let settingsVC = destination as? SettingsController {
+            settingsVC.model = model
+        }
+    }
+    
     @IBAction func goToFloor(_ sender: UIStepper) {
         let floorNumber = Int(sender.value)
         
@@ -32,7 +50,7 @@ class FloorPlanController: UIViewController {
             
             let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
             let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
-                model.facility.createFloor(number: floorNumber)
+                self.model.facility.createFloor(number: floorNumber)
                 self.switchToFloor(number: floorNumber)
             })
             let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
@@ -62,7 +80,7 @@ class FloorPlanController: UIViewController {
     func placeAccessory(accessory: HMAccessory) {
         do {
             try model.facility.placeAccessory(accessory)
-            try model.facility.save()
+            try model.save()
         } catch {
             presentError(viewController: self, error: error)
         }
@@ -78,9 +96,17 @@ class FloorPlanController: UIViewController {
         log.debug("switched to floor #\(number) with accessoires \(model.facility.getPlacedAccessories(ofFloor: number))")
         
         do {
-            try model.facility.save()
+            try model.save()
         } catch {
             presentError(viewController: self, error: error)
+        }
+    }
+
+    // MARK: - Facility Butler Delegate
+    func didUpdateFacility(isSet: Bool) {
+        if isSet {
+            currentFloorStepper.value = Double(model.facility.currentFloor)
+            switchToFloor(number: model.facility.currentFloor)
         }
     }
     

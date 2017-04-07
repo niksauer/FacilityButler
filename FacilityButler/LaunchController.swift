@@ -9,32 +9,40 @@
 import UIKit
 import HomeKit
 
-class LaunchController: UIViewController, HMHomeManagerDelegate {
+class LaunchController: UIViewController, FacilityButlerDelegate {
 
     // MARK: - Outlets
     @IBOutlet weak var enterButton: UIButton!
     @IBOutlet weak var createButton: UIButton!
     
+    // MARK: - Instance Properties
+    var model: FacilityButler!
+    
     // MARK: - Initialization
-    /// tells network discovery agent to redirect home results here
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        model.butler.delegate = self
+    override func viewWillAppear(_ animated: Bool) {
+        model.delegate = self
+        log.debug("LaunchController is model delegate")
     }
     
-    // MARK: - Home Manager Delegate
-    /// transitions to most recently used facility or requires user to create new facility in settings
-    /// dis/enables trepassing buttons accordingly
-    /// - Parameter manager: network discovery agent for HMHome(s)
-    func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        model.setup()
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination
         
-        if model.isSet {
+        if let floorPlanVC = destination as? FloorPlanController {
+            floorPlanVC.model = model
+            log.debug("Setup floor plan view controller")
+        } else if let settingsVC = destination as? SettingsController {
+            settingsVC.model = model
+            log.debug("Setup settings view controller")
+        }
+    }
+    
+    // MARK: - Facility Butler Delegate
+    func didUpdateFacility(isSet: Bool) {
+        if isSet {
             enterButton.isEnabled = true
-            performSegue(withIdentifier: "showFloorPlan", sender: self)
         } else {
             enterButton.isEnabled = false
-            performSegue(withIdentifier: "createFacility", sender: self)
         }
     }
     

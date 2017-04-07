@@ -14,6 +14,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     // MARK: - Instance Properties
     // TODO: apply DIP principle
     let list = AccessoryList()
+    var model: FacilityButler!
    
     // MARK: - Initialization
     override func viewDidLoad() {
@@ -99,7 +100,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt newIndexPath: IndexPath) {
         let accessory = list.accessories[newIndexPath.section][newIndexPath.row]
 
-        model.facility.saveAccessory(accessory, completion: { (error) in
+        model.saveAccessory(accessory, completion: { (error) in
             if !(presentError(viewController: self, error: error)) {
                 self.list.stopAccessoryScan()
                 self.transitionToFloorPlan()
@@ -128,7 +129,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 self.list.removeFromSection(indexPath.section, accessory: accessory)
                 self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
-                model.facility.deleteAccessory(accessory, completion: { (error) in
+                self.model.deleteAccessory(accessory, completion: { (error) in
                     if !(presentError(viewController: self, error: error)) {
                         if self.list.accessories[indexPath.section].count == 0 {
                             self.editButtonItem.isEnabled = false
@@ -147,5 +148,4 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
             present(alertController, animated: true, completion: nil)
         }
     }
-    
 }

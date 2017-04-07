@@ -26,6 +26,7 @@ class Facility: NSObject, NSCoding {
         log.debug("Created new facility \(self)")
     }
     
+    // MARK: - NSCoding Protocol
     required init?(coder aDecoder: NSCoder) {
         if let floors = aDecoder.decodeObject(forKey: PropertyKey.floors) as? [FloorPlan], let placed = aDecoder.decodeObject(forKey: PropertyKey.placedAccessories) as? [PlacedAccessory] {
             let currentFloor = aDecoder.decodeInteger(forKey: PropertyKey.currentFloor)
@@ -41,40 +42,13 @@ class Facility: NSObject, NSCoding {
         }
     }
     
-    // MARK: - Actions
-    func saveAccessory(_ accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
-        if model.instance.accessories.contains(accessory) == false {
-            model.instance.addAccessory(accessory, completionHandler: { (errorMessage) in
-                if let error = errorMessage {
-                    log.error("failed to add accessory to home, due to: \(error)")
-                    completion(FacilityError.actionFailed(error: error))
-                } else {
-                    log.info("added accessory \(accessory) to home")
-                    completion(nil)
-                }
-            })
-        } else {
-            log.debug("accessory \(accessory) already added to home")
-            completion(nil)
-        }
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(floors, forKey: PropertyKey.floors)
+        aCoder.encode(currentFloor, forKey: PropertyKey.currentFloor)
+        aCoder.encode(placedAccessoires, forKey: PropertyKey.placedAccessories)
     }
     
-    func deleteAccessory(_ accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
-        if model.instance.accessories.contains(accessory) {
-            model.instance.removeAccessory(accessory, completionHandler: { (errorMessage) in
-                if let error = errorMessage {
-                    log.error("failed to remove accessory \(accessory) from home")
-                    completion(FacilityError.actionFailed(error: error))
-                } else {
-                    log.info("removed accessory \(accessory) from home")
-                    completion(nil)
-                }
-            })
-        } else {
-            log.debug("accessory \(accessory) doesn't belong to home, cancelling removal")
-        }
-    }
-
+    // MARK: - Actions
     // INFO: places accessory on current floor
     func placeAccessory(_ accessory: HMAccessory) throws {
         if floors.index(where: { $0.etage == currentFloor }) != nil {
@@ -119,24 +93,6 @@ class Facility: NSObject, NSCoding {
         }
         
         return accessories
-    }
-    
-    // MARK: - NSCoding Protocol & Archiving
-    func encode(with aCoder: NSCoder) {
-        aCoder.encode(floors, forKey: PropertyKey.floors)
-        aCoder.encode(currentFloor, forKey: PropertyKey.currentFloor)
-        aCoder.encode(placedAccessoires, forKey: PropertyKey.placedAccessories)
-    }
-
-    func save() throws {
-        let archiveURL = DocumentsDirectory.appendingPathComponent("facility_\(model.instance.uniqueIdentifier)")
-        
-        if NSKeyedArchiver.archiveRootObject(self as Any, toFile: archiveURL.path) {
-            log.info("Saved current state")
-        } else {
-            log.error("Failed to save current state")
-            throw FacilityError.saveFailed
-        }
     }
     
 }

@@ -9,33 +9,28 @@
 import Foundation
 import HomeKit
 
-class FacilityButler {
+class FacilityButler: NSObject, HMHomeManagerDelegate {
     
-    // MARK: Instance Properties
+    // MARK: - Instance Properties
     var facility: Facility!
     var instance: HMHome!
     let butler = HMHomeManager()
-    var isSet = false
+    var isFirstSetup = true
+    var delegate: FacilityButlerDelegate?
     
-    // MARK: - Actions
-    // sets and transitions to current facility, either by loading previously saved configuration or creating new one
-    // both requiring network presence of primary home, otherwise user will be directed to settings to create new home
-    func setup() {
-        guard !isSet else {
-            return
-        }
-        
-        if let primaryHome = butler.primaryHome {
-            loadFacility(ofInstance: primaryHome)
-            log.info("Home \(instance!) has acessories \(instance!.accessories)")
-            isSet = true
-        } else {
-            log.warning("No primary home set, please create or select home from settings")
-        }
+    // MARK: - Initialization
+    override init() {
+        super.init()
+        butler.delegate = self
     }
     
+    // MARK: - Actions
     func createFacility(name: String, completion: @escaping (Error?) -> Void) {
         createInstance(name: name, completion: { (error) in
+            if error == nil {
+                self.delegate?.didUpdateFacility(isSet: true)
+            }
+            
             completion(error)
         })
     }
@@ -51,9 +46,10 @@ class FacilityButler {
                     self.instance = nil
                     self.facility = nil
                     log.info("No facilities available")
+                    self.delegate?.didUpdateFacility(isSet: false)
                 }
             }
-            
+        
             completion(error)
         })
     }
@@ -71,6 +67,50 @@ class FacilityButler {
             })
         } else {
             log.debug("Selected facility is already primary")
+        }
+    }
+    
+    func save() throws {
+        let archiveURL = DocumentsDirectory.appendingPathComponent("facility_\(instance.uniqueIdentifier)")
+        
+        if NSKeyedArchiver.archiveRootObject(facility as Any, toFile: archiveURL.path) {
+            log.debug("Saved current state")
+        } else {
+            log.error("Failed to save current state")
+            throw FacilityError.saveFailed
+        }
+    }
+    
+    func saveAccessory(_ accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
+        if instance.accessories.contains(accessory) == false {
+            instance.addAccessory(accessory, completionHandler: { (errorMessage) in
+                if let error = errorMessage {
+                    log.error("failed to add accessory to home, due to: \(error)")
+                    completion(FacilityError.actionFailed(error: error))
+                } else {
+                    log.info("added accessory \(accessory) to home")
+                    completion(nil)
+                }
+            })
+        } else {
+            log.debug("accessory \(accessory) already added to home")
+            completion(nil)
+        }
+    }
+
+    func deleteAccessory(_ accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
+        if instance.accessories.contains(accessory) {
+            instance.removeAccessory(accessory, completionHandler: { (errorMessage) in
+                if let error = errorMessage {
+                    log.error("failed to remove accessory \(accessory) from home")
+                    completion(FacilityError.actionFailed(error: error))
+                } else {
+                    log.info("removed accessory \(accessory) from home")
+                    completion(nil)
+                }
+            })
+        } else {
+            log.debug("accessory \(accessory) doesn't belong to home, cancelling removal")
         }
     }
     
@@ -108,13 +148,35 @@ class FacilityButler {
         let archiveURL = DocumentsDirectory.appendingPathComponent("facility_\(identifier)")
         
         self.instance = home
-        log.info("Updated primary home to \(instance) with accessories \(instance.accessories)")
+        log.info("Updated primary facility to \(instance!) with accessories \(instance.accessories)")
         
         if let savedFacility = NSKeyedUnarchiver.unarchiveObject(withFile: archiveURL.path) as? Facility {
             self.facility = savedFacility
         } else {
             self.facility = Facility()
         }
+        
+        delegate?.didUpdateFacility(isSet: true)
     }
     
+    // MARK: - Home Manager Delegate
+    /// transitions to most recently used facility or requires user to create new facility in settings
+    /// dis/enables trepassing buttons accordingly
+    /// - Parameter manager: network discovery agent for HMHome(s)
+    func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
+        guard isFirstSetup else {
+            return
+        }
+        
+        if let primaryHome = manager.primaryHome {
+            loadFacility(ofInstance: primaryHome)
+            isFirstSetup = false
+        } else {
+            log.warning("No primary home set, please create or select home from settings")
+        }
+    }
+}
+
+protocol FacilityButlerDelegate {
+    func didUpdateFacility(isSet: Bool)
 }

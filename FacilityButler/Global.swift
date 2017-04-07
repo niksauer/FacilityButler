@@ -1,5 +1,5 @@
 //
-//  ErrorHandler.swift
+//  Global.swift
 //  FacilityButler
 //
 //  Created by Niklas Sauer on 04.04.17.

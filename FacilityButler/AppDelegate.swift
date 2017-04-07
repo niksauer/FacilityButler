@@ -11,18 +11,25 @@ import HomeKit
 
 let log = SwiftyBeaver.self
 let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
-let model = FacilityButler()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
-    /// configures logging output + prints DocumentsDirectory
+    /// configures logging output, prints DocumentsDirectory and sets up initial view controller
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        // logging configuration
         let console = ConsoleDestination()
         log.addDestination(console)
         log.debug("Documents path: \(DocumentsDirectory)")
+    
+        // setup initial view controller
+        let model = FacilityButler()
+        let navigationController = window!.rootViewController as! UINavigationController
+        let launchController = navigationController.topViewController as! LaunchController
+        
+        launchController.model = model
         
         return true
     }
