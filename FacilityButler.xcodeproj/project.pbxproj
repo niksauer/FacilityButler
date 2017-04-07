@@ -95,6 +95,7 @@
 				248B09161E93955900524AFD /* FacilityButler */,
 				242673501E83FAE800BB73C6 /* FacilityButler.entitlements */,
 				2426733F1E83DE2600BB73C6 /* Main.storyboard */,
+				242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */,
 				2426733B1E83DE2600BB73C6 /* AppDelegate.swift */,
 				2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */,
 				248B09171E939E3A00524AFD /* SettingsController.swift */,
@@ -103,7 +104,6 @@
 				24865D281E895CDE00676F0F /* AccessoryList.swift */,
 				248B091D1E94323200524AFD /* Global.swift */,
 				242673421E83DE2600BB73C6 /* Assets.xcassets */,
-				242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */,
 				242673471E83DE2600BB73C6 /* Info.plist */,
 			);
 			path = FacilityButler;
