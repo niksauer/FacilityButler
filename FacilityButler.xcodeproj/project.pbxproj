@@ -15,6 +15,9 @@
 		242673461E83DE2600BB73C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */; };
 		2426734F1E83EC3A00BB73C6 /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2426734E1E83EC3A00BB73C6 /* HomeKit.framework */; };
 		2441B7B31E84509100A428D9 /* Facility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2441B7B21E84509100A428D9 /* Facility.swift */; };
+		246B63701E97CD17008F7D8E /* DrawView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246B636F1E97CD17008F7D8E /* DrawView.swift */; };
+		246B63721E97CE77008F7D8E /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246B63711E97CE77008F7D8E /* Line.swift */; };
+		246B63751E97CF4E008F7D8E /* DrawToolController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 246B63741E97CF4E008F7D8E /* DrawToolController.swift */; };
 		24865D291E895CDE00676F0F /* AccessoryList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24865D281E895CDE00676F0F /* AccessoryList.swift */; };
 		248B09181E939E3A00524AFD /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248B09171E939E3A00524AFD /* SettingsController.swift */; };
 		248B091A1E939E4C00524AFD /* SettingsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248B09191E939E4C00524AFD /* SettingsList.swift */; };
@@ -43,6 +46,9 @@
 		2426734E1E83EC3A00BB73C6 /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
 		242673501E83FAE800BB73C6 /* FacilityButler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FacilityButler.entitlements; sourceTree = "<group>"; };
 		2441B7B21E84509100A428D9 /* Facility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Facility.swift; sourceTree = "<group>"; };
+		246B636F1E97CD17008F7D8E /* DrawView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawView.swift; sourceTree = "<group>"; };
+		246B63711E97CE77008F7D8E /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		246B63741E97CF4E008F7D8E /* DrawToolController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DrawToolController.swift; sourceTree = "<group>"; };
 		24865D281E895CDE00676F0F /* AccessoryList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryList.swift; sourceTree = "<group>"; };
 		248B09171E939E3A00524AFD /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		248B09191E939E4C00524AFD /* SettingsList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsList.swift; sourceTree = "<group>"; };
@@ -93,6 +99,7 @@
 			children = (
 				24A8BE7F1E8BF045008D3E73 /* SwiftyBeaver */,
 				248B09161E93955900524AFD /* FacilityButler */,
+				246B63731E97CE9F008F7D8E /* DrawTool */,
 				242673501E83FAE800BB73C6 /* FacilityButler.entitlements */,
 				2426733F1E83DE2600BB73C6 /* Main.storyboard */,
 				242673441E83DE2600BB73C6 /* LaunchScreen.storyboard */,
@@ -115,6 +122,16 @@
 				2426734E1E83EC3A00BB73C6 /* HomeKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		246B63731E97CE9F008F7D8E /* DrawTool */ = {
+			isa = PBXGroup;
+			children = (
+				246B636F1E97CD17008F7D8E /* DrawView.swift */,
+				246B63711E97CE77008F7D8E /* Line.swift */,
+				246B63741E97CF4E008F7D8E /* DrawToolController.swift */,
+			);
+			name = DrawTool;
 			sourceTree = "<group>";
 		};
 		248B09161E93955900524AFD /* FacilityButler */ = {
@@ -225,13 +242,16 @@
 				241090E91E924A0600F78D45 /* PlacedAccessory.swift in Sources */,
 				24A8BE891E8BF045008D3E73 /* ConsoleDestination.swift in Sources */,
 				24865D291E895CDE00676F0F /* AccessoryList.swift in Sources */,
+				246B63721E97CE77008F7D8E /* Line.swift in Sources */,
 				24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */,
 				2441B7B31E84509100A428D9 /* Facility.swift in Sources */,
 				24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */,
+				246B63751E97CF4E008F7D8E /* DrawToolController.swift in Sources */,
 				24DB94AC1E85200800FC8A94 /* AccessoryController.swift in Sources */,
 				248B091A1E939E4C00524AFD /* SettingsList.swift in Sources */,
 				24A8BE8A1E8BF045008D3E73 /* FileDestination.swift in Sources */,
 				248B091E1E94323200524AFD /* Global.swift in Sources */,
+				246B63701E97CD17008F7D8E /* DrawView.swift in Sources */,
 				248B09201E94E9C800524AFD /* FacilityButler.swift in Sources */,
 				2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */,
 			);

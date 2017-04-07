@@ -9,12 +9,13 @@
 import UIKit
 import HomeKit
 
-class FloorPlanController: UIViewController, FacilityButlerDelegate {
+class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawToolControllerDelegate {
     
     // MARK: - Outlets
     @IBOutlet weak var currentFloorLabel: UILabel!
     @IBOutlet weak var currentFloorStepper: UIStepper!
     @IBOutlet weak var addAccessoryButton: UIBarButtonItem!
+    @IBOutlet weak var drawTool: UIView!
     
     // MARK: - Instance Properties
     var model: FacilityButler!
@@ -47,10 +48,12 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
             accessoryVC.model = model
         } else if let settingsVC = destination as? SettingsController {
             settingsVC.model = model
+        } else if let drawToolVC = destination as? DrawToolController {
+            drawToolVC.delegate = self
         }
     }
     
-    @IBAction func goToFloor(_ sender: UIStepper) {
+    func goToFloor(_ sender: UIStepper) {
         let floorNumber = Int(sender.value)
         
         if model.facility.floors.contains(where: { $0.etage == floorNumber }) == false {
@@ -119,6 +122,11 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
         } else {
             isUIEnabled = false
         }
+    }
+    
+    // MARK: - Draw Tool Controller Delegate
+    func didAttemptToGoToFloor(sender: UIStepper) {
+        goToFloor(sender)
     }
     
 }
