@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BC1F2431E98F0BA00FB54EA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC1F2421E98F0BA00FB54EA /* Theme.swift */; };
 		241090E91E924A0600F78D45 /* PlacedAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241090E81E924A0600F78D45 /* PlacedAccessory.swift */; };
 		2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426733B1E83DE2600BB73C6 /* AppDelegate.swift */; };
 		2426733E1E83DE2600BB73C6 /* FloorPlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0BC1F2421E98F0BA00FB54EA /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		241090E81E924A0600F78D45 /* PlacedAccessory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacedAccessory.swift; sourceTree = "<group>"; };
 		242673381E83DE2600BB73C6 /* FacilityButler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacilityButler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2426733B1E83DE2600BB73C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				248B091D1E94323200524AFD /* Global.swift */,
 				242673421E83DE2600BB73C6 /* Assets.xcassets */,
 				242673471E83DE2600BB73C6 /* Info.plist */,
+				0BC1F2421E98F0BA00FB54EA /* Theme.swift */,
 			);
 			path = FacilityButler;
 			sourceTree = "<group>";
@@ -229,6 +232,7 @@
 				2441B7B31E84509100A428D9 /* Facility.swift in Sources */,
 				24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */,
 				24DB94AC1E85200800FC8A94 /* AccessoryController.swift in Sources */,
+				0BC1F2431E98F0BA00FB54EA /* Theme.swift in Sources */,
 				248B091A1E939E4C00524AFD /* SettingsList.swift in Sources */,
 				24A8BE8A1E8BF045008D3E73 /* FileDestination.swift in Sources */,
 				248B091E1E94323200524AFD /* Global.swift in Sources */,

@@ -23,7 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let console = ConsoleDestination()
         log.addDestination(console)
         log.debug("Documents path: \(DocumentsDirectory)")
-    
+        let theme = ThemeManager.currentTheme()
+        ThemeManager.applyTheme(theme: theme)
         // setup initial view controller
         let model = FacilityButler()
         let navigationController = window!.rootViewController as! UINavigationController
