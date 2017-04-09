@@ -10,6 +10,8 @@ import UIKit
 
 class DrawToolController: UIViewController, DrawViewDelegate {
 
+    // SAMPLE: extend to Floor Plan Controller
+    
     // MARK: - Outlets
     @IBOutlet var drawView: DrawView!
     @IBOutlet weak var clearButton: UIBarButtonItem!
@@ -21,17 +23,12 @@ class DrawToolController: UIViewController, DrawViewDelegate {
     // MARK: - Instance Properties
     var lastLines = [Line]()
     var didClear = false
-    var delegate: DrawToolControllerDelegate?
+    
     
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
         drawView.delegate = self
-    }
-
-    // MARK: - Actions
-    @IBAction func goToFloor(_ sender: UIStepper) {
-        delegate?.didAttemptToGoToFloor(sender: sender)
     }
     
     /* when clearButton is triggered we set didClear to true and we save everything we are going to delete in the last lines array
@@ -143,8 +140,4 @@ class DrawToolController: UIViewController, DrawViewDelegate {
         lastLines.removeAll()
     }
 
-}
-
-protocol DrawToolControllerDelegate {
-    func didAttemptToGoToFloor(sender: UIStepper)
 }
