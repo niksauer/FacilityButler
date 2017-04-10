@@ -153,46 +153,42 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
         }
     }
     
-    //function will set custom section headers
+    /// returns custom section headers in order to display activity indicator
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
         let stack = UIStackView()
-        let label = UILabel()
-        let leftConstraint = label.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 8)
-        
-        
-        tableView.addSubview(stack)
         stack.axis = .horizontal
         
+        let label = UILabel()
         label.text = list.sectionTitles[section].uppercased()
         label.font = UIFont.boldSystemFont(ofSize: 12)
         label.textColor = UIColor.gray
         label.setContentHuggingPriority(251, for: .horizontal)
         
+        let leftConstraint = label.leadingAnchor.constraint(equalTo: stack.trailingAnchor, constant: 8)
         
+        tableView.addSubview(stack)
         stack.addArrangedSubview(label)
         
         // acitivity indicator should only display at the unconfigured accessory sections
-        if let unconfiguredSectionIndex = list.sectionTitles.index(of: list.unconfiguredSection), unconfiguredSectionIndex == section{
-            
-            //new view is a placeholder for the right most space of the stack view
+        if let unconfiguredSectionIndex = list.sectionTitles.index(of: list.unconfiguredSection), unconfiguredSectionIndex == section {
+            // new view is a placeholder for the right most space of the stack view
             let newView = UIView()
             
             stack.addArrangedSubview(activityIndicator)
             stack.addArrangedSubview(newView)
             
-            //setting content hugging priority that the activity indicator stays at the very left next to the label
+            // setting content hugging priority that the activity indicator stays at the very left next to the label
             activityIndicator.setContentHuggingPriority(251, for: .horizontal)
             newView.setContentHuggingPriority(249, for: .horizontal)
         }
         
         leftConstraint.isActive = true
-        return stack
         
+        return stack
     }
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 30
     }
 
-    
 }

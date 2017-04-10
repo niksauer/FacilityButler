@@ -304,7 +304,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NrL-M7-wVF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="97" y="217"/>
+            <point key="canvasLocation" x="937" y="183"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="OLE-K7-tc1">
