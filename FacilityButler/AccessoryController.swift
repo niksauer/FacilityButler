@@ -15,6 +15,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     // TODO: apply DIP principle
     let list = AccessoryList()
     var model: FacilityButler!
+    let activityIndicator = UIActivityIndicatorView()
    
     // MARK: - Initialization
     override func viewDidLoad() {
@@ -22,6 +23,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
         list.accessoryBrowser.delegate = self
         list.startAccessoryScan()
         navigationItem.rightBarButtonItem = editButtonItem
+        activityIndicator.startAnimating()
         
         insertUnplacedFacilityAccessories()
     }
@@ -30,6 +32,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     /// atomically dismisses modally presented view (self)
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         list.stopAccessoryScan()
+        activityIndicator.stopAnimating()
         log.debug("canceled to add accessory")
         dismiss(animated: true, completion: nil)
     }
@@ -149,5 +152,47 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
             present(alertController, animated: true, completion: nil)
         }
     }
+    
+    //function will set custom section headers
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let stack = UIStackView()
+        let label = UILabel()
+        let leftConstraint = label.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 8)
+        
+        
+        tableView.addSubview(stack)
+        stack.axis = .horizontal
+        
+        label.text = list.sectionTitles[section].uppercased()
+        label.font = UIFont.boldSystemFont(ofSize: 12)
+        label.textColor = UIColor.gray
+        label.setContentHuggingPriority(251, for: .horizontal)
+        
+        
+        stack.addArrangedSubview(label)
+        
+        // acitivity indicator should only display at the unconfigured accessory sections
+        if let unconfiguredSectionIndex = list.sectionTitles.index(of: list.unconfiguredSection), unconfiguredSectionIndex == section{
+            
+            //new view is a placeholder for the right most space of the stack view
+            let newView = UIView()
+            
+            stack.addArrangedSubview(activityIndicator)
+            stack.addArrangedSubview(newView)
+            
+            //setting content hugging priority that the activity indicator stays at the very left next to the label
+            activityIndicator.setContentHuggingPriority(251, for: .horizontal)
+            newView.setContentHuggingPriority(249, for: .horizontal)
+        }
+        
+        leftConstraint.isActive = true
+        return stack
+        
+    }
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 30
+    }
+
     
 }
