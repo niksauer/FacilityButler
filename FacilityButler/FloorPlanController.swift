@@ -18,7 +18,8 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     
     // MARK: - Instance Properties
     var model: FacilityButler!
-    var isUIEnabled: Bool = false {
+    var isInitialSetup = true
+    var isUIEnabled = false {
         didSet {
             let state = isUIEnabled ? "enabled" : "disabled"
             log.debug("UI is \(state)")
@@ -119,6 +120,10 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
             switchToFloor(number: model.facility.currentFloor)
         } else {
             isUIEnabled = false
+            
+            if isInitialSetup {
+                presentError(viewController: self, error: FacilityError.noFaciltiySet)
+            }
         }
     }
     
