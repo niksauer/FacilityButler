@@ -18,6 +18,8 @@ struct PropertyKey {
     static let uniqueIdentifier = "identifier"
     static let floorNumber = "floor number"
     static let etage = "etage"
+    static let lineStart = "start"
+    static let lineEnd = "end"
 }
 
 enum FacilityError: Error {

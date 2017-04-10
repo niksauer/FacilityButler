@@ -127,7 +127,11 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         }
     }
     
-    // MARK: - custom draw tool
+    
+    
+    /* Custom Draw Tool */
+    
+    // MARK: - Instance Properties
     @IBOutlet var drawTool: DrawView!
     @IBOutlet weak var clearButton: UIBarButtonItem!
     @IBOutlet weak var undoButton: UIBarButtonItem!
@@ -135,37 +139,19 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     @IBOutlet weak var lineTypeLabel: UILabel!
     @IBOutlet weak var diagonalLabel: UILabel!
     
-    var lastLines = [Line]()
-    var didClear = false
-    
-    /* when clearButton is triggered we set didClear to true and we save everything we are going to delete in the last lines array
-     the array of lines is resetted the boolean to determine wether we draw the first line is
-     set to true and the clear and undo button is disabled because you can't clear a blank canvas
-     then the redo button is enabled if we decide to redraw all lines we deleted (in redo())
-     then we force the drawTool to redraw the empty line array with setNeedsDisplay() */
-    @IBAction func clear() {
-        didClear = true
-        lastLines = drawTool.lines
-        drawTool.lines = []
-        drawTool.firstLine = true
-        clearButton.isEnabled = false
-        undoButton.isEnabled = false
-        redoButton.isEnabled = true
-        drawTool.setNeedsDisplay()
-    }
-    
-    /* If the switch is on we set the vertical boolean true vice versa at the same time we change the text of the label  */
+    // MARK: - Actions
+    /// If the switch is on we set the vertical boolean true vice versa at the same time we change the text of the label
     @IBAction func switchLineType(_ sender: UISwitch) {
         if sender.isOn {
-            lineTypeLabel.text = "Vertical lines"
+            lineTypeLabel.text = "Vertical"
             drawTool.drawVertical = true
         } else {
-            lineTypeLabel.text = "Horizontal lines"
+            lineTypeLabel.text = "Horizontal"
             drawTool.drawVertical = false
         }
     }
     
-    /* if our diagonal switch is on we set the boolean value and set the color of the text lables accordingly */
+    /// if our diagonal switch is on we set the boolean value and set the color of the text lables accordingly
     @IBAction func useDiagonals(_ sender: UISwitch) {
         if sender.isOn {
             diagonalLabel.textColor = UIColor.black
@@ -178,73 +164,36 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         }
     }
     
-    /* first we set the boolean variable didClear to false because we didnt clear the canvas then we enable the redo button, then we delete the last element of the lines array and safe it in a new array "lastLines"
-     then we have to update our new ending point which ist the end of the new last element of the line array.
-     then we redraw everything, after that we check if the line array is empty (did we delete the last element of the array)
-     if the array is empty then we disable the undo and clear button */
     @IBAction func undo(_ sender: UIBarButtonItem) {
-        didClear = false
+        drawTool.undo()
         redoButton.isEnabled = true
-        lastLines.append(drawTool.lines.popLast()!)
-        drawTool.firstPoint = drawTool.lines.last?.end
-        checkIfFirstLineAndSetUndoButton()
-        drawTool.setNeedsDisplay()
     }
-    
-    /* first we ask wether we clear the canvas or iv we've undone the last drawn line.
-     !didClear: we insert the last element of the last deleted lines array in our lines array.
-     didClear: we assign every line we deleted to the lines array then we check if we have only redrawn one line and set the undo button accordingly then we assign endpoint of the last element of lastLines array to the firstPoint  then we delete everything in lastLines because we've already redone everything there was
-     
-     Then we enable clear button because there are lines that can be cleared.
-     if there are no more lines to be redone then we disable the redo button.
-     Then we set the Boolean variable firstLine to false to signal that we dont draw the first line
-     then we set did clear to false again
-     then we redraw */
+
     @IBAction func redo(_ sender: UIBarButtonItem) {
-        if !(didClear) {
-            drawTool.lines.append(lastLines.removeLast())
-            checkIfFirstLineAndSetUndoButton()
-        } else {
-            drawTool.lines = lastLines
-            checkIfFirstLineAndSetUndoButton()
-            drawTool.firstPoint = lastLines.last?.end
-            lastLines.removeAll()
-        }
-        
+        drawTool.redo()
         clearButton.isEnabled = true
         
-        if lastLines.isEmpty {
+        if drawTool.lastLines.isEmpty {
             redoButton.isEnabled = false
         }
-        
-        drawTool.firstLine = false
-        didClear = false
-        drawTool.setNeedsDisplay()
     }
     
-    
-    // MARK: - Private Actions
-    
-    /* Workaround: we couldn't redraw if we deletet all lines with 'undo'
-     solution if we disable undo if there is only one line left everything works fine */
-    private func checkIfFirstLineAndSetUndoButton() {
-        if drawTool.lines.count == 1 {
-            undoButton.isEnabled = false
-        } else {
-            undoButton.isEnabled = true
-        }
+    @IBAction func clear() {
+        drawTool.clear()
+        clearButton.isEnabled = false
+        undoButton.isEnabled = false
+        redoButton.isEnabled = true
     }
     
-    // MARK: - Draw View Delegate Actions
-    
-    /* if we draw a line we enable undo (except if there is only one line) and clear button
-     we disable redo button and delete everything because we dont want to redo something if we decided to draw something
-     else */
-    func didDrawFirstLine() {
-        checkIfFirstLineAndSetUndoButton()
+    // MARK: - Draw View Delegate
+    /// if we draw a line we enable clear and disable redo, because we dont want to redo something if we decided to draw something else */
+    func didDrawLine() {
         clearButton.isEnabled = true
         redoButton.isEnabled = false
-        lastLines.removeAll()
+    }
+    
+    func shouldSetUndoButton(_ state: Bool) {
+        undoButton.isEnabled = state
     }
     
 }

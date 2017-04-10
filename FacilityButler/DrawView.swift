@@ -18,13 +18,15 @@ class DrawView: UIView {
     // creating an array of lines which will be drawn in the function draw(_:)
     var lines: [Line] = []
     
+    var didClear = false
+    var lastLines = [Line]()
+    
     // 2 boolean variables in order to draw vertically or horizontally
     var drawVertical: Bool! = true
     var drawDiagonal: Bool! = false
     
     // boolean variable to determine if the Line is the firstLine on the Canvas
     var firstLine: Bool! = true
-    
     
     // MARK: - Actions
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -43,7 +45,9 @@ class DrawView: UIView {
         let (initialPoint, endPoint) = getLine(firstPoint: firstPoint, lastPoint: lastPoint)
         lines.append(Line(start: initialPoint, end: endPoint))
         firstPoint = endPoint
-        delegate?.didDrawFirstLine()
+        delegate?.didDrawLine()
+        lastLines.removeAll()
+        checkIfSingleLineDrawn()
         
         self.setNeedsDisplay()
     }
@@ -65,7 +69,67 @@ class DrawView: UIView {
         }
     }
     
-    // MARK: - Actions
+    /* first we set the boolean variable didClear to false because we didnt clear the canvas then we enable the redo button, then we delete the last element of the lines array and safe it in a new array "lastLines"
+     then we have to update our new ending point which ist the end of the new last element of the line array.
+     then we redraw everything, after that we check if the line array is empty (did we delete the last element of the array)
+     if the array is empty then we disable the undo and clear button */
+    func undo() {
+        didClear = false
+        lastLines.append(lines.popLast()!)
+        firstPoint = lines.last?.end
+        setNeedsDisplay()
+        checkIfSingleLineDrawn()
+    }
+    
+    /* first we ask wether we clear the canvas or iv we've undone the last drawn line.
+     !didClear: we insert the last element of the last deleted lines array in our lines array.
+     didClear: we assign every line we deleted to the lines array then we check if we have only redrawn one line and set the undo button accordingly then we assign endpoint of the last element of lastLines array to the firstPoint  then we delete everything in lastLines because we've already redone everything there was
+     
+     Then we enable clear button because there are lines that can be cleared.
+     if there are no more lines to be redone then we disable the redo button.
+     Then we set the Boolean variable firstLine to false to signal that we dont draw the first line
+     then we set did clear to false again
+     then we redraw */
+    func redo() {
+        if !didClear {
+            lines.append(lastLines.removeLast())
+        } else {
+            lines = lastLines
+            firstPoint = lastLines.last?.end
+            lastLines.removeAll()
+        }
+        
+        firstLine = false
+        didClear = false
+        setNeedsDisplay()
+        checkIfSingleLineDrawn()
+    }
+    
+    /* when clearButton is triggered we set didClear to true and we save everything we are going to delete in the last lines array
+     the array of lines is resetted the boolean to determine wether we draw the first line is
+     set to true and the clear and undo button is disabled because you can't clear a blank canvas
+     then the redo button is enabled if we decide to redraw all lines we deleted (in redo())
+     then we force the drawTool to redraw the empty line array with setNeedsDisplay() */
+    func clear() {
+        didClear = true
+        lastLines = lines
+        lines = []
+        firstLine = true
+        setNeedsDisplay()
+    }
+    
+    // MARK: - Private Actions
+    
+    /* Workaround: we couldn't redraw if we deletet all lines with 'undo'
+     solution if we disable undo if there is only one line left everything works fine */
+    private func checkIfSingleLineDrawn() {
+        if lines.count == 1 {
+            delegate?.shouldSetUndoButton(false)
+        } else {
+            delegate?.shouldSetUndoButton(true)
+        }
+    }
+    
     private func getLine(firstPoint fp: CGPoint, lastPoint lp: CGPoint) -> (CGPoint, CGPoint) {
         var newLastPoint: CGPoint = CGPoint(x: 0, y: 0)
         
@@ -90,5 +154,6 @@ class DrawView: UIView {
 }
 
 protocol DrawViewDelegate {
-    func didDrawFirstLine()
+    func didDrawLine()
+    func shouldSetUndoButton(_ state: Bool)
 }
