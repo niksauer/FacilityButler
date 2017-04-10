@@ -14,6 +14,7 @@ class SettingsController: UITableViewController {
     // MARK: - Outlets
     weak var createAlertAction: UIAlertAction?
     
+    //@IBOutlet weak var darkSwitch: UISwitch!
     // MARK: - Instance Properties
     // TODO: apply DIP principle
     let list = SettingsList()
@@ -165,27 +166,25 @@ class SettingsController: UITableViewController {
         }
         
     }
+    
+    // MARK: - Dark Mode
+    
+    var darkOn = Bool()
+    
     @IBAction func toggleDarkMode(_ sender: UISwitch) {
         if sender.isOn{
             if let selectedTheme = Theme(rawValue: 1) {
                 ThemeManager.applyTheme(theme: selectedTheme)
-            
-                
-                
             }
+            darkOn = true
         } else{
             if let selectedTheme = Theme(rawValue: 0) {
                 ThemeManager.applyTheme(theme: selectedTheme)
             }
+            darkOn = false
         }
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if let selectedTheme = Theme(rawValue: 0) {
-            ThemeManager.applyTheme(theme: selectedTheme)
-        }
-
-    }
+//
     
 }
 

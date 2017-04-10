@@ -16,7 +16,7 @@ enum Theme: Int {
     var mainColor: UIColor {
         switch self {
         case .Default:
-            return UIColor(red: 87.0/255.0, green: 188.0/255.0, blue: 95.0/255.0, alpha: 1.0)
+            return .blue
         case .Dark:
             return UIColor(red: 242.0/255.0, green: 101.0/255.0, blue: 34.0/255.0, alpha: 1.0)
         }
@@ -30,12 +30,21 @@ enum Theme: Int {
         }
     }
     
-    var barStyle: UIBarStyle {
+    var barStyle: UIStatusBarStyle {
         switch self {
         case .Default:
             return .default
         case .Dark:
+            log.debug("dark tab")
+            return .lightContent
+        }
+    }
+    var textColor: UIColor {
+        switch self {
+        case .Default:
             return .black
+        case .Dark:
+            return .white
         }
     }
     
@@ -58,9 +67,9 @@ struct ThemeManager {
         // 2
         let sharedApplication = UIApplication.shared
         sharedApplication.delegate?.window??.tintColor = theme.mainColor
-        sharedApplication.delegate?.window??.backgroundColor = theme.backgroundColor
+        let view = UIView.appearance()
+        view.backgroundColor = theme.backgroundColor
         
-        //UINavigationBar.appearance().barStyle = theme.barStyle
-
+    
     }
 }
