@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vyj-lX-xfh" customClass="DrawView" customModule="FacilityButler" customModuleProvider="target">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vyj-lX-xfh" customClass="DrawView" customModule="FacilityButler" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -58,6 +58,9 @@
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumValue="-3" maximumValue="3" translatesAutoresizingMaskIntoConstraints="NO" id="BrM-mT-DBA">
                                 <rect key="frame" x="265" y="578" width="94" height="29"/>
+                                <connections>
+                                    <action selector="goToFloor:" destination="pTL-tQ-DU7" eventType="valueChanged" id="xe7-qT-McD"/>
+                                </connections>
                             </stepper>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lau-1u-R06">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>

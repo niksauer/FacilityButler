@@ -118,6 +118,16 @@ class DrawView: UIView {
         setNeedsDisplay()
     }
     
+    func setContent(blueprint: [Line]) {
+        clear()
+        self.lines = blueprint
+        setNeedsDisplay()
+    }
+    
+    func getContent() -> [Line] {
+        return lines
+    }
+    
     // MARK: - Private Actions
     
     /* Workaround: we couldn't redraw if we deletet all lines with 'undo'

@@ -27,9 +27,11 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
             if isUIEnabled {
                 addAccessoryButton.isEnabled = true
                 currentFloorStepper.isEnabled = true
+                drawTool.isUserInteractionEnabled = true
             } else {
                 addAccessoryButton.isEnabled = false
                 currentFloorStepper.isEnabled = false
+                drawTool.isUserInteractionEnabled = false
             }
         }
     }
@@ -52,7 +54,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         }
     }
     
-    func goToFloor(_ sender: UIStepper) {
+    @IBAction func goToFloor(_ sender: UIStepper) {
         let floorNumber = Int(sender.value)
         
         if model.facility.floors.contains(where: { $0.etage == floorNumber }) == false {
@@ -95,8 +97,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         }
     }
     
-    // TODO: draw floor plan
-    /// draws requested floorplan and saves current state
+    /// draws requested floorplan
     /// - Parameter number: etage to be drawn
     func switchToFloor(number: Int) {
         model.facility.currentFloor = number
@@ -104,14 +105,15 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         navigationItem.title = FloorPlan.getOrdinal(ofFloor: number, capitalized: true)
         log.debug("switched to floor #\(number) with accessoires \(model.facility.getPlacedAccessories(ofFloor: number))")
         
-        do {
-            try model.save()
-        } catch {
-            presentError(viewController: self, error: error)
-        }
+        let oldFloorIndex = model.facility.floors.index(where: { $0.etage == model.facility.currentFloor })!
+        model.facility.floors[oldFloorIndex].blueprint = drawTool.getContent()
+        
+        let newFloorIndex = model.facility.floors.index(where: { $0.etage == number })!
+        drawTool.setContent(blueprint: model.facility.floors[newFloorIndex].blueprint)
     }
 
     // MARK: - Facility Butler Delegate
+    // TODO: handle no facility situation
     /// loads most recently used floor plan
     func didUpdateFacility(isSet: Bool) {
         if isSet {
@@ -121,17 +123,15 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         } else {
             isUIEnabled = false
             
-            if isInitialSetup {
-                presentError(viewController: self, error: FacilityError.noFaciltiySet)
-            }
+//            if isInitialSetup {
+//                presentError(viewController: self, error: FacilityError.noFaciltiySet)
+//            }
+            
+            isInitialSetup = false
         }
     }
     
-    
-    
-    /* Custom Draw Tool */
-    
-    // MARK: - Instance Properties
+    // MARK: - Custom Draw Tool
     @IBOutlet var drawTool: DrawView!
     @IBOutlet weak var clearButton: UIBarButtonItem!
     @IBOutlet weak var undoButton: UIBarButtonItem!
@@ -139,7 +139,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     @IBOutlet weak var lineTypeLabel: UILabel!
     @IBOutlet weak var diagonalLabel: UILabel!
     
-    // MARK: - Actions
+    // MARK: Actions
     /// If the switch is on we set the vertical boolean true vice versa at the same time we change the text of the label
     @IBAction func switchLineType(_ sender: UISwitch) {
         if sender.isOn {
@@ -185,7 +185,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         redoButton.isEnabled = true
     }
     
-    // MARK: - Draw View Delegate
+    // MARK: Draw View Delegate
     /// if we draw a line we enable clear and disable redo, because we dont want to redo something if we decided to draw something else */
     func didDrawLine() {
         clearButton.isEnabled = true

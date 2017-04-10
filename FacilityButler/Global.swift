@@ -20,6 +20,7 @@ struct PropertyKey {
     static let etage = "etage"
     static let lineStart = "start"
     static let lineEnd = "end"
+    static let blueprint = "blueprint"
 }
 
 enum FacilityError: Error {

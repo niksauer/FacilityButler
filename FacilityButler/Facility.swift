@@ -12,16 +12,14 @@ import HomeKit
 class Facility: NSObject, NSCoding {
     
     // MARK: - Instance Properties
-    var floors: [FloorPlan]
-    var currentFloor: Int
-    var placedAccessoires: [PlacedAccessory]
+    var floors = [FloorPlan]()
+    var currentFloor = 0
+    var placedAccessoires = [PlacedAccessory]()
     
     // MARK: - Initialization
     override init() {
         let groundFloor = FloorPlan(etage: 0)
-        self.floors = [groundFloor]
-        self.currentFloor = 0
-        self.placedAccessoires = [PlacedAccessory]()
+        self.floors.append(groundFloor)
         super.init()
         log.debug("Created new facility \(self)")
     }
