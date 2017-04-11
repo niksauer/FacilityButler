@@ -45,7 +45,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     // MARK: - Navigation
     /// loads or creates requested floor
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        model.facility.setBlueprint(drawTool.getContent())
+       // model.facility.setBlueprint(drawTool.getContent())
         let destination = segue.destination
     
         if let navController = destination as? UINavigationController, let accessoryVC = navController.topViewController as? AccessoryController {
@@ -142,6 +142,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     @IBOutlet weak var lineTypeLabel: UILabel!
     @IBOutlet weak var diagonalLabel: UILabel!
     
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     // MARK: Actions
     /// If the switch is on we set the vertical boolean true vice versa at the same time we change the text of the label
     @IBAction func switchLineType(_ sender: UISwitch) {
@@ -180,19 +181,36 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
             redoButton.isEnabled = false
         }
     }
+    @IBAction func done(_ sender: Any) {
+    
+        if let initialAndEndPoint = drawTool.getIntersectionPoint(firstLine: drawTool.lines.first!, lastLine: drawTool.lines.last!){
+            
+            drawTool.didDone = true
+            drawTool.lines.first?.start = initialAndEndPoint
+            drawTool.lines.last?.end = initialAndEndPoint
+            drawTool.setNeedsDisplay()
+        }else{
+            print("lines do not cross")
+        }
+    }
     
     @IBAction func clear() {
         drawTool.clear()
+        doneButton.isEnabled = false
         clearButton.isEnabled = false
         undoButton.isEnabled = false
         redoButton.isEnabled = true
     }
     
     // MARK: Draw View Delegate
-    /// if we draw a line we enable clear and disable redo, because we dont want to redo something if we decided to draw something else */
+    /* if we draw a line we enable clear and disable redo, because we dont want to redo something if we decided to draw something else 
+        if the user has drawn at least 3 lines he can finish his masterpiece*/
     func didDrawLine() {
         clearButton.isEnabled = true
         redoButton.isEnabled = false
+        if drawTool.lines.count > 2 {
+            doneButton.isEnabled = true
+        }
     }
     
     func shouldSetUndoButton(_ state: Bool) {

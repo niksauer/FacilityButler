@@ -76,6 +76,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="b65-OL-J7Y"/>
+                                    <barButtonItem enabled="NO" title="Done" id="vKu-Mr-lFt">
+                                        <connections>
+                                            <action selector="done:" destination="pTL-tQ-DU7" id="vOp-cY-ilX"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem enabled="NO" title="Clear" id="gNZ-Tm-A8w">
                                         <connections>
                                             <action selector="clear" destination="pTL-tQ-DU7" id="3Nv-Zh-Ufg"/>
@@ -127,6 +132,7 @@
                         <outlet property="currentFloorLabel" destination="NpW-Gk-wUX" id="1ez-us-Q56"/>
                         <outlet property="currentFloorStepper" destination="BrM-mT-DBA" id="yfI-07-6m3"/>
                         <outlet property="diagonalLabel" destination="O8J-Ra-0ah" id="VaX-8p-ZPl"/>
+                        <outlet property="doneButton" destination="vKu-Mr-lFt" id="dwk-Tn-Ibr"/>
                         <outlet property="drawTool" destination="vyj-lX-xfh" id="PJ6-Bz-uZ1"/>
                         <outlet property="lineTypeLabel" destination="xCm-43-6NC" id="d2R-ZW-oTu"/>
                         <outlet property="redoButton" destination="V00-zk-0oG" id="VYA-WR-qGk"/>
