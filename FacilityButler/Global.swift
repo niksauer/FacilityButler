@@ -21,6 +21,7 @@ struct PropertyKey {
     static let lineStart = "start"
     static let lineEnd = "end"
     static let blueprint = "blueprint"
+    static let currentTheme = "current theme"
 }
 
 enum FacilityError: Error {

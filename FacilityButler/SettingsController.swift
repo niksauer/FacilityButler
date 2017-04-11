@@ -176,27 +176,21 @@ class SettingsController: UITableViewController {
         
     }
     
-    // MARK: - Dark Mode
+    // MARK: - Theme Manager
+    var isDarkModeEnabled = false
+    
+    func toggleDarkMode(_ sender: UISwitch) {
+        if sender.isOn {
+            ThemeManager.applyTheme(Theme(rawValue: 1)!)
+        } else {
+            ThemeManager.applyTheme(Theme(rawValue: 0)!)
+        }
+        
+        dismiss()
+    }
     
     func dismiss() {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    var darkOn = Bool()
-    
-    @IBAction func toggleDarkMode(_ sender: UISwitch) {
-        if sender.isOn{
-            if let selectedTheme = Theme(rawValue: 1) {
-                ThemeManager.applyTheme(theme: selectedTheme)
-            }
-            dismiss()
-        } else{
-            if let selectedTheme = Theme(rawValue: 0) {
-             ThemeManager.applyTheme(theme: selectedTheme)
-            }
-            dismiss()
-        }
-    }
-    
 }
 

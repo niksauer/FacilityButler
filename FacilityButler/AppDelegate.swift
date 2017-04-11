@@ -20,12 +20,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     /// configures logging output, prints DocumentsDirectory and sets up initial view controller
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // logging configuration
+        // logging config
         let console = ConsoleDestination()
         log.addDestination(console)
         log.debug("Documents path: \(DocumentsDirectory)")
+        
+        // theme config
         let theme = ThemeManager.currentTheme()
-        ThemeManager.applyTheme(theme: theme)
+        ThemeManager.applyTheme(theme)
+        
         // setup initial view controller
         let navigationController = window!.rootViewController as! UINavigationController
         let floorPlanController = navigationController.topViewController as! FloorPlanController
