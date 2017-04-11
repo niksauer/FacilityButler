@@ -12,16 +12,14 @@ import HomeKit
 class Facility: NSObject, NSCoding {
     
     // MARK: - Instance Properties
-    var floors: [FloorPlan]
-    var currentFloor: Int
-    var placedAccessoires: [PlacedAccessory]
+    var floors = [FloorPlan]()
+    var currentFloor = 0
+    var placedAccessoires = [PlacedAccessory]()
     
     // MARK: - Initialization
     override init() {
         let groundFloor = FloorPlan(etage: 0)
-        self.floors = [groundFloor]
-        self.currentFloor = 0
-        self.placedAccessoires = [PlacedAccessory]()
+        self.floors.append(groundFloor)
         super.init()
         log.debug("Created new facility \(self)")
     }
@@ -95,4 +93,14 @@ class Facility: NSObject, NSCoding {
         return accessories
     }
     
+    func setBlueprint(_ lines: [Line]) {
+        let floorIndex = floors.index(where: { $0.etage == currentFloor })!
+        floors[floorIndex].blueprint = lines
+        log.debug("set blueprint with \(floors[floorIndex].blueprint.count) lines of floor \(currentFloor)")
+    }
+    
+    func getBlueprint() -> [Line] {
+        let floorIndex = floors.index(where: { $0.etage == currentFloor })!
+        return floors[floorIndex].blueprint
+    }
 }

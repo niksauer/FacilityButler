@@ -20,9 +20,12 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.rightBarButtonItem = editButtonItem
+        
         list.accessoryBrowser.delegate = self
         list.startAccessoryScan()
-        navigationItem.rightBarButtonItem = editButtonItem
+        
+        activityIndicator.activityIndicatorViewStyle = .gray
         activityIndicator.startAnimating()
         
         insertUnplacedFacilityAccessories()
@@ -153,46 +156,47 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
         }
     }
     
-    //function will set custom section headers
+    /// returns custom section headers in order to display activity indicator
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
+        let header = UIView()
+    
         let stack = UIStackView()
-        let label = UILabel()
-        let leftConstraint = label.leadingAnchor.constraint(equalTo: stack.leadingAnchor, constant: 8)
-        
-        
-        tableView.addSubview(stack)
         stack.axis = .horizontal
+        stack.spacing = 8
         
-        label.text = list.sectionTitles[section].uppercased()
-        label.font = UIFont.boldSystemFont(ofSize: 12)
-        label.textColor = UIColor.gray
-        label.setContentHuggingPriority(251, for: .horizontal)
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        header.addSubview(stack)
         
-        
-        stack.addArrangedSubview(label)
-        
+        let sectionLabel = UILabel()
+        sectionLabel.text = list.sectionTitles[section].uppercased()
+        sectionLabel.font = UIFont.systemFont(ofSize: 13)
+        sectionLabel.textColor = UIColor.gray
+
+        sectionLabel.translatesAutoresizingMaskIntoConstraints = false
+        stack.addArrangedSubview(sectionLabel)
+
         // acitivity indicator should only display at the unconfigured accessory sections
-        if let unconfiguredSectionIndex = list.sectionTitles.index(of: list.unconfiguredSection), unconfiguredSectionIndex == section{
-            
-            //new view is a placeholder for the right most space of the stack view
-            let newView = UIView()
-            
+        if let unconfiguredSectionIndex = list.sectionTitles.index(of: list.unconfiguredSection), unconfiguredSectionIndex == section {
             stack.addArrangedSubview(activityIndicator)
-            stack.addArrangedSubview(newView)
-            
-            //setting content hugging priority that the activity indicator stays at the very left next to the label
-            activityIndicator.setContentHuggingPriority(251, for: .horizontal)
-            newView.setContentHuggingPriority(249, for: .horizontal)
+        }
+
+        let leadingStackConstraint = stack.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 20)
+        leadingStackConstraint.isActive = true
+        
+        if section == 0 {
+            let topStackConstraint = stack.topAnchor.constraint(equalTo: header.topAnchor, constant: 30)
+            topStackConstraint.isActive = true
         }
         
-        leftConstraint.isActive = true
-        return stack
-        
+        return header
     }
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
+        if section == 0 {
+            return 55
+        } else {
+            return 25
+        }
     }
 
-    
 }

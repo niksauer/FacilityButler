@@ -9,7 +9,7 @@
 import UIKit
 import HomeKit
 
-class FloorPlanController: UIViewController, FacilityButlerDelegate {
+class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDelegate {
     
     // MARK: - Outlets
     @IBOutlet weak var currentFloorLabel: UILabel!
@@ -21,15 +21,17 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
     var isInitialSetup = true
     var isUIEnabled = false {
         didSet {
-            let state = isUIEnabled ? "enabled" : "disabled"
-            log.debug("UI is \(state)")
+//            let state = isUIEnabled ? "enabled" : "disabled"
+//            log.debug("UI is \(state)")
             
             if isUIEnabled {
                 addAccessoryButton.isEnabled = true
                 currentFloorStepper.isEnabled = true
+                drawTool.isUserInteractionEnabled = true
             } else {
                 addAccessoryButton.isEnabled = false
                 currentFloorStepper.isEnabled = false
+                drawTool.isUserInteractionEnabled = false
             }
         }
     }
@@ -37,11 +39,13 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
     // MARK: - Initialization
     override func viewWillAppear(_ animated: Bool) {
         model.delegate = self
+        drawTool.delegate = self
     }
     
     // MARK: - Navigation
     /// loads or creates requested floor
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        model.facility.setBlueprint(drawTool.getContent())
         let destination = segue.destination
     
         if let navController = destination as? UINavigationController, let accessoryVC = navController.topViewController as? AccessoryController {
@@ -59,6 +63,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
             
             let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
             let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
+                self.model.facility.setBlueprint(self.drawTool.getContent())
                 self.model.facility.createFloor(number: floorNumber)
                 self.switchToFloor(number: floorNumber)
             })
@@ -71,6 +76,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
             actionController.addAction(dismissAction)
             present(actionController, animated: true, completion: nil)
         } else {
+            self.model.facility.setBlueprint(drawTool.getContent())
             switchToFloor(number: floorNumber)
         }
     }
@@ -94,23 +100,20 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
         }
     }
     
-    // TODO: draw floor plan
-    /// draws requested floorplan and saves current state
+    /// draws requested floorplan
     /// - Parameter number: etage to be drawn
     func switchToFloor(number: Int) {
         model.facility.currentFloor = number
+        
         currentFloorLabel.text = "\(number)"
         navigationItem.title = FloorPlan.getOrdinal(ofFloor: number, capitalized: true)
         log.debug("switched to floor #\(number) with accessoires \(model.facility.getPlacedAccessories(ofFloor: number))")
         
-        do {
-            try model.save()
-        } catch {
-            presentError(viewController: self, error: error)
-        }
+        drawTool.setContent(blueprint: model.facility.getBlueprint())
     }
 
     // MARK: - Facility Butler Delegate
+    // TODO: handle no facility situation
     /// loads most recently used floor plan
     func didUpdateFacility(isSet: Bool) {
         if isSet {
@@ -120,10 +123,80 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate {
         } else {
             isUIEnabled = false
             
-            if isInitialSetup {
-                presentError(viewController: self, error: FacilityError.noFaciltiySet)
-            }
+//            if isInitialSetup {
+//                presentError(viewController: self, error: FacilityError.noFaciltiySet)
+//            }
+            
+            isInitialSetup = false
         }
+    }
+    
+    
+    
+    
+    // MARK: - Custom Draw Tool
+    @IBOutlet var drawTool: DrawView!
+    @IBOutlet weak var clearButton: UIBarButtonItem!
+    @IBOutlet weak var undoButton: UIBarButtonItem!
+    @IBOutlet weak var redoButton: UIBarButtonItem!
+    @IBOutlet weak var lineTypeLabel: UILabel!
+    @IBOutlet weak var diagonalLabel: UILabel!
+    
+    // MARK: Actions
+    /// If the switch is on we set the vertical boolean true vice versa at the same time we change the text of the label
+    @IBAction func switchLineType(_ sender: UISwitch) {
+        if sender.isOn {
+            lineTypeLabel.text = "Vertical"
+            drawTool.drawVertical = true
+        } else {
+            lineTypeLabel.text = "Horizontal"
+            drawTool.drawVertical = false
+        }
+    }
+    
+    /// if our diagonal switch is on we set the boolean value and set the color of the text lables accordingly
+    @IBAction func useDiagonals(_ sender: UISwitch) {
+        if sender.isOn {
+            diagonalLabel.textColor = UIColor.black
+            lineTypeLabel.textColor = UIColor.lightGray
+            drawTool.drawDiagonal = true
+        } else {
+            lineTypeLabel.textColor = UIColor.black
+            diagonalLabel.textColor = UIColor.lightGray
+            drawTool.drawDiagonal = false
+        }
+    }
+    
+    @IBAction func undo(_ sender: UIBarButtonItem) {
+        drawTool.undo()
+        redoButton.isEnabled = true
+    }
+
+    @IBAction func redo(_ sender: UIBarButtonItem) {
+        drawTool.redo()
+        clearButton.isEnabled = true
+        
+        if drawTool.lastLines.isEmpty {
+            redoButton.isEnabled = false
+        }
+    }
+    
+    @IBAction func clear() {
+        drawTool.clear()
+        clearButton.isEnabled = false
+        undoButton.isEnabled = false
+        redoButton.isEnabled = true
+    }
+    
+    // MARK: Draw View Delegate
+    /// if we draw a line we enable clear and disable redo, because we dont want to redo something if we decided to draw something else */
+    func didDrawLine() {
+        clearButton.isEnabled = true
+        redoButton.isEnabled = false
+    }
+    
+    func shouldSetUndoButton(_ state: Bool) {
+        undoButton.isEnabled = state
     }
     
 }
