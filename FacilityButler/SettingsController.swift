@@ -98,6 +98,8 @@ class SettingsController: UITableViewController {
             cell.textLabel?.text = "Dark Mode"
             
             let darkModeSwitch = UISwitch()
+            darkModeSwitch.addTarget(self, action: #selector(toggleDarkMode(_:)), for: .valueChanged)
+            
             cell.accessoryView = darkModeSwitch
             
             switch ThemeManager.currentTheme() {
@@ -188,7 +190,7 @@ class SettingsController: UITableViewController {
     // MARK: - Theme Manager
     var isDarkModeEnabled = false
     
-    @IBAction func toggleDarkMode(_ sender: UISwitch) {
+    func toggleDarkMode(_ sender: UISwitch) {
         if sender.isOn {
             ThemeManager.applyTheme(Theme.Dark)
         } else {
