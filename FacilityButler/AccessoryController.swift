@@ -157,7 +157,6 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
     }
     
     /// returns custom section headers in order to display activity indicator
-    // TODO: fix indentation, use default header size
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UIView()
     
@@ -181,22 +180,20 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
             stack.addArrangedSubview(activityIndicator)
         }
 
-        let headerMargins = header.layoutMarginsGuide
-        let leadingStackConstraint = stack.leadingAnchor.constraint(equalTo: headerMargins.leadingAnchor, constant: 12)
+        let leadingStackConstraint = stack.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 20)
+        leadingStackConstraint.isActive = true
         
         if section == 0 {
-            let topStackConstraint = stack.topAnchor.constraint(equalTo: headerMargins.topAnchor, constant: 25)
+            let topStackConstraint = stack.topAnchor.constraint(equalTo: header.topAnchor, constant: 30)
             topStackConstraint.isActive = true
         }
-    
-        leadingStackConstraint.isActive = true
         
         return header
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return 65
+            return 55
         } else {
             return 25
         }

@@ -131,6 +131,9 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         }
     }
     
+    
+    
+    
     // MARK: - Custom Draw Tool
     @IBOutlet var drawTool: DrawView!
     @IBOutlet weak var clearButton: UIBarButtonItem!
@@ -155,7 +158,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     @IBAction func useDiagonals(_ sender: UISwitch) {
         if sender.isOn {
             diagonalLabel.textColor = UIColor.black
-            diagonalLabel.textColor = UIColor.lightGray
+            lineTypeLabel.textColor = UIColor.lightGray
             drawTool.drawDiagonal = true
         } else {
             lineTypeLabel.textColor = UIColor.black

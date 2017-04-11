@@ -92,7 +92,10 @@ class SettingsController: UITableViewController {
                 }
             }
         } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "settingUITableViewCell", for: indexPath)
+            // Dark Mode Cell
+            cell = UITableViewCell(style: .default, reuseIdentifier: "settingUITableViewCell")
+            cell.textLabel?.text = "Dark Mode"
+            cell.accessoryView = UISwitch()
         }
         
         return cell
@@ -143,6 +146,12 @@ class SettingsController: UITableViewController {
         switch identifier {
         case "homeUITableViewCell":
             let home = model.butler.homes[indexPath.row-1]
+            
+            do {
+                try model.save()
+            } catch {
+                presentError(viewController: self, error: error)
+            }
             
             model.setCurrentFacility(home: home, completion: { (error) in
                 if !(presentError(viewController: self, error: error)) {
