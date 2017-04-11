@@ -11,7 +11,7 @@ import UIKit
 class DrawView: UIView {
 
     // MARK: - Instance Properties
-    var delegate : DrawViewDelegate?
+    var delegate: DrawViewDelegate?
     var firstPoint: CGPoint!
     var lastPoint: CGPoint!
     
@@ -22,11 +22,11 @@ class DrawView: UIView {
     var lastLines = [Line]()
     
     // 2 boolean variables in order to draw vertically or horizontally
-    var drawVertical: Bool! = true
-    var drawDiagonal: Bool! = false
+    var drawVertical = true
+    var drawDiagonal = false
     
     // boolean variable to determine if the Line is the firstLine on the Canvas
-    var firstLine: Bool! = true
+    var firstLine = true
     
     // MARK: - Actions
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
