@@ -56,8 +56,6 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     }
     
     @IBAction func goToFloor(_ sender: UIStepper) {
-        
-        
         let floorNumber = Int(sender.value)
         
         if model.facility.floors.contains(where: { $0.etage == floorNumber }) == false {

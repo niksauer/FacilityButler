@@ -125,7 +125,6 @@ class DrawView: UIView {
         if !lines.isEmpty {
             firstLine = false
             firstPoint = lines.last!.end
-            print(firstPoint)
         } else {
             firstLine = true
         }

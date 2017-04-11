@@ -36,7 +36,6 @@ class FloorPlan: NSObject, NSCoding {
             let etage = aDecoder.decodeInteger(forKey: PropertyKey.etage)
             self.etage = etage
             self.blueprint = blueprint
-//            log.debug("decoded \(blueprint.count) lines on floor \(etage)")
         } else {
             return nil
         }
@@ -45,7 +44,6 @@ class FloorPlan: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(etage, forKey: PropertyKey.etage)
         aCoder.encode(blueprint, forKey: PropertyKey.blueprint)
-//        log.debug("encoded \(blueprint.count) lines on floor \(etage)")
     }
     
     // MARK: - Class Functions
