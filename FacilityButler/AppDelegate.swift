@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         do {
-            log.debug("FacilityButler did enter background.")
+            log.debug("FacilityButler did enter background")
             try model.save()
         } catch {
             

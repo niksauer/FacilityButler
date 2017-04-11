@@ -21,8 +21,8 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     var isInitialSetup = true
     var isUIEnabled = false {
         didSet {
-            let state = isUIEnabled ? "enabled" : "disabled"
-            log.debug("UI is \(state)")
+//            let state = isUIEnabled ? "enabled" : "disabled"
+//            log.debug("UI is \(state)")
             
             if isUIEnabled {
                 addAccessoryButton.isEnabled = true
@@ -45,6 +45,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     // MARK: - Navigation
     /// loads or creates requested floor
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        model.facility.setBlueprint(drawTool.getContent())
         let destination = segue.destination
     
         if let navController = destination as? UINavigationController, let accessoryVC = navController.topViewController as? AccessoryController {
@@ -55,6 +56,8 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     }
     
     @IBAction func goToFloor(_ sender: UIStepper) {
+        
+        
         let floorNumber = Int(sender.value)
         
         if model.facility.floors.contains(where: { $0.etage == floorNumber }) == false {
@@ -62,6 +65,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
             
             let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
             let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
+                self.model.facility.setBlueprint(self.drawTool.getContent())
                 self.model.facility.createFloor(number: floorNumber)
                 self.switchToFloor(number: floorNumber)
             })
@@ -74,6 +78,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
             actionController.addAction(dismissAction)
             present(actionController, animated: true, completion: nil)
         } else {
+            self.model.facility.setBlueprint(drawTool.getContent())
             switchToFloor(number: floorNumber)
         }
     }
@@ -101,15 +106,12 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     /// - Parameter number: etage to be drawn
     func switchToFloor(number: Int) {
         model.facility.currentFloor = number
+        
         currentFloorLabel.text = "\(number)"
         navigationItem.title = FloorPlan.getOrdinal(ofFloor: number, capitalized: true)
         log.debug("switched to floor #\(number) with accessoires \(model.facility.getPlacedAccessories(ofFloor: number))")
         
-        let oldFloorIndex = model.facility.floors.index(where: { $0.etage == model.facility.currentFloor })!
-        model.facility.floors[oldFloorIndex].blueprint = drawTool.getContent()
-        
-        let newFloorIndex = model.facility.floors.index(where: { $0.etage == number })!
-        drawTool.setContent(blueprint: model.facility.floors[newFloorIndex].blueprint)
+        drawTool.setContent(blueprint: model.facility.getBlueprint())
     }
 
     // MARK: - Facility Butler Delegate

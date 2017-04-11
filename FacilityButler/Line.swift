@@ -21,17 +21,19 @@ class Line: NSObject, NSCoding {
     }
     
     // MARK: - NSCoding Protocol
-    required init?(coder aDecoder: NSCoder) {
-        if let start = aDecoder.decodeObject(forKey: PropertyKey.lineStart) as? CGPoint, let end = aDecoder.decodeObject(forKey: PropertyKey.lineEnd) as? CGPoint {
-            self.start = start
-            self.end = end
+    required convenience init?(coder aDecoder: NSCoder) {
+        if let start = aDecoder.decodeObject(forKey: PropertyKey.lineStart) as? String, let end = aDecoder.decodeObject(forKey: PropertyKey.lineEnd) as? String {
+            self.init(start: CGPointFromString(start), end: CGPointFromString(end))
         } else {
             return nil
         }
     }
     
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(start, forKey: PropertyKey.lineStart)
-        aCoder.encode(end, forKey: PropertyKey.lineEnd)
+        let startValue = NSStringFromCGPoint(start)
+        let endValue = NSStringFromCGPoint(end)
+        
+        aCoder.encode(startValue, forKey: PropertyKey.lineStart)
+        aCoder.encode(endValue, forKey: PropertyKey.lineEnd)
     }
 }

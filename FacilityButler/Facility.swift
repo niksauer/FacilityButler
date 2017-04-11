@@ -93,4 +93,14 @@ class Facility: NSObject, NSCoding {
         return accessories
     }
     
+    func setBlueprint(_ lines: [Line]) {
+        let floorIndex = floors.index(where: { $0.etage == currentFloor })!
+        floors[floorIndex].blueprint = lines
+        log.debug("set blueprint with \(floors[floorIndex].blueprint.count) lines of floor \(currentFloor)")
+    }
+    
+    func getBlueprint() -> [Line] {
+        let floorIndex = floors.index(where: { $0.etage == currentFloor })!
+        return floors[floorIndex].blueprint
+    }
 }

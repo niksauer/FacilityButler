@@ -13,7 +13,7 @@ class FloorPlan: NSObject, NSCoding {
     
     // MARK: - Instance Properties
     let etage: Int
-    var blueprint = [Line]()
+    var blueprint: [Line]
     
     // MARK: - Types
     enum OrdinalNumber: String {
@@ -27,14 +27,16 @@ class FloorPlan: NSObject, NSCoding {
     // MARK: - Initialization
     init(etage: Int) {
         self.etage = etage
+        self.blueprint = [Line]()
     }
     
     // MARK: - NSCoding Protocol
-    required convenience init?(coder aDecoder: NSCoder) {
-        if let plan = aDecoder.decodeObject(forKey: PropertyKey.blueprint) as? [Line] {
+    required init?(coder aDecoder: NSCoder) {
+        if let blueprint = aDecoder.decodeObject(forKey: PropertyKey.blueprint) as? [Line] {
             let etage = aDecoder.decodeInteger(forKey: PropertyKey.etage)
-            self.init(etage: etage)
-            self.blueprint = plan
+            self.etage = etage
+            self.blueprint = blueprint
+//            log.debug("decoded \(blueprint.count) lines on floor \(etage)")
         } else {
             return nil
         }
@@ -43,6 +45,7 @@ class FloorPlan: NSObject, NSCoding {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(etage, forKey: PropertyKey.etage)
         aCoder.encode(blueprint, forKey: PropertyKey.blueprint)
+//        log.debug("encoded \(blueprint.count) lines on floor \(etage)")
     }
     
     // MARK: - Class Functions

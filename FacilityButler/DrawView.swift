@@ -49,7 +49,7 @@ class DrawView: UIView {
         lastLines.removeAll()
         checkIfSingleLineDrawn()
         
-        self.setNeedsDisplay()
+        setNeedsDisplay()
     }
     
     override func draw(_ rect: CGRect) {
@@ -120,7 +120,16 @@ class DrawView: UIView {
     
     func setContent(blueprint: [Line]) {
         clear()
-        self.lines = blueprint
+        lines = blueprint
+        
+        if !lines.isEmpty {
+            firstLine = false
+            firstPoint = lines.last!.end
+            print(firstPoint)
+        } else {
+            firstLine = true
+        }
+    
         setNeedsDisplay()
     }
     
