@@ -12,7 +12,7 @@ import HomeKit
 class SettingsController: UITableViewController {
     
     // MARK: - Outlets
-    weak var createAlertAction: UIAlertAction?
+    weak var createAlertAction: UIAlertAction!
     
     //@IBOutlet weak var darkSwitch: UISwitch!
     // MARK: - Instance Properties
@@ -96,7 +96,16 @@ class SettingsController: UITableViewController {
             // Dark Mode Cell
             cell = UITableViewCell(style: .default, reuseIdentifier: "settingUITableViewCell")
             cell.textLabel?.text = "Dark Mode"
-            cell.accessoryView = UISwitch()
+            
+            let darkModeSwitch = UISwitch()
+            cell.accessoryView = darkModeSwitch
+            
+            switch ThemeManager.currentTheme() {
+            case .Light:
+                darkModeSwitch.isOn = false
+            case .Dark:
+                darkModeSwitch.isOn = true
+            }
         }
         
         return cell
@@ -179,11 +188,11 @@ class SettingsController: UITableViewController {
     // MARK: - Theme Manager
     var isDarkModeEnabled = false
     
-    func toggleDarkMode(_ sender: UISwitch) {
+    @IBAction func toggleDarkMode(_ sender: UISwitch) {
         if sender.isOn {
-            ThemeManager.applyTheme(Theme(rawValue: 1)!)
+            ThemeManager.applyTheme(Theme.Dark)
         } else {
-            ThemeManager.applyTheme(Theme(rawValue: 0)!)
+            ThemeManager.applyTheme(Theme.Light)
         }
         
         dismiss()

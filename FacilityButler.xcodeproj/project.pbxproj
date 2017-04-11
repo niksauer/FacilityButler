@@ -110,9 +110,9 @@
 				24DB94AB1E85200800FC8A94 /* AccessoryController.swift */,
 				24865D281E895CDE00676F0F /* AccessoryList.swift */,
 				248B091D1E94323200524AFD /* Global.swift */,
+				0BC1F2421E98F0BA00FB54EA /* Theme.swift */,
 				242673421E83DE2600BB73C6 /* Assets.xcassets */,
 				242673471E83DE2600BB73C6 /* Info.plist */,
-				0BC1F2421E98F0BA00FB54EA /* Theme.swift */,
 			);
 			path = FacilityButler;
 			sourceTree = "<group>";

@@ -11,11 +11,11 @@ import UIKit
 
 
 enum Theme: Int {
-    case Default, Dark
+    case Light, Dark
     
     var mainColor: UIColor {
         switch self {
-        case .Default:
+        case .Light:
             return .blue
         case .Dark:
             return UIColor(red: 242.0/255.0, green: 101.0/255.0, blue: 34.0/255.0, alpha: 1.0)
@@ -24,7 +24,7 @@ enum Theme: Int {
     
     var backgroundColor: UIColor {
         switch self {
-        case .Default:
+        case .Light:
             return UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1.0)
         case .Dark:
             return UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
@@ -33,7 +33,7 @@ enum Theme: Int {
     
     var barStyle: UIBarStyle {
         switch self {
-        case .Default:
+        case .Light:
             return UIBarStyle.default
         case .Dark:
             log.debug("dark tab")
@@ -43,7 +43,7 @@ enum Theme: Int {
     
     var textColor: UIColor {
         switch self {
-        case .Default:
+        case .Light:
             return UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
         case .Dark:
             return UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1.0)
@@ -56,7 +56,7 @@ struct ThemeManager {
         if let storedTheme = (UserDefaults.standard.value(forKey: PropertyKey.currentTheme)) as? Int {
             return Theme(rawValue: storedTheme)!
         } else {
-            return .Default
+            return .Light
         }
     }
     

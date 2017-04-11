@@ -26,8 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         log.debug("Documents path: \(DocumentsDirectory)")
         
         // theme config
-        let theme = ThemeManager.currentTheme()
-        ThemeManager.applyTheme(theme)
+        ThemeManager.applyTheme(ThemeManager.currentTheme())
         
         // setup initial view controller
         let navigationController = window!.rootViewController as! UINavigationController
