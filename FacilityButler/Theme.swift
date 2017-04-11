@@ -30,23 +30,24 @@ enum Theme: Int {
         }
     }
     
-    var barStyle: UIStatusBarStyle {
+    var barStyle: UIBarStyle {
         switch self {
         case .Default:
-            return .default
+            return UIBarStyle.default
         case .Dark:
             log.debug("dark tab")
-            return .lightContent
+            return UIBarStyle.black
         }
     }
     var textColor: UIColor {
         switch self {
         case .Default:
-            return .black
+            return UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
         case .Dark:
-            return .white
+            return UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1.0)
         }
     }
+    
     
 
 }
@@ -59,7 +60,7 @@ struct ThemeManager {
             return .Default
         }
     }
-    static func applyTheme(theme: Theme) {
+    static func applyTheme(theme: Theme){
         // 1
         UserDefaults.standard.setValue(theme.rawValue, forKey: SelectedThemeKey)
         UserDefaults.standard.synchronize()
@@ -67,9 +68,19 @@ struct ThemeManager {
         // 2
         let sharedApplication = UIApplication.shared
         sharedApplication.delegate?.window??.tintColor = theme.mainColor
-        let view = UIView.appearance()
-        view.backgroundColor = theme.backgroundColor
+        let tableView = UITableView.appearance()
+        tableView.backgroundColor = theme.backgroundColor
+        let tableViewCell = UITableViewCell.appearance()
+        tableViewCell.backgroundColor = theme.backgroundColor
+        let labelView = UILabel.appearance()
+        labelView.textColor = theme.textColor
+        let navBar = UINavigationBar.appearance()
+        navBar.barTintColor = theme.backgroundColor
+        navBar.titleTextAttributes = [NSForegroundColorAttributeName: theme.textColor]
+        let tabBar = UITabBar.appearance()
+        tabBar.barStyle = theme.barStyle
+        UINavigationBar.appearance().barTintColor = theme.backgroundColor
         
-    
+        
     }
 }

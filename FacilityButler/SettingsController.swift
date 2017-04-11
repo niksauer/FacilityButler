@@ -169,6 +169,10 @@ class SettingsController: UITableViewController {
     
     // MARK: - Dark Mode
     
+    func dismiss() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     var darkOn = Bool()
     
     @IBAction func toggleDarkMode(_ sender: UISwitch) {
@@ -176,15 +180,14 @@ class SettingsController: UITableViewController {
             if let selectedTheme = Theme(rawValue: 1) {
                 ThemeManager.applyTheme(theme: selectedTheme)
             }
-            darkOn = true
+            dismiss()
         } else{
             if let selectedTheme = Theme(rawValue: 0) {
-                ThemeManager.applyTheme(theme: selectedTheme)
+             ThemeManager.applyTheme(theme: selectedTheme)
             }
-            darkOn = false
+            dismiss()
         }
     }
-//
     
 }
 
