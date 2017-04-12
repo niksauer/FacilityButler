@@ -216,9 +216,11 @@ class DrawView: UIView {
             default:
                 break
             }
-            
         } else {
             firstLine = true
+            delegate?.shouldSetClearButton(false)
+            delegate?.shouldSetUndoButton(false)
+            delegate?.shouldSetDoneButton(false)
         }
         
         setNeedsDisplay()

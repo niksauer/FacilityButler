@@ -12,16 +12,13 @@ import HomeKit
 class Facility: NSObject, NSCoding {
     
     // MARK: - Instance Properties
-    var floors = [FloorPlan]()
+    var floors = [FloorPlan(etage: 0)]
     var currentFloor = 0
     var placedAccessoires = [PlacedAccessory]()
     
     // MARK: - Initialization
     override init() {
-        let groundFloor = FloorPlan(etage: 0)
-        self.floors.append(groundFloor)
-        super.init()
-        log.debug("Created new facility \(self)")
+        log.debug("Created new facility")
     }
     
     // MARK: - NSCoding Protocol
@@ -32,9 +29,8 @@ class Facility: NSObject, NSCoding {
             self.floors = floors
             self.currentFloor = currentFloor
             self.placedAccessoires = placed
-            super.init()
-            
-            log.info("Loaded previously saved facility \(self)")
+        
+            log.info("Loaded previously saved facility")
         } else {
             return nil
         }
@@ -99,7 +95,10 @@ class Facility: NSObject, NSCoding {
     }
     
     func getBlueprint() -> [Line]? {
-        let floorIndex = floors.index(where: { $0.etage == currentFloor })!
-        return floors[floorIndex].blueprint
+        if let floorIndex = floors.index(where: { $0.etage == currentFloor }) {
+            return floors[floorIndex].blueprint
+        } else {
+            return nil
+        }
     }
 }
