@@ -68,22 +68,22 @@ struct ThemeManager {
         let sharedApplication = UIApplication.shared
         sharedApplication.delegate?.window??.tintColor = theme.mainColor
         
-        // tables
-        let tableView = UITableView.appearance()
-        tableView.backgroundColor = theme.backgroundColor
-        
-        let tableViewCell = UITableViewCell.appearance()
-        tableViewCell.backgroundColor = theme.backgroundColor
-        
-        let labelView = UILabel.appearance()
-        labelView.textColor = theme.textColor
-        
-        let navBar = UINavigationBar.appearance()
-        navBar.barTintColor = theme.backgroundColor
-        navBar.titleTextAttributes = [NSForegroundColorAttributeName: theme.textColor]
-        
-        let tabBar = UITabBar.appearance()
-        tabBar.barStyle = theme.barStyle
-        UINavigationBar.appearance().barTintColor = theme.backgroundColor
+//        // tables
+//        let tableView = UITableView.appearance()
+//        tableView.backgroundColor = theme.backgroundColor
+//        
+//        let tableViewCell = UITableViewCell.appearance()
+//        tableViewCell.backgroundColor = theme.backgroundColor
+//        
+//        let labelView = UILabel.appearance()
+//        labelView.textColor = theme.textColor
+//        
+//        let navBar = UINavigationBar.appearance()
+//        navBar.barTintColor = theme.backgroundColor
+//        navBar.titleTextAttributes = [NSForegroundColorAttributeName: theme.textColor]
+//        
+//        let tabBar = UITabBar.appearance()
+//        tabBar.barStyle = theme.barStyle
+//        UINavigationBar.appearance().barTintColor = theme.backgroundColor
     }
 }
