@@ -39,11 +39,28 @@ class DrawView: UIView {
             firstLine = false
         }
     }
+   /* TODO: override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        lastPoint = touches.first?.location(in: self)
+        if (self.bounds.contains(lastPoint))
+        {
+            let (initialPoint, endPoint) = getLine(firstPoint: firstPoint, lastPoint: lastPoint)
+            lines.append(Line(start: initialPoint, end: endPoint))
+            firstPoint = endPoint
+            delegate?.didDrawLine()
+            lastLines.removeAll()
+            checkIfSingleLineDrawn()
+            
+            setNeedsDisplay()
+        }else{
+            print("line not in view")
+        }
+    }*/
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         // last point gets the value of the last point we touched
         lastPoint = touches.first?.location(in: self)
-        
+        if (self.bounds.contains(lastPoint))
+        {
         let (initialPoint, endPoint) = getLine(firstPoint: firstPoint, lastPoint: lastPoint)
         lines.append(Line(start: initialPoint, end: endPoint))
         firstPoint = endPoint
@@ -51,29 +68,44 @@ class DrawView: UIView {
         lastLines.removeAll()
         checkIfSingleLineDrawn()
         
-        setNeedsDisplay()
+            setNeedsDisplay()
+        }else{
+            print("line not in view")
+        }
+        
     }
     
     override func draw(_ rect: CGRect) {
     
-        let context = UIGraphicsGetCurrentContext()
-        context?.beginPath()
+        let context = UIBezierPath()//UIGraphicsGetCurrentContext()
+      
+        //context.beginPath()
         
         if (firstPoint != nil) {
             for line in lines{
                 
                 
-                context?.move(to: line.start)
+                context.move(to: line.start)
                 
                 
-                context?.addLine(to: line.end)
-                context?.setLineWidth(4)
-                context?.setStrokeColor(UIColor.black.cgColor)
-                context?.setLineCap(CGLineCap.round)
-                context?.strokePath()
-                
+                context.addLine(to: line.end)
+                context.lineWidth = 4 //setLineWidth(4)
+                UIColor.black.setStroke()
+                UIColor.lightGray.setFill()
+                //context.setStrokeColor(UIColor.black.cgColor)
+                //context.etFillColor(UIColor.lightGray.cgColor)
+                context.lineCapStyle = .round //setLineCap(CGLineCap.round)
+                context.lineJoinStyle = .round
+                context.close()
+                if(didDone){
+                    context.stroke()
+                context.fill()
+                }else{
+                    context.stroke()
+                }
                 
             }
+            
         }
         
     }

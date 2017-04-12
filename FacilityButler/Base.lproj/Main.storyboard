@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vyj-lX-xfh" customClass="DrawView" customModule="FacilityButler" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="166" width="375" height="404"/>
+                                <rect key="frame" x="16" y="166" width="343" height="404"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yn2-bs-Bvk">
@@ -95,7 +95,7 @@
                             <constraint firstItem="vyj-lX-xfh" firstAttribute="top" secondItem="O8J-Ra-0ah" secondAttribute="bottom" constant="8" id="C7z-Zu-zcu"/>
                             <constraint firstItem="Lau-1u-R06" firstAttribute="top" secondItem="BrM-mT-DBA" secondAttribute="bottom" constant="16" id="FXB-8y-EJm"/>
                             <constraint firstItem="xCm-43-6NC" firstAttribute="height" secondItem="Yn2-bs-Bvk" secondAttribute="height" id="Lb7-JN-Mel"/>
-                            <constraint firstItem="vyj-lX-xfh" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" id="Nff-He-X73"/>
+                            <constraint firstItem="vyj-lX-xfh" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" constant="16" id="Nff-He-X73"/>
                             <constraint firstItem="BrM-mT-DBA" firstAttribute="trailing" secondItem="fdv-LO-c1p" secondAttribute="trailingMargin" id="SIT-oC-u84"/>
                             <constraint firstItem="Yn2-bs-Bvk" firstAttribute="top" secondItem="fHP-rj-CE5" secondAttribute="bottom" constant="16" id="Se1-Ff-YVy"/>
                             <constraint firstItem="Lau-1u-R06" firstAttribute="top" secondItem="NpW-Gk-wUX" secondAttribute="bottom" constant="16" id="TYw-nd-BiW"/>
@@ -109,7 +109,7 @@
                             <constraint firstItem="pNL-eR-Hb8" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leadingMargin" id="gGy-by-81f"/>
                             <constraint firstItem="Yn2-bs-Bvk" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leadingMargin" id="hAt-68-bKc"/>
                             <constraint firstItem="O8J-Ra-0ah" firstAttribute="leading" secondItem="pNL-eR-Hb8" secondAttribute="trailing" constant="16" id="kyc-TX-xve"/>
-                            <constraint firstAttribute="trailing" secondItem="vyj-lX-xfh" secondAttribute="trailing" id="lzP-QG-WcT"/>
+                            <constraint firstAttribute="trailing" secondItem="vyj-lX-xfh" secondAttribute="trailing" constant="16" id="lzP-QG-WcT"/>
                             <constraint firstItem="4bB-Jh-kaD" firstAttribute="top" secondItem="Lau-1u-R06" secondAttribute="bottom" id="nme-ho-7Wd"/>
                             <constraint firstItem="Lau-1u-R06" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" id="rrU-fu-oAG"/>
                         </constraints>
