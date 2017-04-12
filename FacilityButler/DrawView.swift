@@ -17,18 +17,18 @@ class DrawView: UIView {
     var lastPoint: CGPoint!
     
     // creating an array of lines which will be drawn in the function draw(_:)
-    var lines: [Line] = []
+    var lines = [Line]()
     
     var didClear = false
     var didDone = false
     var lastLines = [Line]()
     
     // 2 boolean variables in order to draw vertically or horizontally
-    var drawVertical: Bool! = true
-    var drawDiagonal: Bool! = false
+    var drawVertical = true
+    var drawDiagonal = false
     
     // boolean variable to determine if the Line is the firstLine on the Canvas
-    var firstLine: Bool! = true
+    var firstLine = true
     
     // MARK: - Actions
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -69,7 +69,8 @@ class DrawView: UIView {
             lines.append(Line(start: initialPoint, end: endPoint))
             firstPoint = endPoint
             
-            delegate?.didDrawLine()
+            delegate?.shouldSetClearButton(true)
+            delegate?.shouldSetRedoButton(false)
             
             if lines.count > 2 {
                 delegate?.shouldSetDoneButton(true)
@@ -79,26 +80,22 @@ class DrawView: UIView {
             
             lastLines.removeAll()
             checkIfSingleLineDrawn()
+            delegate?.didMakeChange()
             
             setNeedsDisplay()
         } else {
-            //            log.debug("line not within bounds")
+//            log.debug("line not within bounds")
         }
     }
     
     override func draw(_ rect: CGRect) {
-        
-        let context = UIBezierPath()//UIGraphicsGetCurrentContext()
-        
+        let context = UIBezierPath() //UIGraphicsGetCurrentContext()
         //context.beginPath()
         
         if (firstPoint != nil) {
-            for line in lines{
-                
-                
+            for line in lines {
                 context.move(to: line.start)
-                
-                
+            
                 context.addLine(to: line.end)
                 context.lineWidth = 4 //setLineWidth(4)
                 UIColor.black.setStroke()
@@ -108,17 +105,15 @@ class DrawView: UIView {
                 context.lineCapStyle = .round //setLineCap(CGLineCap.round)
                 context.lineJoinStyle = .round
                 context.close()
-                if(didDone){
+                
+                if (didDone) {
                     context.stroke()
                     context.fill()
-                }else{
+                } else {
                     context.stroke()
                 }
-                
             }
-            
         }
-        
     }
     
     /* first we set the boolean variable didClear to false because we didnt clear the canvas then we enable the redo button, then we delete the last element of the lines array and safe it in a new array "lastLines"
@@ -131,6 +126,8 @@ class DrawView: UIView {
         firstPoint = lines.last?.end
         setNeedsDisplay()
         checkIfSingleLineDrawn()
+        delegate?.didMakeChange()
+        delegate?.shouldSetRedoButton(true)
     }
     
     /* first we ask wether we clear the canvas or iv we've undone the last drawn line.
@@ -161,6 +158,8 @@ class DrawView: UIView {
         didClear = false
         setNeedsDisplay()
         checkIfSingleLineDrawn()
+        delegate?.didMakeChange()
+        delegate?.shouldSetClearButton(true)
     }
     
     /* when clearButton is triggered we set didClear to true and we save everything we are going to delete in the last lines array
@@ -174,6 +173,11 @@ class DrawView: UIView {
         lines = []
         firstLine = true
         setNeedsDisplay()
+        delegate?.didMakeChange()
+        delegate?.shouldSetUndoButton(false)
+        delegate?.shouldSetRedoButton(true)
+        delegate?.shouldSetClearButton(false)
+        delegate?.shouldSetDoneButton(false)
     }
     
     func done() {
@@ -182,12 +186,15 @@ class DrawView: UIView {
             lines.first?.start = initialAndEndPoint
             lines.last?.end = initialAndEndPoint
             setNeedsDisplay()
+            delegate?.didMakeChange()
         }
     }
     
     func setContent(blueprint: [Line]?) {
-        clear()
+        didClear = true
+        lastLines = []
         lines = blueprint ?? []
+        firstLine = true
         
         if !lines.isEmpty {
             firstLine = false
@@ -226,7 +233,6 @@ class DrawView: UIView {
     }
     
     // MARK: - Private Actions
-    
     /* Workaround: we couldn't redraw if we deletet all lines with 'undo'
      solution if we disable undo if there is only one line left everything works fine */
     private func checkIfSingleLineDrawn() {
@@ -258,8 +264,7 @@ class DrawView: UIView {
         return (fp,newLastPoint)
     }
     
-    
-    func  getIntersectionPoint(firstLine fl: Line, lastLine ll: Line) ->CGPoint?{
+    private func getIntersectionPoint(firstLine fl: Line, lastLine ll: Line) -> CGPoint? {
         var interSectionPoint: CGPoint? = nil
         
         
@@ -303,7 +308,7 @@ class DrawView: UIView {
         
     }
     
-    private func determineLineDirection(Line line: Line) -> Int{
+    private func determineLineDirection(Line line: Line) -> Int {
         if(line.start.x == line.end.x){
             //vertical
             return 1
@@ -320,7 +325,7 @@ class DrawView: UIView {
         
     }
     
-    private func functionYValue(xValue x: CGFloat, line diagLine: Line) -> CGFloat{
+    private func functionYValue(xValue x: CGFloat, line diagLine: Line) -> CGFloat {
         //f(x)=mx+b (b = y-x)
         var b: CGFloat
         b = diagLine.start.y - diagLine.start.x
@@ -329,7 +334,7 @@ class DrawView: UIView {
         
     }
     
-    private func functionXValue(yValue y: CGFloat, line diagLine: Line) -> CGFloat{
+    private func functionXValue(yValue y: CGFloat, line diagLine: Line) -> CGFloat {
         //f(x)=mx+b (b = y-x) (x = y-b)
         var b: CGFloat
         b = diagLine.start.y - diagLine.start.x
@@ -342,7 +347,7 @@ class DrawView: UIView {
 }
 
 protocol DrawViewDelegate {
-    func didDrawLine()
+    func didMakeChange()
     func shouldSetUndoButton(_ state: Bool)
     func shouldSetRedoButton(_ state: Bool)
     func shouldSetClearButton(_ state: Bool)

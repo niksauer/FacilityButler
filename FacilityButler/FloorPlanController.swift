@@ -136,7 +136,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     
     // MARK: - Custom Draw Tool
     // MARK: Instance Properties
-    var didMakeChange = false
+    var changedBlueprint = false
     var saveTimer: Timer?
     
     // MARK: Outlets
@@ -155,7 +155,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
                 return
             }
             
-            if self.didMakeChange {
+            if self.changedBlueprint {
                 do {
                     self.model.facility.setBlueprint(self.drawTool.getContent())
                     try self.model.save()
@@ -163,7 +163,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
                     presentError(viewController: self, error: error)
                 }
                 
-                self.didMakeChange = false
+                self.changedBlueprint = false
             } else {
                 log.debug("no change made in past 5 seconds, stopping save timer")
                 self.saveTimer?.invalidate()
@@ -197,20 +197,14 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     
     @IBAction func undo(_ sender: UIBarButtonItem) {
         drawTool.undo()
-        redoButton.isEnabled = true
     }
 
     @IBAction func redo(_ sender: UIBarButtonItem) {
         drawTool.redo()
-        clearButton.isEnabled = true
     }
     
     @IBAction func clear(_ sender: UIBarButtonItem) {
         drawTool.clear()
-        doneButton.isEnabled = false
-        clearButton.isEnabled = false
-        undoButton.isEnabled = false
-        redoButton.isEnabled = true
     }
     
     @IBAction func done(_ sender: UIBarButtonItem) {
@@ -220,11 +214,8 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     // MARK: Draw View Delegate
     /* if we draw a line we enable clear and disable redo, because we dont want to redo something if we decided to draw something else 
         if the user has drawn at least 3 lines he can finish his masterpiece*/
-    func didDrawLine() {
-        clearButton.isEnabled = true
-        redoButton.isEnabled = false
-        
-        didMakeChange = true
+    func didMakeChange() {
+        changedBlueprint = true
         log.debug("made change to floorplan, (re-)starting save timer")
         startSaveTimer()
     }
@@ -244,7 +235,5 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     func shouldSetDoneButton(_ state: Bool) {
         doneButton.isEnabled = state
     }
-    
-    
     
 }
