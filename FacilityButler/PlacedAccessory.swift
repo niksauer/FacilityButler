@@ -21,10 +21,12 @@ class PlacedAccessory: NSObject, NSCoding {
     }
     
     // MARK: - NSCoding Protocol
-    required convenience init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         if let identifier = aDecoder.decodeObject(forKey: PropertyKey.uniqueIdentifier) as? String {
             let floorNumber = aDecoder.decodeInteger(forKey: PropertyKey.floorNumber)
-            self.init(uniqueIdentifier: identifier, floorNumber: floorNumber)
+            
+            self.uniqueIdentifier = identifier
+            self.floorNumber = floorNumber
         } else {
             return nil
         }

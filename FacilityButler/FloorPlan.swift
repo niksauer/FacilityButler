@@ -27,13 +27,13 @@ class FloorPlan: NSObject, NSCoding {
     // MARK: - Initialization
     init(etage: Int) {
         self.etage = etage
-        self.blueprint = [Line]()
     }
     
     // MARK: - NSCoding Protocol
     required init?(coder aDecoder: NSCoder) {
-        if let blueprint = aDecoder.decodeObject(forKey: PropertyKey.blueprint) as? [Line] {
+        if let blueprint = aDecoder.decodeObject(forKey: PropertyKey.blueprint) as? [Line]? {
             let etage = aDecoder.decodeInteger(forKey: PropertyKey.etage)
+            
             self.etage = etage
             self.blueprint = blueprint
         } else {

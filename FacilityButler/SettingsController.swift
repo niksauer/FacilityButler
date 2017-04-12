@@ -126,6 +126,7 @@ class SettingsController: UITableViewController {
                 self.model.deleteFacility(home: home, completion: { (error) in
                     if !(presentError(viewController: self, error: error)) {
                         self.tableView.reloadData()
+                        
                         if self.model.butler.primaryHome == nil {
                             presentError(viewController: self, error: FacilityError.noFaciltiySet)
                         }

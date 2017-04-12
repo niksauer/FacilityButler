@@ -29,6 +29,11 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
                 addAccessoryButton.isEnabled = false
                 currentFloorStepper.isEnabled = false
                 drawTool.isUserInteractionEnabled = false
+                
+                currentFloorStepper.value = 0
+                currentFloorLabel.text = "\(0)"
+                navigationItem.title = FloorPlan.getOrdinal(ofFloor: 0, capitalized: true)
+                drawTool.setContent(blueprint: nil)
             }
         }
     }
@@ -83,6 +88,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     
     /// receives and attempts to place selected accessory
     @IBAction func unwindToFloorPlan(segue: UIStoryboardSegue) {
+        print("test")
         if let source = segue.source as? AccessoryController, let selectedAccessory = source.list.selection {
             log.debug("unwinded to FloorPlanController from AccessoriesTableViewController")
             placeAccessory(accessory: selectedAccessory)
@@ -128,6 +134,9 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
 //            }
             
             isInitialSetup = false
+        
+            
+
         }
     }
     
@@ -151,7 +160,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     
     // MARK: Actions
     func startSaveTimer() {
-        saveTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: {_ in
+        saveTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { _ in
             guard self.model.instance != nil else {
                 return
             }
