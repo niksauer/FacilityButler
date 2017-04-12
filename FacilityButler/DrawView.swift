@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class DrawView: UIView {
 
     // MARK: - Instance Properties
@@ -19,6 +20,7 @@ class DrawView: UIView {
     var lines: [Line] = []
     
     var didClear = false
+    var didDone = false
     var lastLines = [Line]()
     
     // 2 boolean variables in order to draw vertically or horizontally
@@ -37,11 +39,28 @@ class DrawView: UIView {
             firstLine = false
         }
     }
+   /* TODO: override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        lastPoint = touches.first?.location(in: self)
+        if (self.bounds.contains(lastPoint))
+        {
+            let (initialPoint, endPoint) = getLine(firstPoint: firstPoint, lastPoint: lastPoint)
+            lines.append(Line(start: initialPoint, end: endPoint))
+            firstPoint = endPoint
+            delegate?.didDrawLine()
+            lastLines.removeAll()
+            checkIfSingleLineDrawn()
+            
+            setNeedsDisplay()
+        }else{
+            print("line not in view")
+        }
+    }*/
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         // last point gets the value of the last point we touched
         lastPoint = touches.first?.location(in: self)
-        
+        if (self.bounds.contains(lastPoint))
+        {
         let (initialPoint, endPoint) = getLine(firstPoint: firstPoint, lastPoint: lastPoint)
         lines.append(Line(start: initialPoint, end: endPoint))
         firstPoint = endPoint
@@ -49,24 +68,46 @@ class DrawView: UIView {
         lastLines.removeAll()
         checkIfSingleLineDrawn()
         
-        setNeedsDisplay()
+            setNeedsDisplay()
+        }else{
+            print("line not in view")
+        }
+        
     }
     
     override func draw(_ rect: CGRect) {
-        let context = UIGraphicsGetCurrentContext()
-        context?.beginPath()
+    
+        let context = UIBezierPath()//UIGraphicsGetCurrentContext()
+      
+        //context.beginPath()
         
         if (firstPoint != nil) {
             for line in lines{
-                context?.move(to: line.start)
-                context?.addLine(to: line.end)
-                context?.setLineWidth(5)
-                context?.setStrokeColor(UIColor.black.cgColor)
-                context?.setLineCap(CGLineCap.round)
-                context?.strokePath()
+                
+                
+                context.move(to: line.start)
+                
+                
+                context.addLine(to: line.end)
+                context.lineWidth = 4 //setLineWidth(4)
+                UIColor.black.setStroke()
+                UIColor.lightGray.setFill()
+                //context.setStrokeColor(UIColor.black.cgColor)
+                //context.etFillColor(UIColor.lightGray.cgColor)
+                context.lineCapStyle = .round //setLineCap(CGLineCap.round)
+                context.lineJoinStyle = .round
+                context.close()
+                if(didDone){
+                    context.stroke()
+                context.fill()
+                }else{
+                    context.stroke()
+                }
                 
             }
+            
         }
+        
     }
     
     /* first we set the boolean variable didClear to false because we didnt clear the canvas then we enable the redo button, then we delete the last element of the lines array and safe it in a new array "lastLines"
@@ -167,6 +208,87 @@ class DrawView: UIView {
         }
         
         return (fp,newLastPoint)
+    }
+    
+    
+    func  getIntersectionPoint(firstLine fl: Line, lastLine ll: Line) ->CGPoint?{
+        var interSectionPoint: CGPoint? = nil
+        
+    
+        switch(determineLineDirection(Line: fl)){
+        case 1:
+            //firstline is vertical
+            switch(determineLineDirection(Line: ll)){
+            case 1: interSectionPoint = fl.start
+            case 2: interSectionPoint = CGPoint(x: fl.start.x, y: ll.start.y)
+            case 3: interSectionPoint = CGPoint(x: fl.start.x ,y: functionYValue(xValue: fl.start.x, line: ll) )
+            default: break
+            }
+            
+            
+            
+            
+        case 2:
+            //firstline is horizontal
+            switch(determineLineDirection(Line: ll)){
+            case 1: interSectionPoint = CGPoint(x: ll.start.x, y: fl.start.y)
+            case 2: interSectionPoint = fl.start
+            case 3: interSectionPoint = CGPoint(x: functionXValue(yValue: fl.start.y, line: ll), y: fl.start.y)
+            default: break
+            }
+            
+            
+            
+        case 3:
+            switch(determineLineDirection(Line: ll)){
+            //firstline is diagonal
+            case 1: interSectionPoint = CGPoint(x: ll.start.x, y: functionYValue(xValue: ll.start.x, line: fl))
+            case 2: interSectionPoint = CGPoint(x: functionXValue(yValue: ll.start.y, line: fl),y: ll.start.y)
+            case 3: interSectionPoint = fl.start
+            default: break
+            }
+            
+        default: break
+        }
+        
+        return interSectionPoint
+        
+    }
+    
+    private func determineLineDirection(Line line: Line) -> Int{
+        if(line.start.x == line.end.x){
+        //vertical
+            return 1
+        }
+        else if(line.start.y == line.end.y){
+        //horizontal
+            return 2
+        }
+        else{
+        //diagonal
+            return 3
+        }
+    
+    
+    }
+    
+    private func functionYValue(xValue x: CGFloat, line diagLine: Line) -> CGFloat{
+        //f(x)=mx+b (b = y-x)
+        var b: CGFloat
+        b = diagLine.start.y - diagLine.start.x
+        
+        return x + b
+        
+    }
+    
+    private func functionXValue(yValue y: CGFloat, line diagLine: Line) -> CGFloat{
+        //f(x)=mx+b (b = y-x) (x = y-b)
+        var b: CGFloat
+        b = diagLine.start.y - diagLine.start.x
+        
+        
+        return y - b
+        
     }
 
 }
