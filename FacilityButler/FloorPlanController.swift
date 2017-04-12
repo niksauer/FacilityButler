@@ -21,9 +21,6 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     var isInitialSetup = true
     var isUIEnabled = false {
         didSet {
-//            let state = isUIEnabled ? "enabled" : "disabled"
-//            log.debug("UI is \(state)")
-            
             if isUIEnabled {
                 addAccessoryButton.isEnabled = true
                 currentFloorStepper.isEnabled = true
@@ -45,7 +42,6 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     // MARK: - Navigation
     /// loads or creates requested floor
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-       // model.facility.setBlueprint(drawTool.getContent())
         let destination = segue.destination
     
         if let navController = destination as? UINavigationController, let accessoryVC = navController.topViewController as? AccessoryController {
@@ -139,10 +135,10 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     @IBOutlet weak var clearButton: UIBarButtonItem!
     @IBOutlet weak var undoButton: UIBarButtonItem!
     @IBOutlet weak var redoButton: UIBarButtonItem!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var lineTypeLabel: UILabel!
     @IBOutlet weak var diagonalLabel: UILabel!
     
-    @IBOutlet weak var doneButton: UIBarButtonItem!
     // MARK: Actions
     /// If the switch is on we set the vertical boolean true vice versa at the same time we change the text of the label
     @IBAction func switchLineType(_ sender: UISwitch) {
@@ -176,30 +172,18 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     @IBAction func redo(_ sender: UIBarButtonItem) {
         drawTool.redo()
         clearButton.isEnabled = true
-        
-        if drawTool.lastLines.isEmpty {
-            redoButton.isEnabled = false
-        }
-    }
-    @IBAction func done(_ sender: Any) {
-    
-        if let initialAndEndPoint = drawTool.getIntersectionPoint(firstLine: drawTool.lines.first!, lastLine: drawTool.lines.last!){
-            
-            drawTool.didDone = true
-            drawTool.lines.first?.start = initialAndEndPoint
-            drawTool.lines.last?.end = initialAndEndPoint
-            drawTool.setNeedsDisplay()
-        }else{
-            print("lines do not cross")
-        }
     }
     
-    @IBAction func clear() {
+    @IBAction func clear(_ sender: UIBarButtonItem) {
         drawTool.clear()
         doneButton.isEnabled = false
         clearButton.isEnabled = false
         undoButton.isEnabled = false
         redoButton.isEnabled = true
+    }
+    
+    @IBAction func done(_ sender: UIBarButtonItem) {
+        drawTool.done()
     }
     
     // MARK: Draw View Delegate
@@ -208,13 +192,18 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     func didDrawLine() {
         clearButton.isEnabled = true
         redoButton.isEnabled = false
-        if drawTool.lines.count > 2 {
-            doneButton.isEnabled = true
-        }
     }
     
     func shouldSetUndoButton(_ state: Bool) {
         undoButton.isEnabled = state
+    }
+    
+    func shouldSetDoneButton(_ state: Bool) {
+        doneButton.isEnabled = state
+    }
+    
+    func shouldSetRedoButton(_ state: Bool) {
+        redoButton.isEnabled = state
     }
     
 }

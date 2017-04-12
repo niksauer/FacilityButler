@@ -13,7 +13,7 @@ class FloorPlan: NSObject, NSCoding {
     
     // MARK: - Instance Properties
     let etage: Int
-    var blueprint: [Line]
+    var blueprint: [Line]?
     
     // MARK: - Types
     enum OrdinalNumber: String {
