@@ -94,18 +94,16 @@ class Facility: NSObject, NSCoding {
     }
     
     func setBlueprint(_ lines: [Line]?) {
-        let floorIndex = floors.index(where: { $0.etage == currentFloor })!
-        floors[floorIndex].blueprint = lines
-        
-//        if let lineCount = floors[floorIndex].blueprint?.count {
-//            log.debug("set blueprint with \(lineCount) lines of floor \(currentFloor)")
-//        } else {
-//            log.debug("reset blueprint")
-//        }
+        if let floorIndex = floors.index(where: { $0.etage == currentFloor }) {
+            floors[floorIndex].blueprint = lines
+        }
     }
     
     func getBlueprint() -> [Line]? {
-        let floorIndex = floors.index(where: { $0.etage == currentFloor })!
-        return floors[floorIndex].blueprint
+        if let floorIndex = floors.index(where: { $0.etage == currentFloor }) {
+            return floors[floorIndex].blueprint
+        } else {
+            return nil
+        }
     }
 }
