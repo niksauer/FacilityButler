@@ -93,12 +93,12 @@ class Facility: NSObject, NSCoding {
         return accessories
     }
     
-    func setBlueprint(_ lines: [Line]) {
+    func setBlueprint(_ lines: [Line]?) {
         let floorIndex = floors.index(where: { $0.etage == currentFloor })!
         floors[floorIndex].blueprint = lines
     }
     
-    func getBlueprint() -> [Line] {
+    func getBlueprint() -> [Line]? {
         let floorIndex = floors.index(where: { $0.etage == currentFloor })!
         return floors[floorIndex].blueprint
     }

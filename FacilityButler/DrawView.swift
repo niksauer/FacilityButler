@@ -8,17 +8,19 @@
 
 import UIKit
 
-class DrawView: UIView {
 
+class DrawView: UIView {
+    
     // MARK: - Instance Properties
     var delegate: DrawViewDelegate?
     var firstPoint: CGPoint!
     var lastPoint: CGPoint!
     
     // creating an array of lines which will be drawn in the function draw(_:)
-    var lines: [Line] = []
+    var lines = [Line]()
     
     var didClear = false
+    var didDone = false
     var lastLines = [Line]()
     
     // 2 boolean variables in order to draw vertically or horizontally
@@ -38,33 +40,78 @@ class DrawView: UIView {
         }
     }
     
+    /*
+    // TODO
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        lastPoint = touches.first?.location(in: self)
+        
+        if (self.bounds.contains(lastPoint)) {
+            let (initialPoint, endPoint) = getLine(firstPoint: firstPoint, lastPoint: lastPoint)
+            lines.append(Line(start: initialPoint, end: endPoint))
+            firstPoint = endPoint
+            delegate?.didDrawLine()
+            lastLines.removeAll()
+            checkIfSingleLineDrawn()
+            
+            setNeedsDisplay()
+        } else {
+            print("line not in view")
+        }
+    }
+    */
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         // last point gets the value of the last point we touched
         lastPoint = touches.first?.location(in: self)
         
-        let (initialPoint, endPoint) = getLine(firstPoint: firstPoint, lastPoint: lastPoint)
-        lines.append(Line(start: initialPoint, end: endPoint))
-        firstPoint = endPoint
-        delegate?.didDrawLine()
-        lastLines.removeAll()
-        checkIfSingleLineDrawn()
-        
-        setNeedsDisplay()
+        if (self.bounds.contains(lastPoint)) {
+            let (initialPoint, endPoint) = getLine(firstPoint: firstPoint, lastPoint: lastPoint)
+            lines.append(Line(start: initialPoint, end: endPoint))
+            firstPoint = endPoint
+            
+            delegate?.shouldSetClearButton(true)
+            delegate?.shouldSetRedoButton(false)
+            
+            if lines.count > 2 {
+                delegate?.shouldSetDoneButton(true)
+            } else {
+                delegate?.shouldSetDoneButton(false)
+            }
+            
+            lastLines.removeAll()
+            checkIfSingleLineDrawn()
+            delegate?.didMakeChange()
+            
+            setNeedsDisplay()
+        } else {
+//            log.debug("line not within bounds")
+        }
     }
     
     override func draw(_ rect: CGRect) {
-        let context = UIGraphicsGetCurrentContext()
-        context?.beginPath()
+        let context = UIBezierPath() //UIGraphicsGetCurrentContext()
+        //context.beginPath()
         
         if (firstPoint != nil) {
-            for line in lines{
-                context?.move(to: line.start)
-                context?.addLine(to: line.end)
-                context?.setLineWidth(5)
-                context?.setStrokeColor(UIColor.black.cgColor)
-                context?.setLineCap(CGLineCap.round)
-                context?.strokePath()
+            for line in lines {
+                context.move(to: line.start)
+            
+                context.addLine(to: line.end)
+                context.lineWidth = 4 //setLineWidth(4)
+                UIColor.black.setStroke()
+                UIColor.lightGray.setFill()
+                //context.setStrokeColor(UIColor.black.cgColor)
+                //context.etFillColor(UIColor.lightGray.cgColor)
+                context.lineCapStyle = .round //setLineCap(CGLineCap.round)
+                context.lineJoinStyle = .round
+                context.close()
                 
+                if (didDone) {
+                    context.stroke()
+                    context.fill()
+                } else {
+                    context.stroke()
+                }
             }
         }
     }
@@ -79,6 +126,8 @@ class DrawView: UIView {
         firstPoint = lines.last?.end
         setNeedsDisplay()
         checkIfSingleLineDrawn()
+        delegate?.didMakeChange()
+        delegate?.shouldSetRedoButton(true)
     }
     
     /* first we ask wether we clear the canvas or iv we've undone the last drawn line.
@@ -99,10 +148,18 @@ class DrawView: UIView {
             lastLines.removeAll()
         }
         
+        if lastLines.isEmpty {
+            delegate?.shouldSetRedoButton(false)
+        } else {
+            delegate?.shouldSetRedoButton(true)
+        }
+        
         firstLine = false
         didClear = false
         setNeedsDisplay()
         checkIfSingleLineDrawn()
+        delegate?.didMakeChange()
+        delegate?.shouldSetClearButton(true)
     }
     
     /* when clearButton is triggered we set didClear to true and we save everything we are going to delete in the last lines array
@@ -116,28 +173,66 @@ class DrawView: UIView {
         lines = []
         firstLine = true
         setNeedsDisplay()
+        delegate?.didMakeChange()
+        delegate?.shouldSetUndoButton(false)
+        delegate?.shouldSetRedoButton(true)
+        delegate?.shouldSetClearButton(false)
+        delegate?.shouldSetDoneButton(false)
     }
     
-    func setContent(blueprint: [Line]) {
-        clear()
-        lines = blueprint
+    func done() {
+        if let initialAndEndPoint = getIntersectionPoint(firstLine: lines.first!, lastLine: lines.last!) {
+            didDone = true
+            lines.first?.start = initialAndEndPoint
+            lines.last?.end = initialAndEndPoint
+            setNeedsDisplay()
+            delegate?.didMakeChange()
+        }
+    }
+    
+    func setContent(blueprint: [Line]?) {
+        didClear = true
+        lastLines = []
+        lines = blueprint ?? []
+        firstLine = true
         
         if !lines.isEmpty {
             firstLine = false
             firstPoint = lines.last!.end
+            
+            switch lines.count {
+            case 1:
+                delegate?.shouldSetClearButton(true)
+                delegate?.shouldSetUndoButton(false)
+                delegate?.shouldSetDoneButton(false)
+            case 2:
+                delegate?.shouldSetClearButton(true)
+                delegate?.shouldSetUndoButton(true)
+                delegate?.shouldSetDoneButton(false)
+            case 3...Int.max:
+                delegate?.shouldSetClearButton(true)
+                delegate?.shouldSetUndoButton(true)
+                delegate?.shouldSetDoneButton(true)
+            default:
+                break
+            }
+            
         } else {
             firstLine = true
         }
-    
+        
         setNeedsDisplay()
     }
     
-    func getContent() -> [Line] {
-        return lines
+    func getContent() -> [Line]? {
+        if !lines.isEmpty {
+            return lines
+        } else {
+            return nil
+        }
     }
     
     // MARK: - Private Actions
-    
     /* Workaround: we couldn't redraw if we deletet all lines with 'undo'
      solution if we disable undo if there is only one line left everything works fine */
     private func checkIfSingleLineDrawn() {
@@ -168,10 +263,93 @@ class DrawView: UIView {
         
         return (fp,newLastPoint)
     }
-
+    
+    private func getIntersectionPoint(firstLine fl: Line, lastLine ll: Line) -> CGPoint? {
+        var interSectionPoint: CGPoint? = nil
+        
+        
+        switch(determineLineDirection(Line: fl)){
+        case 1:
+            //firstline is vertical
+            switch(determineLineDirection(Line: ll)){
+            case 1: interSectionPoint = fl.start
+            case 2: interSectionPoint = CGPoint(x: fl.start.x, y: ll.start.y)
+            case 3: interSectionPoint = CGPoint(x: fl.start.x ,y: functionYValue(xValue: fl.start.x, line: ll) )
+            default: break
+            }
+            
+            
+            
+            
+        case 2:
+            //firstline is horizontal
+            switch(determineLineDirection(Line: ll)){
+            case 1: interSectionPoint = CGPoint(x: ll.start.x, y: fl.start.y)
+            case 2: interSectionPoint = fl.start
+            case 3: interSectionPoint = CGPoint(x: functionXValue(yValue: fl.start.y, line: ll), y: fl.start.y)
+            default: break
+            }
+            
+            
+            
+        case 3:
+            switch(determineLineDirection(Line: ll)){
+            //firstline is diagonal
+            case 1: interSectionPoint = CGPoint(x: ll.start.x, y: functionYValue(xValue: ll.start.x, line: fl))
+            case 2: interSectionPoint = CGPoint(x: functionXValue(yValue: ll.start.y, line: fl),y: ll.start.y)
+            case 3: interSectionPoint = fl.start
+            default: break
+            }
+            
+        default: break
+        }
+        
+        return interSectionPoint
+        
+    }
+    
+    private func determineLineDirection(Line line: Line) -> Int {
+        if(line.start.x == line.end.x){
+            //vertical
+            return 1
+        }
+        else if(line.start.y == line.end.y){
+            //horizontal
+            return 2
+        }
+        else{
+            //diagonal
+            return 3
+        }
+        
+        
+    }
+    
+    private func functionYValue(xValue x: CGFloat, line diagLine: Line) -> CGFloat {
+        //f(x)=mx+b (b = y-x)
+        var b: CGFloat
+        b = diagLine.start.y - diagLine.start.x
+        
+        return x + b
+        
+    }
+    
+    private func functionXValue(yValue y: CGFloat, line diagLine: Line) -> CGFloat {
+        //f(x)=mx+b (b = y-x) (x = y-b)
+        var b: CGFloat
+        b = diagLine.start.y - diagLine.start.x
+        
+        
+        return y - b
+        
+    }
+    
 }
 
 protocol DrawViewDelegate {
-    func didDrawLine()
+    func didMakeChange()
     func shouldSetUndoButton(_ state: Bool)
+    func shouldSetRedoButton(_ state: Bool)
+    func shouldSetClearButton(_ state: Bool)
+    func shouldSetDoneButton(_ state: Bool)
 }

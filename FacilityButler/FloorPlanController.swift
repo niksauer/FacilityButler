@@ -21,9 +21,6 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     var isInitialSetup = true
     var isUIEnabled = false {
         didSet {
-//            let state = isUIEnabled ? "enabled" : "disabled"
-//            log.debug("UI is \(state)")
-            
             if isUIEnabled {
                 addAccessoryButton.isEnabled = true
                 currentFloorStepper.isEnabled = true
@@ -45,7 +42,10 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     // MARK: - Navigation
     /// loads or creates requested floor
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        model.facility.setBlueprint(drawTool.getContent())
+        if model.instance != nil {
+            model.facility.setBlueprint(drawTool.getContent())
+        }
+        
         let destination = segue.destination
     
         if let navController = destination as? UINavigationController, let accessoryVC = navController.topViewController as? AccessoryController {
@@ -135,14 +135,45 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     
     
     // MARK: - Custom Draw Tool
+    // MARK: Instance Properties
+    var changedBlueprint = false
+    var saveTimer: Timer?
+    var isSaveTimerActive = false
+    
+    // MARK: Outlets
     @IBOutlet var drawTool: DrawView!
     @IBOutlet weak var clearButton: UIBarButtonItem!
     @IBOutlet weak var undoButton: UIBarButtonItem!
     @IBOutlet weak var redoButton: UIBarButtonItem!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var lineTypeLabel: UILabel!
     @IBOutlet weak var diagonalLabel: UILabel!
     
     // MARK: Actions
+    func startSaveTimer() {
+        saveTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: {_ in
+            guard self.model.instance != nil else {
+                return
+            }
+            
+            if self.changedBlueprint {
+                do {
+                    self.model.facility.setBlueprint(self.drawTool.getContent())
+                    try self.model.save()
+                } catch {
+                    presentError(viewController: self, error: error)
+                }
+                
+                self.changedBlueprint = false
+                self.isSaveTimerActive = true
+            } else {
+                log.debug("no change made in past 5 seconds, stopping save timer")
+                self.saveTimer?.invalidate()
+                self.isSaveTimerActive = false
+            }
+        })
+    }
+    
     /// If the switch is on we set the vertical boolean true vice versa at the same time we change the text of the label
     @IBAction func switchLineType(_ sender: UISwitch) {
         if sender.isOn {
@@ -169,34 +200,46 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     
     @IBAction func undo(_ sender: UIBarButtonItem) {
         drawTool.undo()
-        redoButton.isEnabled = true
     }
 
     @IBAction func redo(_ sender: UIBarButtonItem) {
         drawTool.redo()
-        clearButton.isEnabled = true
-        
-        if drawTool.lastLines.isEmpty {
-            redoButton.isEnabled = false
-        }
     }
     
-    @IBAction func clear() {
+    @IBAction func clear(_ sender: UIBarButtonItem) {
         drawTool.clear()
-        clearButton.isEnabled = false
-        undoButton.isEnabled = false
-        redoButton.isEnabled = true
+    }
+    
+    @IBAction func done(_ sender: UIBarButtonItem) {
+        drawTool.done()
     }
     
     // MARK: Draw View Delegate
-    /// if we draw a line we enable clear and disable redo, because we dont want to redo something if we decided to draw something else */
-    func didDrawLine() {
-        clearButton.isEnabled = true
-        redoButton.isEnabled = false
+    /* if we draw a line we enable clear and disable redo, because we dont want to redo something if we decided to draw something else 
+        if the user has drawn at least 3 lines he can finish his masterpiece*/
+    func didMakeChange() {
+        changedBlueprint = true
+        log.debug("made change to floorplan, (re-)starting save timer")
+        
+        if !isSaveTimerActive {
+            startSaveTimer()
+        }
     }
     
     func shouldSetUndoButton(_ state: Bool) {
         undoButton.isEnabled = state
+    }
+    
+    func shouldSetRedoButton(_ state: Bool) {
+        redoButton.isEnabled = state
+    }
+    
+    func shouldSetClearButton(_ state: Bool) {
+        clearButton.isEnabled = state
+    }
+    
+    func shouldSetDoneButton(_ state: Bool) {
+        doneButton.isEnabled = state
     }
     
 }
