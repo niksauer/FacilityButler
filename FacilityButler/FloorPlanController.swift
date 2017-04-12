@@ -138,6 +138,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     // MARK: Instance Properties
     var changedBlueprint = false
     var saveTimer: Timer?
+    var isSaveTimerActive = false
     
     // MARK: Outlets
     @IBOutlet var drawTool: DrawView!
@@ -164,9 +165,11 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
                 }
                 
                 self.changedBlueprint = false
+                self.isSaveTimerActive = true
             } else {
                 log.debug("no change made in past 5 seconds, stopping save timer")
                 self.saveTimer?.invalidate()
+                self.isSaveTimerActive = false
             }
         })
     }
@@ -217,7 +220,10 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     func didMakeChange() {
         changedBlueprint = true
         log.debug("made change to floorplan, (re-)starting save timer")
-        startSaveTimer()
+        
+        if !isSaveTimerActive {
+            startSaveTimer()
+        }
     }
     
     func shouldSetUndoButton(_ state: Bool) {
