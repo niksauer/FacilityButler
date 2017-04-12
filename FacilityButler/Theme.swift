@@ -16,37 +16,61 @@ enum Theme: Int {
     var mainColor: UIColor {
         switch self {
         case .Light:
-            return .blue
+            return UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
         case .Dark:
-            return UIColor(red: 242.0/255.0, green: 101.0/255.0, blue: 34.0/255.0, alpha: 1.0)
+            return UIColor(red: 255.0/255.0, green: 149.0/255.0, blue: 0.0/255.0, alpha: 1.0)
         }
     }
     
     var backgroundColor: UIColor {
         switch self {
         case .Light:
-            return UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+            return UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
         case .Dark:
-            return UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
-        }
-    }
-    
-    var barStyle: UIBarStyle {
-        switch self {
-        case .Light:
-            return UIBarStyle.default
-        case .Dark:
-            log.debug("dark tab")
-            return UIBarStyle.black
+            return UIColor(red: 28.0/255.0, green: 28.0/255.0, blue: 29.0/255.0, alpha: 1.0)
         }
     }
     
     var textColor: UIColor {
         switch self {
         case .Light:
-            return UIColor(red: 0.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+            return UIColor(red: 15.0/255.0, green: 15.0/255.0, blue: 15.0/255.0, alpha: 1.0)
         case .Dark:
-            return UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+            return UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
+        }
+    }
+    var barStyle: UIBarStyle {
+        switch self {
+        case .Light:
+            return UIBarStyle.default
+        case.Dark:
+            return UIBarStyle.black
+        }
+    
+    }
+    var statusBarStyle: UIStatusBarStyle {
+        switch self {
+        case .Light:
+            return UIStatusBarStyle.default
+        case .Dark:
+            return UIStatusBarStyle.lightContent
+        }
+    }
+        var navBar: UIColor {
+        switch self {
+        case .Light:
+            return UIColor(red: 0.0/255.0, green: 122.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+        case .Dark:
+            return UIColor(red: 28.0/255.0, green: 28.0/255.0, blue: 29.0/255.0, alpha: 1.0)
+        }
+    }
+    
+    var navbarEffect: UIVisualEffectView {
+        switch self {
+            case .Light:
+                return UIVisualEffectView(effect: UIBlurEffect(style: .light))
+            case .Dark:
+                return UIVisualEffectView(effect: UIBlurEffect(style: .dark))
         }
     }
 }
