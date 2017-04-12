@@ -192,6 +192,24 @@ class DrawView: UIView {
         if !lines.isEmpty {
             firstLine = false
             firstPoint = lines.last!.end
+            
+            switch lines.count {
+            case 1:
+                delegate?.shouldSetClearButton(true)
+                delegate?.shouldSetUndoButton(false)
+                delegate?.shouldSetDoneButton(false)
+            case 2:
+                delegate?.shouldSetClearButton(true)
+                delegate?.shouldSetUndoButton(true)
+                delegate?.shouldSetDoneButton(false)
+            case 3...Int.max:
+                delegate?.shouldSetClearButton(true)
+                delegate?.shouldSetUndoButton(true)
+                delegate?.shouldSetDoneButton(true)
+            default:
+                break
+            }
+            
         } else {
             firstLine = true
         }
@@ -325,7 +343,8 @@ class DrawView: UIView {
 
 protocol DrawViewDelegate {
     func didDrawLine()
-    func shouldSetRedoButton(_ state: Bool)
     func shouldSetUndoButton(_ state: Bool)
+    func shouldSetRedoButton(_ state: Bool)
+    func shouldSetClearButton(_ state: Bool)
     func shouldSetDoneButton(_ state: Bool)
 }

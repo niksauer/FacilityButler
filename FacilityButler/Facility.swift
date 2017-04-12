@@ -97,11 +97,11 @@ class Facility: NSObject, NSCoding {
         let floorIndex = floors.index(where: { $0.etage == currentFloor })!
         floors[floorIndex].blueprint = lines
         
-        if let lineCount = floors[floorIndex].blueprint?.count {
-            log.debug("set blueprint with \(lineCount) lines of floor \(currentFloor)")
-        } else {
-            log.debug("reset blueprint")
-        }
+//        if let lineCount = floors[floorIndex].blueprint?.count {
+//            log.debug("set blueprint with \(lineCount) lines of floor \(currentFloor)")
+//        } else {
+//            log.debug("reset blueprint")
+//        }
     }
     
     func getBlueprint() -> [Line]? {

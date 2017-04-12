@@ -42,6 +42,10 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     // MARK: - Navigation
     /// loads or creates requested floor
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if model.instance != nil {
+            model.facility.setBlueprint(drawTool.getContent())
+        }
+        
         let destination = segue.destination
     
         if let navController = destination as? UINavigationController, let accessoryVC = navController.topViewController as? AccessoryController {
@@ -131,6 +135,11 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     
     
     // MARK: - Custom Draw Tool
+    // MARK: Instance Properties
+    var didMakeChange = false
+    var saveTimer: Timer?
+    
+    // MARK: Outlets
     @IBOutlet var drawTool: DrawView!
     @IBOutlet weak var clearButton: UIBarButtonItem!
     @IBOutlet weak var undoButton: UIBarButtonItem!
@@ -140,6 +149,28 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     @IBOutlet weak var diagonalLabel: UILabel!
     
     // MARK: Actions
+    func startSaveTimer() {
+        saveTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: {_ in
+            guard self.model.instance != nil else {
+                return
+            }
+            
+            if self.didMakeChange {
+                do {
+                    self.model.facility.setBlueprint(self.drawTool.getContent())
+                    try self.model.save()
+                } catch {
+                    presentError(viewController: self, error: error)
+                }
+                
+                self.didMakeChange = false
+            } else {
+                log.debug("no change made in past 5 seconds, stopping save timer")
+                self.saveTimer?.invalidate()
+            }
+        })
+    }
+    
     /// If the switch is on we set the vertical boolean true vice versa at the same time we change the text of the label
     @IBAction func switchLineType(_ sender: UISwitch) {
         if sender.isOn {
@@ -192,18 +223,28 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     func didDrawLine() {
         clearButton.isEnabled = true
         redoButton.isEnabled = false
+        
+        didMakeChange = true
+        log.debug("made change to floorplan, (re-)starting save timer")
+        startSaveTimer()
     }
     
     func shouldSetUndoButton(_ state: Bool) {
         undoButton.isEnabled = state
     }
     
+    func shouldSetRedoButton(_ state: Bool) {
+        redoButton.isEnabled = state
+    }
+    
+    func shouldSetClearButton(_ state: Bool) {
+        clearButton.isEnabled = state
+    }
+    
     func shouldSetDoneButton(_ state: Bool) {
         doneButton.isEnabled = state
     }
     
-    func shouldSetRedoButton(_ state: Bool) {
-        redoButton.isEnabled = state
-    }
+    
     
 }
