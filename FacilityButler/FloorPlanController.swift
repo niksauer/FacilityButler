@@ -160,6 +160,12 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     
     // MARK: Actions
     func startSaveTimer() {
+        guard saveTimer == nil else {
+            return
+        }
+        
+        log.debug("detected change, starting save timer")
+        
         saveTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { _ in
             guard self.model.instance != nil else {
                 return
@@ -179,6 +185,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
                 log.debug("no change made in past 5 seconds, stopping save timer")
                 self.saveTimer?.invalidate()
                 self.isSaveTimerActive = false
+                self.saveTimer = nil
             }
         })
     }
@@ -228,7 +235,6 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         if the user has drawn at least 3 lines he can finish his masterpiece*/
     func didMakeChange() {
         changedBlueprint = true
-        log.debug("made change to floorplan, (re-)starting save timer")
         
         if !isSaveTimerActive {
             startSaveTimer()
