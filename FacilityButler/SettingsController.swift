@@ -67,7 +67,7 @@ class SettingsController: UITableViewController {
         if let homeSectionIndex = list.sectionTitles.index(of: list.homeSection), homeSectionIndex == section {
             return (model.butler.homes.count+1)
         } else {
-            return 1
+            return list.settings.count
         }
     }
     
@@ -92,24 +92,34 @@ class SettingsController: UITableViewController {
                 }
             }
         } else {
-            if rowIndex == 0 {
-                // Dark Mode Cell
-                cell = tableView.dequeueReusableCell(withIdentifier: "settingUITableViewCell", for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: "settingUITableViewCell", for: indexPath)
+            let enableSwitch = UISwitch()
+            cell.accessoryView = enableSwitch
+            
+            let setting = list.settings[rowIndex]
+            
+            switch setting {
+            case .DarkMode:
                 cell.textLabel?.text = "Dark Mode"
-                
-                let darkModeSwitch = UISwitch()
-                darkModeSwitch.addTarget(self, action: #selector(toggleDarkMode(_:)), for: .valueChanged)
-                
-                cell.accessoryView = darkModeSwitch
+                enableSwitch.addTarget(self, action: #selector(toggleDarkMode(_:)), for: .valueChanged)
                 
                 switch ThemeManager.currentTheme() {
                 case .Light:
-                    darkModeSwitch.isOn = false
+                    enableSwitch.isOn = false
                 case .Dark:
-                    darkModeSwitch.isOn = true
+                    enableSwitch.isOn = true
                 }
-            } else {
-                cell = UITableViewCell()
+            case .DarkIcon:
+                if #available(iOS 10.3, *) {
+                    cell.textLabel?.text = "Dark App Icon"
+                    enableSwitch.addTarget(self, action: #selector(toggleAppIcon(_:)), for: .valueChanged)
+                    
+                    if let isDarkIconSet = UserDefaults.standard.value(forKey: PropertyKey.darkIcon) as? Bool, isDarkIconSet == true {
+                        enableSwitch.isOn = true
+                    } else {
+                        enableSwitch.isOn = false
+                    }
+                }
             }
         }
         
@@ -191,7 +201,7 @@ class SettingsController: UITableViewController {
         
     }
     
-    // MARK: - Theme Manager
+    // MARK: - Settings Target Actions
     func toggleDarkMode(_ sender: UISwitch) {
         if sender.isOn {
             ThemeManager.setTheme(Theme.Dark)
@@ -204,6 +214,33 @@ class SettingsController: UITableViewController {
         alert.addAction(dismissAction)
         
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    @available(iOS 10.3, *)
+    func toggleAppIcon(_ sender: UISwitch) {
+        if sender.isOn {
+            UIApplication.shared.setAlternateIconName("darkAppIcon", completionHandler: { (error) in
+                if let errorMessage = error {
+                    log.error(errorMessage)
+                    sender.isOn = false
+                } else {
+                    UserDefaults.standard.setValue(sender.isOn, forKey: PropertyKey.darkIcon)
+                    UserDefaults.standard.synchronize()
+                    log.debug("Set dark app icon")
+                }
+            })
+        } else {
+            UIApplication.shared.setAlternateIconName(nil, completionHandler: { (error) in
+                if let errorMessage = error {
+                    log.error(errorMessage)
+                    sender.isOn = false
+                } else {
+                    UserDefaults.standard.setValue(sender.isOn, forKey: PropertyKey.darkIcon)
+                    UserDefaults.standard.synchronize()
+                    log.debug("Set dark app icon")
+                }
+            })
+        }
     }
 
 }

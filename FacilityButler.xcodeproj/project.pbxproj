@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0BC1F2431E98F0BA00FB54EA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BC1F2421E98F0BA00FB54EA /* Theme.swift */; };
 		241090E91E924A0600F78D45 /* PlacedAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241090E81E924A0600F78D45 /* PlacedAccessory.swift */; };
+		241F08991E9FF24600249621 /* darkAppIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 241F08971E9FF24600249621 /* darkAppIcon@2x.png */; };
+		241F089A1E9FF24600249621 /* darkAppIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 241F08981E9FF24600249621 /* darkAppIcon@3x.png */; };
 		2426733C1E83DE2600BB73C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426733B1E83DE2600BB73C6 /* AppDelegate.swift */; };
 		2426733E1E83DE2600BB73C6 /* FloorPlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */; };
 		242673411E83DE2600BB73C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2426733F1E83DE2600BB73C6 /* Main.storyboard */; };
@@ -38,6 +40,8 @@
 /* Begin PBXFileReference section */
 		0BC1F2421E98F0BA00FB54EA /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		241090E81E924A0600F78D45 /* PlacedAccessory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacedAccessory.swift; sourceTree = "<group>"; };
+		241F08971E9FF24600249621 /* darkAppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "darkAppIcon@2x.png"; sourceTree = "<group>"; };
+		241F08981E9FF24600249621 /* darkAppIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "darkAppIcon@3x.png"; sourceTree = "<group>"; };
 		242673381E83DE2600BB73C6 /* FacilityButler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FacilityButler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2426733B1E83DE2600BB73C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloorPlanController.swift; sourceTree = "<group>"; };
@@ -79,6 +83,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		241F08921E9FE82A00249621 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				241F08971E9FF24600249621 /* darkAppIcon@2x.png */,
+				241F08981E9FF24600249621 /* darkAppIcon@3x.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		2426732F1E83DE2600BB73C6 = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +129,7 @@
 				24D3966D1E9F02A4007FF27E /* Style.swift */,
 				242673421E83DE2600BB73C6 /* Assets.xcassets */,
 				242673471E83DE2600BB73C6 /* Info.plist */,
+				241F08921E9FE82A00249621 /* Resources */,
 			);
 			path = FacilityButler;
 			sourceTree = "<group>";
@@ -224,8 +238,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				24B875711E9CCC9B00F0F6C9 /* LaunchScreen.storyboard in Resources */,
+				241F08991E9FF24600249621 /* darkAppIcon@2x.png in Resources */,
 				242673431E83DE2600BB73C6 /* Assets.xcassets in Resources */,
 				242673411E83DE2600BB73C6 /* Main.storyboard in Resources */,
+				241F089A1E9FF24600249621 /* darkAppIcon@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

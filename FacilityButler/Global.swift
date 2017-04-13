@@ -22,6 +22,7 @@ struct PropertyKey {
     static let lineEnd = "end"
     static let blueprint = "blueprint"
     static let currentTheme = "current theme"
+    static let darkIcon = "is dark app icon set"
 }
 
 enum FacilityError: Error {
