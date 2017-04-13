@@ -177,6 +177,13 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
 
         // acitivity indicator should only display at the unconfigured accessory sections
         if let unconfiguredSectionIndex = list.sectionTitles.index(of: list.unconfiguredSection), unconfiguredSectionIndex == section {
+            switch ThemeManager.currentTheme() {
+            case .Light:
+                activityIndicator.activityIndicatorViewStyle = .gray
+            case .Dark:
+                activityIndicator.activityIndicatorViewStyle = .white
+            }
+            
             stack.addArrangedSubview(activityIndicator)
         }
 

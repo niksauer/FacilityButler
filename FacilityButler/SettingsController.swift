@@ -12,7 +12,7 @@ import HomeKit
 class SettingsController: UITableViewController {
     
     // MARK: - Outlets
-    weak var createAlertAction: UIAlertAction?
+    weak var createAlertAction: UIAlertAction!
     
     // MARK: - Instance Properties
     // TODO: apply DIP principle
@@ -92,10 +92,25 @@ class SettingsController: UITableViewController {
                 }
             }
         } else {
-            // Dark Mode Cell
-            cell = UITableViewCell(style: .default, reuseIdentifier: "settingUITableViewCell")
-            cell.textLabel?.text = "Dark Mode"
-            cell.accessoryView = UISwitch()
+            if rowIndex == 0 {
+                // Dark Mode Cell
+                cell = tableView.dequeueReusableCell(withIdentifier: "settingUITableViewCell", for: indexPath)
+                cell.textLabel?.text = "Dark Mode"
+                
+                let darkModeSwitch = UISwitch()
+                darkModeSwitch.addTarget(self, action: #selector(toggleDarkMode(_:)), for: .valueChanged)
+                
+                cell.accessoryView = darkModeSwitch
+                
+                switch ThemeManager.currentTheme() {
+                case .Light:
+                    darkModeSwitch.isOn = false
+                case .Dark:
+                    darkModeSwitch.isOn = true
+                }
+            } else {
+                cell = UITableViewCell()
+            }
         }
         
         return cell
@@ -176,4 +191,20 @@ class SettingsController: UITableViewController {
         
     }
     
+    // MARK: - Theme Manager
+    func toggleDarkMode(_ sender: UISwitch) {
+        if sender.isOn {
+            ThemeManager.setTheme(Theme.Dark)
+        } else {
+            ThemeManager.setTheme(Theme.Light)
+        }
+        
+        let alert = UIAlertController(title: "Info", message: "Please force quit the app to see theme changes.", preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
+        alert.addAction(dismissAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+
 }
+
