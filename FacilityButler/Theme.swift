@@ -69,7 +69,7 @@ enum Theme: Int {
     var cellBackground: UIColor {
         switch self {
         case .Light:
-            return UIColor.white
+            return .white
         case .Dark:
             return UIColor(red: 45.0/255, green: 45.0/255, blue: 45.0/255.0, alpha: 1.0)
         }
@@ -78,9 +78,18 @@ enum Theme: Int {
     var toolBarColor: UIColor {
         switch self {
         case .Light:
-            return UIColor.white
+            return .white
         case .Dark:
             return UIColor(red: 61.0/255, green: 61.0/255, blue: 62.0/255.0, alpha: 1.0)
+        }
+    }
+    
+    var strokeColor: UIColor {
+        switch self {
+        case .Light:
+            return .black
+        case .Dark:
+            return .white
         }
     }
     

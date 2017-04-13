@@ -39,6 +39,10 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     }
     
     // MARK: - Initialization
+    override func viewDidLoad() {
+        drawTool.setStroke(color: ThemeManager.currentTheme().strokeColor)
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         model.delegate = self
         drawTool.delegate = self

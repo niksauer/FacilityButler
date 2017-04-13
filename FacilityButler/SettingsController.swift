@@ -92,20 +92,24 @@ class SettingsController: UITableViewController {
                 }
             }
         } else {
-            // Dark Mode Cell
-            cell = UITableViewCell(style: .default, reuseIdentifier: "settingUITableViewCell")
-            cell.textLabel?.text = "Dark Mode"
-            
-            let darkModeSwitch = UISwitch()
-            darkModeSwitch.addTarget(self, action: #selector(toggleDarkMode(_:)), for: .valueChanged)
-            
-            cell.accessoryView = darkModeSwitch
-            
-            switch ThemeManager.currentTheme() {
-            case .Light:
-                darkModeSwitch.isOn = false
-            case .Dark:
-                darkModeSwitch.isOn = true
+            if rowIndex == 0 {
+                // Dark Mode Cell
+                cell = tableView.dequeueReusableCell(withIdentifier: "settingUITableViewCell", for: indexPath)
+                cell.textLabel?.text = "Dark Mode"
+                
+                let darkModeSwitch = UISwitch()
+                darkModeSwitch.addTarget(self, action: #selector(toggleDarkMode(_:)), for: .valueChanged)
+                
+                cell.accessoryView = darkModeSwitch
+                
+                switch ThemeManager.currentTheme() {
+                case .Light:
+                    darkModeSwitch.isOn = false
+                case .Dark:
+                    darkModeSwitch.isOn = true
+                }
+            } else {
+                cell = UITableViewCell()
             }
         }
         
@@ -194,12 +198,7 @@ class SettingsController: UITableViewController {
         } else {
             ThemeManager.applyTheme(Theme.Light)
         }
-        
-//        dismiss()
     }
-    
-//    func dismiss() {
-//        self.dismiss(animated: true, completion: nil)
-//    }
+
 }
 

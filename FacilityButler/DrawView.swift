@@ -29,6 +29,7 @@ class DrawView: UIView {
     
     // boolean variable to determine if the Line is the firstLine on the Canvas
     var firstLine = true
+    var strokeColor: UIColor = .black
     
     // MARK: - Actions
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -88,6 +89,7 @@ class DrawView: UIView {
         }
     }
     
+    
     override func draw(_ rect: CGRect) {
         let context = UIBezierPath() //UIGraphicsGetCurrentContext()
         //context.beginPath()
@@ -98,7 +100,7 @@ class DrawView: UIView {
             
                 context.addLine(to: line.end)
                 context.lineWidth = 4 //setLineWidth(4)
-                UIColor.black.setStroke()
+                strokeColor.setStroke()
                 UIColor.lightGray.setFill()
                 //context.setStrokeColor(UIColor.black.cgColor)
                 //context.etFillColor(UIColor.lightGray.cgColor)
@@ -114,6 +116,11 @@ class DrawView: UIView {
                 }
             }
         }
+    }
+    
+    
+    func setStroke(color: UIColor) {
+        self.strokeColor = color
     }
     
     /* first we set the boolean variable didClear to false because we didnt clear the canvas then we enable the redo button, then we delete the last element of the lines array and safe it in a new array "lastLines"
