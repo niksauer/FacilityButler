@@ -99,7 +99,6 @@
 		2426733A1E83DE2600BB73C6 /* FacilityButler */ = {
 			isa = PBXGroup;
 			children = (
-				24D3966D1E9F02A4007FF27E /* Style.swift */,
 				24A8BE7F1E8BF045008D3E73 /* SwiftyBeaver */,
 				248B09161E93955900524AFD /* FacilityButler */,
 				246B63731E97CE9F008F7D8E /* DrawTool */,
@@ -114,6 +113,7 @@
 				24865D281E895CDE00676F0F /* AccessoryList.swift */,
 				248B091D1E94323200524AFD /* Global.swift */,
 				0BC1F2421E98F0BA00FB54EA /* Theme.swift */,
+				24D3966D1E9F02A4007FF27E /* Style.swift */,
 				242673421E83DE2600BB73C6 /* Assets.xcassets */,
 				242673471E83DE2600BB73C6 /* Info.plist */,
 			);

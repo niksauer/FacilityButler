@@ -8,10 +8,6 @@
 
 import UIKit
 
-class DrawToolBarView: UIView {
-    
-}
+class DrawToolBarView: UIView { }
 
-class FloorPlanView: UIView {
-    
-}
+class FloorPlanView: UIView { }

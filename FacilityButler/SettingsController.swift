@@ -194,10 +194,16 @@ class SettingsController: UITableViewController {
     // MARK: - Theme Manager
     func toggleDarkMode(_ sender: UISwitch) {
         if sender.isOn {
-            ThemeManager.applyTheme(Theme.Dark)
+            ThemeManager.setTheme(Theme.Dark)
         } else {
-            ThemeManager.applyTheme(Theme.Light)
+            ThemeManager.setTheme(Theme.Light)
         }
+        
+        let alert = UIAlertController(title: "Info", message: "Please force quit the app to see theme changes.", preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
+        alert.addAction(dismissAction)
+        
+        self.present(alert, animated: true, completion: nil)
     }
 
 }
