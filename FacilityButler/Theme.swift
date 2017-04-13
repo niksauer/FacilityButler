@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 enum Theme: Int {
     case Light, Dark
     
@@ -39,24 +37,18 @@ enum Theme: Int {
             return UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
         }
     }
+    
+    // default: translucency = true
     var barStyle: UIBarStyle {
         switch self {
         case .Light:
-            return UIBarStyle.default
-        case.Dark:
-            return UIBarStyle.black
-        }
-    
-    }
-    var statusBarStyle: UIStatusBarStyle {
-        switch self {
-        case .Light:
-            return UIStatusBarStyle.default
+            return .default
         case .Dark:
-            return UIStatusBarStyle.lightContent
+            return .black
         }
     }
-        var navBar: UIColor {
+    
+    var barTintColor: UIColor {
         switch self {
         case .Light:
             return UIColor(red: 0.0/255.0, green: 122.0/255.0, blue: 255.0/255.0, alpha: 1.0)
@@ -65,14 +57,44 @@ enum Theme: Int {
         }
     }
     
-    var navbarEffect: UIVisualEffectView {
+    var activityIndicatorStyle: UIActivityIndicatorViewStyle {
         switch self {
-            case .Light:
-                return UIVisualEffectView(effect: UIBlurEffect(style: .light))
-            case .Dark:
-                return UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        case .Light:
+            return .gray
+        case .Dark:
+            return .white
         }
     }
+    
+    var cellBackground: UIColor {
+        switch self {
+        case .Light:
+            return UIColor.white
+        case .Dark:
+            return UIColor(red: 45.0/255, green: 45.0/255, blue: 45.0/255.0, alpha: 1.0)
+        }
+    }
+    
+    var toolBarColor: UIColor {
+        switch self {
+        case .Light:
+            return UIColor.white
+        case .Dark:
+            return UIColor(red: 61.0/255, green: 61.0/255, blue: 62.0/255.0, alpha: 1.0)
+        }
+    }
+    
+    /*
+    var navbarEffect: UIVisualEffectView {
+        switch self {
+        case .Light:
+            return UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        case .Dark:
+            return UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+        }
+    }
+    */
+    
 }
 
 struct ThemeManager {
@@ -87,39 +109,64 @@ struct ThemeManager {
     static func applyTheme(_ theme: Theme) {
         UserDefaults.standard.setValue(theme.rawValue, forKey: PropertyKey.currentTheme)
         UserDefaults.standard.synchronize()
-        log.info("Set current theme to \(theme)")
+        log.info("Applied \(theme) theme")
         
+        guard theme == .Dark else {
+            return
+        }
+        
+        // does not need window reload > can be changed on the fly
         let sharedApplication = UIApplication.shared
         sharedApplication.delegate?.window??.tintColor = theme.mainColor
         
-        // tables
-        let tableView = UITableView.appearance()
-        tableView.backgroundColor = theme.backgroundColor
+        // needs window reload
+        let navigationBarProxy = UINavigationBar.appearance()
+        navigationBarProxy.barStyle = theme.barStyle
+        navigationBarProxy.barTintColor = theme.barTintColor
         
-        let tableViewCell = UITableViewCell.appearance()
-        tableViewCell.backgroundColor = theme.backgroundColor
+        let toolbarProxy = UIToolbar.appearance()
+        toolbarProxy.barStyle = theme.barStyle
+        toolbarProxy.barTintColor = theme.barTintColor
         
-        let labelView = UILabel.appearance()
-        labelView.textColor = theme.textColor
+        let barButtonProxy = UIBarButtonItem.appearance()
+        barButtonProxy.tintColor = theme.mainColor
+    
+        let labelProxy = UILabel.appearance()
+        labelProxy.textColor = theme.textColor
+    
+        let tableProxy = UITableView.appearance()
+        tableProxy.backgroundColor = theme.backgroundColor
         
-        let navBar = UINavigationBar.appearance()
-        //navBar.barTintColor = theme.navBar
-        //navBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)]
-        //navBar.isTranslucent = true
-        //navBar.shadowImage = UIImage()
+        let tableCellProxy = UITableViewCell.appearance()
+        tableCellProxy.backgroundColor = theme.cellBackground
         
-        let tabBar = UITabBar.appearance()
-        tabBar.barStyle = theme.barStyle
+        let drawToolProxy = DrawView.appearance()
+        drawToolProxy.backgroundColor = theme.backgroundColor
         
-        let switches = UISwitch.appearance()
-        switches.onTintColor = theme.mainColor
-        sharedApplication.statusBarStyle = theme.statusBarStyle
+        let drawToolBarViewProxy = DrawToolBarView.appearance()
+        drawToolBarViewProxy.backgroundColor = theme.cellBackground
         
-        let bounds = navBar.bounds as CGRect!
-        let visualEffectView = theme.navbarEffect
-        visualEffectView.frame = bounds!
-        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        navBar.addSubview(visualEffectView)
-        navBar.sendSubview(toBack: visualEffectView)
+        let floorPlanViewProxy = FloorPlanView.appearance()
+        floorPlanViewProxy.backgroundColor = theme.backgroundColor
+        
+        // cannot be set
+        let activityIndicatorProxy = UIActivityIndicatorView.appearance()
+        activityIndicatorProxy.activityIndicatorViewStyle = .whiteLarge
+    
+        
+//        navBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)]
+//        navBar.shadowImage = UIImage()
+//        
+//        let switches = UISwitch.appearance()
+//        switches.onTintColor = theme.mainColor
+//        
+//        let bounds = navigationBarProxy.bounds as CGRect!
+//        let visualEffectView = theme.navbarEffect
+//        visualEffectView.frame = bounds!
+//        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        navigationBarProxy.addSubview(visualEffectView)
+//        navigationBarProxy.sendSubview(toBack: visualEffectView)
+        
+        
     }
 }

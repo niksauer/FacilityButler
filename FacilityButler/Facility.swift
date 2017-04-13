@@ -90,8 +90,9 @@ class Facility: NSObject, NSCoding {
     }
     
     func setBlueprint(_ lines: [Line]?) {
-        let floorIndex = floors.index(where: { $0.etage == currentFloor })!
-        floors[floorIndex].blueprint = lines
+        if let floorIndex = floors.index(where: { $0.etage == currentFloor }) {
+            floors[floorIndex].blueprint = lines
+        }
     }
     
     func getBlueprint() -> [Line]? {

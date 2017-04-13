@@ -14,7 +14,6 @@ class SettingsController: UITableViewController {
     // MARK: - Outlets
     weak var createAlertAction: UIAlertAction!
     
-    //@IBOutlet weak var darkSwitch: UISwitch!
     // MARK: - Instance Properties
     // TODO: apply DIP principle
     let list = SettingsList()
@@ -199,8 +198,8 @@ class SettingsController: UITableViewController {
 //        dismiss()
     }
     
-    func dismiss() {
-        self.dismiss(animated: true, completion: nil)
-    }
+//    func dismiss() {
+//        self.dismiss(animated: true, completion: nil)
+//    }
 }
 

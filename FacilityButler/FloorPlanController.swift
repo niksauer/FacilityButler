@@ -88,7 +88,6 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     
     /// receives and attempts to place selected accessory
     @IBAction func unwindToFloorPlan(segue: UIStoryboardSegue) {
-        print("test")
         if let source = segue.source as? AccessoryController, let selectedAccessory = source.list.selection {
             log.debug("unwinded to FloorPlanController from AccessoriesTableViewController")
             placeAccessory(accessory: selectedAccessory)
@@ -134,9 +133,6 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
 //            }
             
             isInitialSetup = false
-        
-            
-
         }
     }
     
@@ -190,27 +186,19 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         })
     }
     
-    /// If the switch is on we set the vertical boolean true vice versa at the same time we change the text of the label
-    @IBAction func switchLineType(_ sender: UISwitch) {
-        if sender.isOn {
-            lineTypeLabel.text = "Vertical"
+    @IBAction func changeLineType(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
             drawTool.drawVertical = true
-        } else {
-            lineTypeLabel.text = "Horizontal"
-            drawTool.drawVertical = false
-        }
-    }
-    
-    /// if our diagonal switch is on we set the boolean value and set the color of the text lables accordingly
-    @IBAction func useDiagonals(_ sender: UISwitch) {
-        if sender.isOn {
-            diagonalLabel.textColor = UIColor.black
-            lineTypeLabel.textColor = UIColor.lightGray
-            drawTool.drawDiagonal = true
-        } else {
-            lineTypeLabel.textColor = UIColor.black
-            diagonalLabel.textColor = UIColor.lightGray
             drawTool.drawDiagonal = false
+        case 1:
+            drawTool.drawVertical = false
+            drawTool.drawDiagonal = false
+        case 2:
+            drawTool.drawVertical = false
+            drawTool.drawDiagonal = true
+        default:
+            break
         }
     }
     

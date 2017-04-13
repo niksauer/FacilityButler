@@ -31,6 +31,7 @@
 		24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */; };
 		24A8BE8D1E8BF045008D3E73 /* SwiftyBeaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */; };
 		24B875711E9CCC9B00F0F6C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24B875701E9CCC9B00F0F6C9 /* LaunchScreen.storyboard */; };
+		24D3966E1E9F02A4007FF27E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D3966D1E9F02A4007FF27E /* Style.swift */; };
 		24DB94AC1E85200800FC8A94 /* AccessoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DB94AB1E85200800FC8A94 /* AccessoryController.swift */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 		24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SBPlatformDestination.swift; sourceTree = "<group>"; };
 		24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyBeaver.swift; sourceTree = "<group>"; };
 		24B875701E9CCC9B00F0F6C9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		24D3966D1E9F02A4007FF27E /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		24DB94AB1E85200800FC8A94 /* AccessoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,6 +99,7 @@
 		2426733A1E83DE2600BB73C6 /* FacilityButler */ = {
 			isa = PBXGroup;
 			children = (
+				24D3966D1E9F02A4007FF27E /* Style.swift */,
 				24A8BE7F1E8BF045008D3E73 /* SwiftyBeaver */,
 				248B09161E93955900524AFD /* FacilityButler */,
 				246B63731E97CE9F008F7D8E /* DrawTool */,
@@ -236,6 +239,7 @@
 				2426733E1E83DE2600BB73C6 /* FloorPlanController.swift in Sources */,
 				24A8BE871E8BF045008D3E73 /* AES256CBC.swift in Sources */,
 				24A8BE8B1E8BF045008D3E73 /* Filter.swift in Sources */,
+				24D3966E1E9F02A4007FF27E /* Style.swift in Sources */,
 				248B09181E939E3A00524AFD /* SettingsController.swift in Sources */,
 				24A8BE761E8AFA8B008D3E73 /* FloorPlan.swift in Sources */,
 				24A8BE8D1E8BF045008D3E73 /* SwiftyBeaver.swift in Sources */,
