@@ -139,6 +139,14 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
             isInitialSetup = false
         }
     }
+
+    @IBAction func toggleAccessoryState(_ sender: UIButton) {
+        model.turnOnAccessory(model.instance.accessories.first!, state: true, completion: { (error) in
+            if !presentError(viewController: self, error: error) {
+                
+            }
+        })
+    }
     
     
     

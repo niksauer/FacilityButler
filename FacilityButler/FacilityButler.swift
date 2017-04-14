@@ -115,6 +115,28 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
         }
     }
     
+    func turnOnAccessory(_ accessory: HMAccessory, state: Bool, completion: @escaping (Error?) -> Void) {
+        if instance.accessories.contains(accessory) {
+            if accessory.isReachable {
+                if !accessory.isBlocked {
+                    print(accessory.services)
+                } else {
+                    instance.unblockAccessory(accessory, completionHandler: { (errorMessage) in
+                        if let error = errorMessage {
+                            completion(FacilityError.accessoryBlocked(error: error))
+                        } else {
+                            self.turnOnAccessory(accessory, state: state, completion: completion)
+                        }
+                    })
+                }
+            } else {
+                completion(FacilityError.accessoryUnreachable)
+            }
+        } else {
+            log.debug("accessory \(accessory) doesn't belong to home, cancelling to set state to \(state ? "on" : "off")")
+        }
+    }
+    
     // MARK: - Private Actions
     private func createInstance(name: String, completion: @escaping (HMHome?, Error?) -> Void) {
         butler.addHome(withName: name, completionHandler: { (home, errorMessage) in

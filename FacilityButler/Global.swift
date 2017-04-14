@@ -30,6 +30,8 @@ enum FacilityError: Error {
     case floorNotFound
     case saveFailed
     case actionFailed(error: Error)
+    case accessoryBlocked(error: Error)
+    case accessoryUnreachable
 }
 
 // MARK: - Global Methods
@@ -50,6 +52,10 @@ enum FacilityError: Error {
             message = "Failed to save current facility state."
         case .actionFailed(let errorMessage):
             message = "Failed due to unexpected error: \(errorMessage)"
+        case .accessoryBlocked(let errorMessage):
+            message = "Failed to unblock accessory due to unexpected error: \(errorMessage)"
+        case .accessoryUnreachable:
+            message = "Unable to communicate with accessory."
         }
         
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
