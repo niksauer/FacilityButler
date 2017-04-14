@@ -42,17 +42,17 @@ enum FacilityError: Error {
         
         switch error {
         case .noFaciltiySet:
-            message = "Please select or create a facility for continued use."
+            message = NSLocalizedString("Please select or create a facility for continued use.", comment: "error select or create facility")
         case .floorNotFound:
-            message = "The requested floor couldn't be found."
+            message = NSLocalizedString("The requested floor couldn't be found.", comment: "error floor couldn't be found")
         case .saveFailed:
-            message = "Failed to save current facility state."
+            message = NSLocalizedString("Failed to save current facility state.", comment: "error failed to save faility")
         case .actionFailed(let errorMessage):
-            message = "Failed due to unexpected error: \(errorMessage)"
+            message = NSLocalizedString("Failed due to unexpected error: \(errorMessage)", comment: "error unexpected error")
         }
         
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
+        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "alert box error title"), message: message, preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: NSLocalizedString("Dismiss", comment: "alert box error dismiss"), style: .default, handler: nil)
         alert.addAction(dismissAction)
         
         viewController.present(alert, animated: true, completion: nil)
