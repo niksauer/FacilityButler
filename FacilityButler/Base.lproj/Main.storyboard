@@ -124,7 +124,6 @@
                         <outlet property="currentFloorStepper" destination="BrM-mT-DBA" id="yfI-07-6m3"/>
                         <outlet property="doneButton" destination="vKu-Mr-lFt" id="dwk-Tn-Ibr"/>
                         <outlet property="drawTool" destination="vyj-lX-xfh" id="PJ6-Bz-uZ1"/>
-                        <outlet property="floorPlanTitle" destination="YHe-dh-RCe" id="hAw-GG-LJP"/>
                         <outlet property="redoButton" destination="V00-zk-0oG" id="HfS-hG-zyh"/>
                         <outlet property="undoButton" destination="POb-31-hOE" id="7u2-tL-kYo"/>
                     </connections>
