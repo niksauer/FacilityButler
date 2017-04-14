@@ -16,6 +16,13 @@ class SettingsList {
     var sectionTitles: [String]
     var primaryFacility: IndexPath?
     
+    enum Setting {
+        case DarkMode
+        case DarkIcon
+    }
+    
+    let settings = [ Setting.DarkMode, Setting.DarkIcon ]
+    
     // MARK: - Initialization
     /// allows rearrangement of sections
     init() {
