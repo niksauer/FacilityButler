@@ -92,15 +92,16 @@ class SettingsController: UITableViewController {
                 }
             }
         } else {
-            if rowIndex == 0 {
-                // Dark Mode Cell
-                cell = tableView.dequeueReusableCell(withIdentifier: "settingUITableViewCell", for: indexPath)
+            cell = tableView.dequeueReusableCell(withIdentifier: "settingUITableViewCell", for: indexPath)
+            let enableSwitch = UISwitch()
+            cell.accessoryView = enableSwitch
+            
+            let setting = list.settings[rowIndex]
+            
+            switch setting {
+            case .DarkMode:
                 cell.textLabel?.text = NSLocalizedString("Dark Mode", comment: "Label for dark mode switch")
-                
-                let darkModeSwitch = UISwitch()
-                darkModeSwitch.addTarget(self, action: #selector(toggleDarkMode(_:)), for: .valueChanged)
-                
-                cell.accessoryView = darkModeSwitch
+                enableSwitch.addTarget(self, action: #selector(toggleDarkMode(_:)), for: .valueChanged)
                 
                 switch ThemeManager.currentTheme() {
                 case .Light:
