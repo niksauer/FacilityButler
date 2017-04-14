@@ -15,6 +15,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     @IBOutlet weak var currentFloorLabel: UILabel!
     @IBOutlet weak var currentFloorStepper: UIStepper!
     @IBOutlet weak var addAccessoryButton: UIBarButtonItem!
+    @IBOutlet weak var floorPlanTitle: UINavigationItem!
     
     // MARK: - Instance Properties
     var model: FacilityButler!
