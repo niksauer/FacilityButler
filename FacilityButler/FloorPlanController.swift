@@ -117,11 +117,13 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         let category = accessory.category.categoryType
         
         if category.isEmpty {
-            interactiveAccessory = Lightbulb(accessory: accessory, at: position, delegate: self)
+            interactiveAccessory = Lightbulb(of: accessory, at: position, delegate: self)
         } else {
             switch category {
             case HMAccessoryCategoryTypeLightbulb:
-                interactiveAccessory = Lightbulb(accessory: accessory, at: position, delegate: self)
+                interactiveAccessory = Lightbulb(of: accessory, at: position, delegate: self)
+            case HMAccessoryCategoryTypeBridge:
+                interactiveAccessory = Bridge(of: accessory, at: position, delegate: self)
             default:
                 return
             }
