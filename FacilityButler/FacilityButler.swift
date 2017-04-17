@@ -15,8 +15,12 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
     var facility: Facility!
     var instance: HMHome!
     let butler = HMHomeManager()
-    var isFirstSetup = true
+    var isInitialSetup = true
     var delegate: FacilityButlerDelegate?
+    
+    let primaryFunction = [
+        HMAccessoryCategoryTypeLightbulb : [HMServiceTypeLightbulb, HMCharacteristicTypePowerState]
+    ]
     
     // MARK: - Initialization
     override init() {
@@ -115,17 +119,35 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
         }
     }
     
-    func turnOnAccessory(_ accessory: HMAccessory, state: Bool, completion: @escaping (Error?) -> Void) {
+    func toggleAccessory(_ accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
         if instance.accessories.contains(accessory) {
             if accessory.isReachable {
                 if !accessory.isBlocked {
-                    print(accessory.services)
+                    let category = accessory.category.categoryType
+                    let primaryService = primaryFunction[category]?[0]
+                    let primaryCharacteristic = primaryFunction[category]?[1]
+                    
+                    if let service = accessory.services.first(where: { $0.serviceType == primaryService }), let characteristic = service.characteristics.first(where: { $0.characteristicType == primaryCharacteristic }) {
+                        if let newValue = getNewCharacteristicValue(for: category, oldValue: characteristic.value) {
+                            characteristic.writeValue(newValue, completionHandler: { (errorMessage) in
+                                if let error = errorMessage {
+                                    completion(error)
+                                } else {
+                                    completion(nil)
+                                }
+                            })
+                        } else {
+                            completion(FacilityError.noNewValue)
+                        }
+                    } else {
+                        completion(FacilityError.noPrimaryFunction)
+                    }
                 } else {
                     instance.unblockAccessory(accessory, completionHandler: { (errorMessage) in
                         if let error = errorMessage {
                             completion(FacilityError.accessoryBlocked(error: error))
                         } else {
-                            self.turnOnAccessory(accessory, state: state, completion: completion)
+                            self.toggleAccessory(accessory, completion: completion)
                         }
                     })
                 }
@@ -133,7 +155,7 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
                 completion(FacilityError.accessoryUnreachable)
             }
         } else {
-            log.debug("accessory \(accessory) doesn't belong to home, cancelling to set state to \(state ? "on" : "off")")
+            log.debug("accessory \(accessory) doesn't belong to home, cancelling toggle")
         }
     }
     
@@ -182,22 +204,41 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
         delegate?.didUpdateFacility(isSet: true)
     }
     
+    private func getNewCharacteristicValue(for category: String, oldValue: Any?) -> Any? {
+        switch category {
+        case HMAccessoryCategoryTypeLightbulb:
+            if let old = oldValue {
+                if ((old as? Int) == 0) {
+                    return 1
+                } else {
+                    return 0
+                }
+            } else {
+                return nil
+            }
+        default:
+            return nil
+        }
+    }
+    
     // MARK: - Home Manager Delegate
     /// transitions to most recently used facility or requires user to create new facility in settings
     /// dis/enables trepassing buttons accordingly
     /// - Parameter manager: network discovery agent for HMHome(s)
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        guard isFirstSetup else {
+        guard isInitialSetup else {
             return
         }
         
         if let primaryHome = manager.primaryHome {
             loadFacility(ofInstance: primaryHome)
-            isFirstSetup = false
+            isInitialSetup = false
         } else {
+            delegate?.didUpdateFacility(isSet: false)
             log.warning("No primary home set, please create or select home from settings")
         }
     }
+    
 }
 
 protocol FacilityButlerDelegate {

@@ -32,6 +32,8 @@ enum FacilityError: Error {
     case actionFailed(error: Error)
     case accessoryBlocked(error: Error)
     case accessoryUnreachable
+    case noPrimaryFunction
+    case noNewValue
 }
 
 // MARK: - Global Methods
@@ -56,6 +58,10 @@ enum FacilityError: Error {
             message = "Failed to unblock accessory due to unexpected error: \(errorMessage)"
         case .accessoryUnreachable:
             message = "Unable to communicate with accessory."
+        case .noPrimaryFunction:
+            message = "Unable to asociate accessory with known function."
+        case .noNewValue:
+            message = "Unable to retrieve new accessory value."
         }
         
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)

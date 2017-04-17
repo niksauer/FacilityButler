@@ -87,13 +87,6 @@
                                 <rect key="frame" x="16" y="124" width="343" height="438"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PU5-sN-e3w">
-                                <rect key="frame" x="113" y="578" width="82" height="29"/>
-                                <state key="normal" title="Turn On/Off"/>
-                                <connections>
-                                    <action selector="toggleAccessoryState:" destination="pTL-tQ-DU7" eventType="touchUpInside" id="hS0-oB-gJB"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="YYH-5g-hXm" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" id="6nU-qc-utN"/>
@@ -107,12 +100,9 @@
                             <constraint firstItem="vyj-lX-xfh" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leadingMargin" id="e0i-de-Vbd"/>
                             <constraint firstAttribute="trailing" secondItem="Lau-1u-R06" secondAttribute="trailing" id="g6t-l4-Wn4"/>
                             <constraint firstAttribute="trailing" secondItem="YYH-5g-hXm" secondAttribute="trailing" id="kAY-dw-QdH"/>
-                            <constraint firstItem="PU5-sN-e3w" firstAttribute="height" secondItem="BrM-mT-DBA" secondAttribute="height" id="lOU-8v-kaZ"/>
                             <constraint firstItem="vyj-lX-xfh" firstAttribute="trailing" secondItem="fdv-LO-c1p" secondAttribute="trailingMargin" id="mNS-7v-5Qr"/>
                             <constraint firstItem="4bB-Jh-kaD" firstAttribute="top" secondItem="Lau-1u-R06" secondAttribute="bottom" id="nme-ho-7Wd"/>
-                            <constraint firstItem="PU5-sN-e3w" firstAttribute="centerY" secondItem="BrM-mT-DBA" secondAttribute="centerY" id="qWB-f7-xQd"/>
                             <constraint firstItem="Lau-1u-R06" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" id="rrU-fu-oAG"/>
-                            <constraint firstItem="BrM-mT-DBA" firstAttribute="leading" secondItem="PU5-sN-e3w" secondAttribute="trailing" constant="70" id="tPN-N4-Df9"/>
                             <constraint firstItem="NpW-Gk-wUX" firstAttribute="height" secondItem="BrM-mT-DBA" secondAttribute="height" id="uKO-Qw-EYz"/>
                         </constraints>
                     </view>
