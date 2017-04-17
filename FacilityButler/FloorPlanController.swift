@@ -72,6 +72,7 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
             
             let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
             let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
+                self.hideAccessories()
                 self.model.facility.setBlueprint(self.drawTool.getContent())
                 self.model.facility.createFloor(number: floorNumber)
                 self.switchToFloor(number: floorNumber)
@@ -85,7 +86,8 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
             actionController.addAction(dismissAction)
             present(actionController, animated: true, completion: nil)
         } else {
-            self.model.facility.setBlueprint(drawTool.getContent())
+            hideAccessories()
+            model.facility.setBlueprint(drawTool.getContent())
             switchToFloor(number: floorNumber)
         }
     }
@@ -94,48 +96,60 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     @IBAction func unwindToFloorPlan(segue: UIStoryboardSegue) {
         if let source = segue.source as? AccessoryController, let selectedAccessory = source.list.selection {
             log.debug("unwinded to FloorPlanController from AccessoriesTableViewController")
-            placeAccessory(accessory: selectedAccessory)
+            
+            let position = drawTool.center
+            placeAccessory(accessory: selectedAccessory, at: position)
+            
+            do {
+                try model.facility.placeAccessory(selectedAccessory)
+                try model.save()
+            } catch {
+                presentError(viewController: self, error: error)
+            }
         }
     }
 
     // MARK: - Actions
     /// places accessory on current floor
     // TODO: design custom accessory icons
-    func placeAccessory(accessory: HMAccessory) {
-        do {
-            try model.facility.placeAccessory(accessory)
-            try model.save()
-            
-            let interactiveAccessory = AccessoryButton(identifier: accessory.uniqueIdentifier.uuidString, category: accessory.category.categoryType, delegate: self)
-            
-            view.addSubview(interactiveAccessory)
-        } catch {
-            presentError(viewController: self, error: error)
+    func placeAccessory(accessory: HMAccessory, at position: CGPoint) {
+        let interactiveAccessory: AccessoryButton!
+        let category = accessory.category.categoryType
+        
+        if category.isEmpty {
+            interactiveAccessory = Lightbulb(accessory: accessory, at: position, delegate: self)
+        } else {
+            switch category {
+            case HMAccessoryCategoryTypeLightbulb:
+                interactiveAccessory = Lightbulb(accessory: accessory, at: position, delegate: self)
+            default:
+                return
+            }
         }
+    
+        drawTool.addSubview(interactiveAccessory)
     }
     
     /// draws requested floorplan
     /// - Parameter number: etage to be drawn
     func switchToFloor(number: Int) {
         model.facility.currentFloor = number
-        
         currentFloorLabel.text = "\(number)"
         navigationItem.title = FloorPlan.getOrdinal(ofFloor: number, capitalized: true)
-        log.debug("switched to floor #\(number) with accessoires \(model.facility.getPlacedAccessories(ofFloor: number))")
         
-        drawTool.setContent(blueprint: model.facility.getBlueprint())
-        showAccessories()
-    }
-    
-    func showAccessories() {
-        for placedAccessory in model.facility.getPlacedAccessoires() {
-            if let accessory = model.instance.accessories.first(where: { $0.uniqueIdentifier.uuidString == placedAccessory }) {
-                if accessory.category.categoryType == HMAccessoryCategoryTypeLightbulb {
-                    let interactiveAccessory = AccessoryButton(identifier: accessory.uniqueIdentifier.uuidString, category: accessory.category.categoryType, delegate: self)
-                    drawTool.addSubview(interactiveAccessory)
-                }
+        let placedAccessories = model.facility.getPlacedAccessories(ofFloor: number)
+        var position = CGPoint(x: 100, y: 100)
+        
+        for (index, identifier) in placedAccessories.enumerated() {
+            if let accessory = model.instance.accessories.first(where: { $0.uniqueIdentifier.uuidString == identifier }) {
+                position.x = position.x + CGFloat(index*100)
+                
+                placeAccessory(accessory: accessory, at: position)
             }
         }
+        
+        drawTool.setContent(blueprint: model.facility.getBlueprint())
+        log.debug("switched to floor #\(number) with accessoires \(placedAccessories)")
     }
     
     func hideAccessories() {
@@ -156,26 +170,27 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
             currentFloorStepper.value = Double(model.facility.currentFloor)
             switchToFloor(number: model.facility.currentFloor)
         } else {
-            isUIEnabled = false
-            hideAccessories()
-            
             if isInitialSetup {
                 presentError(viewController: self, error: FacilityError.noFaciltiySet)
             }
-            
+
             isInitialSetup = false
+            isUIEnabled = false
+            hideAccessories()
         }
     }
     
-    // MARK: - Facility Butler Delegate
-    func didAttempToToggleState(sender: AccessoryButton) {
-        if let accessory = model.instance.accessories.first(where: { $0.uniqueIdentifier.uuidString == sender.identifier }) {
-            model.toggleAccessory(accessory, completion: { (error) in
-                if !presentError(viewController: self, error: error) {
-                    sender.toggleState()
-                }
-            })
-        }
+    // MARK: - Accessory Button Delegate
+    func shouldPresentError(_ error: Error) {
+        presentError(viewController: self, error: error)
+    }
+    
+    func shouldUnblockAccessory(_ accessory: HMAccessory, completion: @escaping (() -> Void)) {
+        model.unblockAccessory(accessory, completion: { (error) in
+            if !presentError(viewController: self, error: error) {
+                completion()
+            }
+        })
     }
     
     // MARK: - Custom Draw Tool

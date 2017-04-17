@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Foundation
+import HomeKit
 
 // MARK: - Global Types
 struct PropertyKey {
@@ -32,8 +32,8 @@ enum FacilityError: Error {
     case actionFailed(error: Error)
     case accessoryBlocked(error: Error)
     case accessoryUnreachable
-    case noPrimaryFunction
-    case noNewValue
+    case serviceUnreachable
+    case noOldValue
 }
 
 // MARK: - Global Methods
@@ -58,10 +58,10 @@ enum FacilityError: Error {
             message = "Failed to unblock accessory due to unexpected error: \(errorMessage)"
         case .accessoryUnreachable:
             message = "Unable to communicate with accessory."
-        case .noPrimaryFunction:
-            message = "Unable to asociate accessory with known function."
-        case .noNewValue:
-            message = "Unable to retrieve new accessory value."
+        case .serviceUnreachable:
+            message = "Unable to communicate with requested accessory service."
+        case .noOldValue:
+            message = "Unable to retrieve current accessory state."
         }
         
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -75,3 +75,6 @@ enum FacilityError: Error {
         return false
     }
 }
+
+
+

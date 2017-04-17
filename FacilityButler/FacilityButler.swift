@@ -119,44 +119,14 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
         }
     }
     
-    func toggleAccessory(_ accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
-        if instance.accessories.contains(accessory) {
-            if accessory.isReachable {
-                if !accessory.isBlocked {
-                    let category = accessory.category.categoryType
-                    let primaryService = primaryFunction[category]?[0]
-                    let primaryCharacteristic = primaryFunction[category]?[1]
-                    
-                    if let service = accessory.services.first(where: { $0.serviceType == primaryService }), let characteristic = service.characteristics.first(where: { $0.characteristicType == primaryCharacteristic }) {
-                        if let newValue = getNewCharacteristicValue(for: category, oldValue: characteristic.value) {
-                            characteristic.writeValue(newValue, completionHandler: { (errorMessage) in
-                                if let error = errorMessage {
-                                    completion(error)
-                                } else {
-                                    completion(nil)
-                                }
-                            })
-                        } else {
-                            completion(FacilityError.noNewValue)
-                        }
-                    } else {
-                        completion(FacilityError.noPrimaryFunction)
-                    }
-                } else {
-                    instance.unblockAccessory(accessory, completionHandler: { (errorMessage) in
-                        if let error = errorMessage {
-                            completion(FacilityError.accessoryBlocked(error: error))
-                        } else {
-                            self.toggleAccessory(accessory, completion: completion)
-                        }
-                    })
-                }
+    func unblockAccessory(_ accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
+        instance.unblockAccessory(accessory, completionHandler: { (errorMessage) in
+            if let error = errorMessage {
+                completion(error)
             } else {
-                completion(FacilityError.accessoryUnreachable)
+                completion(nil)
             }
-        } else {
-            log.debug("accessory \(accessory) doesn't belong to home, cancelling toggle")
-        }
+        })
     }
     
     // MARK: - Private Actions
@@ -202,23 +172,6 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
         }
         
         delegate?.didUpdateFacility(isSet: true)
-    }
-    
-    private func getNewCharacteristicValue(for category: String, oldValue: Any?) -> Any? {
-        switch category {
-        case HMAccessoryCategoryTypeLightbulb:
-            if let old = oldValue {
-                if ((old as? Int) == 0) {
-                    return 1
-                } else {
-                    return 0
-                }
-            } else {
-                return nil
-            }
-        default:
-            return nil
-        }
     }
     
     // MARK: - Home Manager Delegate
