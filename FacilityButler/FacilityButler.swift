@@ -9,14 +9,18 @@
 import Foundation
 import HomeKit
 
-class FacilityButler: NSObject, HMHomeManagerDelegate {
+class FacilityButler: NSObject, HMHomeManagerDelegate, HMHomeDelegate {
     
     // MARK: - Instance Properties
     var facility: Facility!
     var instance: HMHome!
     let butler = HMHomeManager()
-    var isFirstSetup = true
+    var isInitialSetup = true
     var delegate: FacilityButlerDelegate?
+    
+    let primaryFunction = [
+        HMAccessoryCategoryTypeLightbulb : [HMServiceTypeLightbulb, HMCharacteristicTypePowerState]
+    ]
     
     // MARK: - Initialization
     override init() {
@@ -115,6 +119,16 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
         }
     }
     
+    func unblockAccessory(_ accessory: HMAccessory, completion: @escaping (Error?) -> Void) {
+        instance.unblockAccessory(accessory, completionHandler: { (errorMessage) in
+            if let error = errorMessage {
+                completion(error)
+            } else {
+                completion(nil)
+            }
+        })
+    }
+    
     // MARK: - Private Actions
     private func createInstance(name: String, completion: @escaping (HMHome?, Error?) -> Void) {
         butler.addHome(withName: name, completionHandler: { (home, errorMessage) in
@@ -153,10 +167,17 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
         
         if let savedFacility = NSKeyedUnarchiver.unarchiveObject(withFile: archiveURL.path) as? Facility {
             self.facility = savedFacility
+            
+//            for placedAccessory in facility.placedAccessoires {
+//                if instance.accessories.contains(where: { $0.uniqueIdentifier.uuidString == placedAccessory.uniqueIdentifier }) == false {
+//                    facility.placedAccessoires.remove(at: facility.placedAccessoires.index(of: placedAccessory)!)
+//                }
+//            }
         } else {
             self.facility = Facility()
         }
         
+    
         delegate?.didUpdateFacility(isSet: true)
     }
     
@@ -165,17 +186,34 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
     /// dis/enables trepassing buttons accordingly
     /// - Parameter manager: network discovery agent for HMHome(s)
     func homeManagerDidUpdateHomes(_ manager: HMHomeManager) {
-        guard isFirstSetup else {
+        guard isInitialSetup else {
             return
         }
         
         if let primaryHome = manager.primaryHome {
             loadFacility(ofInstance: primaryHome)
-            isFirstSetup = false
+            isInitialSetup = false
         } else {
+            delegate?.didUpdateFacility(isSet: false)
             log.warning("No primary home set, please create or select home from settings")
         }
     }
+    
+    // MARK: - Home Delegate
+//    func home(_ home: HMHome, didRemove accessory: HMAccessory) {
+//        do {
+//            try model.facility.unplaceAccessory(accessory)
+//            
+//            for subview in view.subviews {
+//                if let accessoryButton = subview as? AccessoryButton { //, accessoryButton.identifier == accessory.uniqueIdentifier.uuidString
+//                    log.debug("found accessory button")
+//                    //                    accessoryButton.removeFromSuperview()
+//                }
+//            }
+//        } catch {
+//            presentError(viewController: self, error: error)
+//        }
+//    }
 }
 
 protocol FacilityButlerDelegate {

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Foundation
+import HomeKit
 
 // MARK: - Global Types
 struct PropertyKey {
@@ -30,6 +30,12 @@ enum FacilityError: Error {
     case floorNotFound
     case saveFailed
     case actionFailed(error: Error)
+    case accessoryBlocked(error: Error)
+    case accessoryUnreachable
+    case serviceUnreachable
+    case noOldValue
+    case readCharacteristicFailed(error: Error)
+    case enableCharacteristicNotificationFailed(error: Error)
 }
 
 // MARK: - Global Methods
@@ -50,6 +56,18 @@ enum FacilityError: Error {
             message = NSLocalizedString("Failed to save current facility state.", comment: "error failed to save faility")
         case .actionFailed(let errorMessage):
             message = NSLocalizedString("Failed due to unexpected error: \(errorMessage)", comment: "error unexpected error")
+        case .accessoryBlocked(let errorMessage):
+            message = "Failed to unblock accessory due to unexpected error: \(errorMessage)"
+        case .accessoryUnreachable:
+            message = "Unable to communicate with accessory."
+        case .serviceUnreachable:
+            message = "Unable to communicate with requested accessory service."
+        case .noOldValue:
+            message = "Unable to retrieve current accessory state."
+        case .readCharacteristicFailed(let errorMessage):
+            message = "Failed to read accessory characteristic, due to unexpected error: \(errorMessage)"
+        case .enableCharacteristicNotificationFailed(let errorMessage):
+            message = "Failed to enable notifications for accessory characteristic, due to unexpected error: \(errorMessage)"
         }
         
         let alert = UIAlertController(title: NSLocalizedString("Error", comment: "alert box error title"), message: message, preferredStyle: .alert)
@@ -63,3 +81,6 @@ enum FacilityError: Error {
         return false
     }
 }
+
+
+

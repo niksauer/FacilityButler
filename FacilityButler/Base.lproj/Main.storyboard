@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NpW-Gk-wUX">
-                                <rect key="frame" x="16" y="583" width="12.5" height="24"/>
+                                <rect key="frame" x="16" y="578" width="12.5" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -103,6 +103,7 @@
                             <constraint firstItem="vyj-lX-xfh" firstAttribute="trailing" secondItem="fdv-LO-c1p" secondAttribute="trailingMargin" id="mNS-7v-5Qr"/>
                             <constraint firstItem="4bB-Jh-kaD" firstAttribute="top" secondItem="Lau-1u-R06" secondAttribute="bottom" id="nme-ho-7Wd"/>
                             <constraint firstItem="Lau-1u-R06" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" id="rrU-fu-oAG"/>
+                            <constraint firstItem="NpW-Gk-wUX" firstAttribute="height" secondItem="BrM-mT-DBA" secondAttribute="height" id="uKO-Qw-EYz"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Ground Floor" id="YHe-dh-RCe">

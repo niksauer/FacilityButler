@@ -1,5 +1,5 @@
 //
-//  DrawToolBar.swift
+//  Views.swift
 //  FacilityButler
 //
 //  Created by Niklas Sauer on 13.04.17.
@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import HomeKit
 
 class DrawToolBarView: UIView { }
 

@@ -58,6 +58,21 @@ class Facility: NSObject, NSCoding {
         }
     }
     
+    func unplaceAccessory(_ accessory: HMAccessory) throws {
+        if floors.index(where: { $0.etage == currentFloor }) != nil {
+            if placedAccessoires.contains(where: { $0.uniqueIdentifier == accessory.uniqueIdentifier.uuidString }) == true {
+                let index = placedAccessoires.index(where: { $0.uniqueIdentifier == accessory.uniqueIdentifier.uuidString })!
+                placedAccessoires.remove(at: index)
+                log.info("removed placed accessory \(accessory) from floor #\(currentFloor)")
+            } else {
+                log.debug("accessory \(accessory) has not been placed on floor #\(currentFloor)")
+            }
+        } else {
+            log.warning("can't find floor #\(currentFloor), cancelling placement")
+            throw FacilityError.floorNotFound
+        }
+    }
+    
     func createFloor(number: Int) {
         if floors.contains(where: { $0.etage == number }) == false {
             floors.append(FloorPlan(etage: number))

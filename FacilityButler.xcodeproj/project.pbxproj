@@ -32,8 +32,9 @@
 		24A8BE8B1E8BF045008D3E73 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE841E8BF045008D3E73 /* Filter.swift */; };
 		24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */; };
 		24A8BE8D1E8BF045008D3E73 /* SwiftyBeaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */; };
+		24B081D21EA6307D002AA57C /* AccessoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B081D11EA6307D002AA57C /* AccessoryButton.swift */; };
 		24B875711E9CCC9B00F0F6C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24B875701E9CCC9B00F0F6C9 /* LaunchScreen.storyboard */; };
-		24D3966E1E9F02A4007FF27E /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D3966D1E9F02A4007FF27E /* Style.swift */; };
+		24D3966E1E9F02A4007FF27E /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D3966D1E9F02A4007FF27E /* Views.swift */; };
 		24DB94AC1E85200800FC8A94 /* AccessoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DB94AB1E85200800FC8A94 /* AccessoryController.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,8 +67,9 @@
 		24A8BE841E8BF045008D3E73 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SBPlatformDestination.swift; sourceTree = "<group>"; };
 		24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyBeaver.swift; sourceTree = "<group>"; };
+		24B081D11EA6307D002AA57C /* AccessoryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryButton.swift; sourceTree = "<group>"; };
 		24B875701E9CCC9B00F0F6C9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		24D3966D1E9F02A4007FF27E /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		24D3966D1E9F02A4007FF27E /* Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		24DB94AB1E85200800FC8A94 /* AccessoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +92,15 @@
 				241F08981E9FF24600249621 /* darkAppIcon@3x.png */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		241F08A31EA4C86F00249621 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				0BC1F2421E98F0BA00FB54EA /* Theme.swift */,
+				24D3966D1E9F02A4007FF27E /* Views.swift */,
+			);
+			name = Style;
 			sourceTree = "<group>";
 		};
 		2426732F1E83DE2600BB73C6 = {
@@ -115,18 +126,18 @@
 				24A8BE7F1E8BF045008D3E73 /* SwiftyBeaver */,
 				248B09161E93955900524AFD /* FacilityButler */,
 				246B63731E97CE9F008F7D8E /* DrawTool */,
+				241F08A31EA4C86F00249621 /* Style */,
 				242673501E83FAE800BB73C6 /* FacilityButler.entitlements */,
 				2426733F1E83DE2600BB73C6 /* Main.storyboard */,
 				24B875701E9CCC9B00F0F6C9 /* LaunchScreen.storyboard */,
 				2426733B1E83DE2600BB73C6 /* AppDelegate.swift */,
 				2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */,
+				24B081D11EA6307D002AA57C /* AccessoryButton.swift */,
 				248B09171E939E3A00524AFD /* SettingsController.swift */,
 				248B09191E939E4C00524AFD /* SettingsList.swift */,
 				24DB94AB1E85200800FC8A94 /* AccessoryController.swift */,
 				24865D281E895CDE00676F0F /* AccessoryList.swift */,
 				248B091D1E94323200524AFD /* Global.swift */,
-				0BC1F2421E98F0BA00FB54EA /* Theme.swift */,
-				24D3966D1E9F02A4007FF27E /* Style.swift */,
 				242673421E83DE2600BB73C6 /* Assets.xcassets */,
 				242673471E83DE2600BB73C6 /* Info.plist */,
 				241F08921E9FE82A00249621 /* Resources */,
@@ -255,7 +266,7 @@
 				2426733E1E83DE2600BB73C6 /* FloorPlanController.swift in Sources */,
 				24A8BE871E8BF045008D3E73 /* AES256CBC.swift in Sources */,
 				24A8BE8B1E8BF045008D3E73 /* Filter.swift in Sources */,
-				24D3966E1E9F02A4007FF27E /* Style.swift in Sources */,
+				24D3966E1E9F02A4007FF27E /* Views.swift in Sources */,
 				248B09181E939E3A00524AFD /* SettingsController.swift in Sources */,
 				24A8BE761E8AFA8B008D3E73 /* FloorPlan.swift in Sources */,
 				24A8BE8D1E8BF045008D3E73 /* SwiftyBeaver.swift in Sources */,
@@ -266,6 +277,7 @@
 				24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */,
 				2441B7B31E84509100A428D9 /* Facility.swift in Sources */,
 				24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */,
+				24B081D21EA6307D002AA57C /* AccessoryButton.swift in Sources */,
 				24DB94AC1E85200800FC8A94 /* AccessoryController.swift in Sources */,
 				0BC1F2431E98F0BA00FB54EA /* Theme.swift in Sources */,
 				248B091A1E939E4C00524AFD /* SettingsList.swift in Sources */,

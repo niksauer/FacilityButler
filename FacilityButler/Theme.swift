@@ -114,7 +114,7 @@ struct ThemeManager {
     static func applyTheme(_ theme: Theme) {
         UserDefaults.standard.setValue(theme.rawValue, forKey: PropertyKey.currentTheme)
         UserDefaults.standard.synchronize()
-        log.info("Applied \(theme) theme")
+        log.debug("Applied \(theme) theme")
         
         // only apply dark theme, otherwise use system defaults
         guard theme == .Dark else {
@@ -132,6 +132,9 @@ struct ThemeManager {
         
         let barButtonProxy = UIBarButtonItem.appearance()
         barButtonProxy.tintColor = theme.actionTintColor
+        
+//        let switchProxy = UISwitch.appearance()
+//        switchProxy.onTintColor = theme.actionTintColor
         
         // navigation bar + toolbar
         let navigationBarProxy = UINavigationBar.appearance()
@@ -160,33 +163,3 @@ struct ThemeManager {
         floorPlanViewProxy.backgroundColor = theme.backgroundColor
     }
 }
-
-
-//        /* cannot be set */
-//        let activityIndicatorProxy = UIActivityIndicatorView.appearance()
-//        activityIndicatorProxy.activityIndicatorViewStyle = .whiteLarge
-
-
-//        navBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)]
-//        navBar.shadowImage = UIImage()
-//
-//        let switches = UISwitch.appearance()
-//        switches.onTintColor = theme.mainColor
-//
-//        let bounds = navigationBarProxy.bounds as CGRect!
-//        let visualEffectView = theme.navbarEffect
-//        visualEffectView.frame = bounds!
-//        visualEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        navigationBarProxy.addSubview(visualEffectView)
-//        navigationBarProxy.sendSubview(toBack: visualEffectView)
-
-/*
- var navbarEffect: UIVisualEffectView {
- switch self {
- case .Light:
- return UIVisualEffectView(effect: UIBlurEffect(style: .light))
- case .Dark:
- return UIVisualEffectView(effect: UIBlurEffect(style: .dark))
- }
- }
- */
