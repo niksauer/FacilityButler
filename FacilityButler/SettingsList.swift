@@ -11,8 +11,8 @@ import Foundation
 class SettingsList {
     
     // MARK: - Instance Properties
-    let homeSection = "my facilities"
-    let designSection = "look & feel"
+    let homeSection = NSLocalizedString("my facilities", comment: "list of facilities")
+    let designSection = NSLocalizedString("look & feel", comment: "options for look and optics")
     var sectionTitles: [String]
     var primaryFacility: IndexPath?
     

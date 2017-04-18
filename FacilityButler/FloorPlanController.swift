@@ -70,14 +70,14 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         if model.facility.floors.contains(where: { $0.etage == floorNumber }) == false {
             let ordinalFloor = FloorPlan.getOrdinal(ofFloor: floorNumber, capitalized: false)
             
-            let actionController = UIAlertController(title: "Create Floor", message: "Do you want to create the \(ordinalFloor)?", preferredStyle: .alert)
-            let createAction = UIAlertAction(title: "Create", style: .default, handler: { (alertAction) in
+            let actionController = UIAlertController(title: NSLocalizedString("Create Floor", comment: "alert box title create new Floor"), message: NSLocalizedString("Do you want to create the \(ordinalFloor)?", comment: "alert box message to create a new Floor"), preferredStyle: .alert)
+            let createAction = UIAlertAction(title: NSLocalizedString("Create", comment: "alert box create"), style: .default, handler: { (alertAction) in
                 self.hideAccessories()
                 self.model.facility.setBlueprint(self.drawTool.getContent())
                 self.model.facility.createFloor(number: floorNumber)
                 self.switchToFloor(number: floorNumber)
             })
-            let dismissAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alertAction) in
+            let dismissAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "alert box cancel button"), style: .cancel, handler: { (alertAction) in
                 sender.value = floorNumber >= 0 ? Double(floorNumber-1) : (Double(floorNumber+1))
                 log.debug("dismissed create floor alert")
             })
