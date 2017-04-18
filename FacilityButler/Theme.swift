@@ -114,7 +114,7 @@ struct ThemeManager {
     static func applyTheme(_ theme: Theme) {
         UserDefaults.standard.setValue(theme.rawValue, forKey: PropertyKey.currentTheme)
         UserDefaults.standard.synchronize()
-        log.info("Applied \(theme) theme")
+        log.debug("Applied \(theme) theme")
         
         // only apply dark theme, otherwise use system defaults
         guard theme == .Dark else {

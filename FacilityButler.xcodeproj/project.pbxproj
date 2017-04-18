@@ -32,6 +32,7 @@
 		24A8BE8B1E8BF045008D3E73 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE841E8BF045008D3E73 /* Filter.swift */; };
 		24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */; };
 		24A8BE8D1E8BF045008D3E73 /* SwiftyBeaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */; };
+		24B081D21EA6307D002AA57C /* AccessoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B081D11EA6307D002AA57C /* AccessoryButton.swift */; };
 		24B875711E9CCC9B00F0F6C9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24B875701E9CCC9B00F0F6C9 /* LaunchScreen.storyboard */; };
 		24D3966E1E9F02A4007FF27E /* Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D3966D1E9F02A4007FF27E /* Views.swift */; };
 		24DB94AC1E85200800FC8A94 /* AccessoryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24DB94AB1E85200800FC8A94 /* AccessoryController.swift */; };
@@ -66,6 +67,7 @@
 		24A8BE841E8BF045008D3E73 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		24A8BE851E8BF045008D3E73 /* SBPlatformDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SBPlatformDestination.swift; sourceTree = "<group>"; };
 		24A8BE861E8BF045008D3E73 /* SwiftyBeaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyBeaver.swift; sourceTree = "<group>"; };
+		24B081D11EA6307D002AA57C /* AccessoryButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryButton.swift; sourceTree = "<group>"; };
 		24B875701E9CCC9B00F0F6C9 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		24D3966D1E9F02A4007FF27E /* Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Views.swift; sourceTree = "<group>"; };
 		24DB94AB1E85200800FC8A94 /* AccessoryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessoryController.swift; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				24B875701E9CCC9B00F0F6C9 /* LaunchScreen.storyboard */,
 				2426733B1E83DE2600BB73C6 /* AppDelegate.swift */,
 				2426733D1E83DE2600BB73C6 /* FloorPlanController.swift */,
+				24B081D11EA6307D002AA57C /* AccessoryButton.swift */,
 				248B09171E939E3A00524AFD /* SettingsController.swift */,
 				248B09191E939E4C00524AFD /* SettingsList.swift */,
 				24DB94AB1E85200800FC8A94 /* AccessoryController.swift */,
@@ -274,6 +277,7 @@
 				24A8BE8C1E8BF045008D3E73 /* SBPlatformDestination.swift in Sources */,
 				2441B7B31E84509100A428D9 /* Facility.swift in Sources */,
 				24A8BE881E8BF045008D3E73 /* BaseDestination.swift in Sources */,
+				24B081D21EA6307D002AA57C /* AccessoryButton.swift in Sources */,
 				24DB94AC1E85200800FC8A94 /* AccessoryController.swift in Sources */,
 				0BC1F2431E98F0BA00FB54EA /* Theme.swift in Sources */,
 				248B091A1E939E4C00524AFD /* SettingsList.swift in Sources */,

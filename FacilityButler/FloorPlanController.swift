@@ -9,7 +9,7 @@
 import UIKit
 import HomeKit
 
-class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDelegate, HMHomeDelegate, AccessoryButtonDelegate {
+class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDelegate, AccessoryButtonDelegate {
     
     // MARK: - Outlets
     @IBOutlet weak var currentFloorLabel: UILabel!
@@ -111,7 +111,6 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
 
     // MARK: - Actions
     /// places accessory on current floor
-    // TODO: design custom accessory icons
     func placeAccessory(accessory: HMAccessory, at position: CGPoint) {
         let interactiveAccessory: AccessoryButton!
         let category = accessory.category.categoryType
@@ -161,13 +160,21 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
             }
         }
     }
-
+    
+    func updateAccessories() {
+        for subview in drawTool.subviews {
+            if let interactiveAccessory = subview as? AccessoryButton {
+                interactiveAccessory.checkPrimaryCharacteristic()
+            }
+        }
+    }
+    
     // MARK: - Facility Butler Delegate
-    // TODO: handle no facility situation
     /// loads most recently used floor plan
     func didUpdateFacility(isSet: Bool) {
         if isSet {
-            model.instance.delegate = self
+            isInitialSetup = false
+            hideAccessories()
             isUIEnabled = true
             currentFloorStepper.value = Double(model.facility.currentFloor)
             switchToFloor(number: model.facility.currentFloor)
@@ -195,7 +202,11 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
         })
     }
     
+    
+    
+    
     // MARK: - Custom Draw Tool
+    
     // MARK: Instance Properties
     var changedBlueprint = false
     var saveTimer: Timer?
@@ -302,20 +313,3 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     }
     
 }
-
-
-//    func home(_ home: HMHome, didRemove accessory: HMAccessory) {
-//        print("test")
-//        do {
-//            try model.facility.unplaceAccessory(accessory)
-//
-//            for subview in view.subviews {
-//                if let accessoryButton = subview as? AccessoryButton { //, accessoryButton.identifier == accessory.uniqueIdentifier.uuidString
-//                    log.debug("found accessory button")
-////                    accessoryButton.removeFromSuperview()
-//                }
-//            }
-//        } catch {
-//            presentError(viewController: self, error: error)
-//        }
-//    }

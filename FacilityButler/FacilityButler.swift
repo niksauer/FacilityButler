@@ -9,7 +9,7 @@
 import Foundation
 import HomeKit
 
-class FacilityButler: NSObject, HMHomeManagerDelegate {
+class FacilityButler: NSObject, HMHomeManagerDelegate, HMHomeDelegate {
     
     // MARK: - Instance Properties
     var facility: Facility!
@@ -167,10 +167,17 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
         
         if let savedFacility = NSKeyedUnarchiver.unarchiveObject(withFile: archiveURL.path) as? Facility {
             self.facility = savedFacility
+            
+//            for placedAccessory in facility.placedAccessoires {
+//                if instance.accessories.contains(where: { $0.uniqueIdentifier.uuidString == placedAccessory.uniqueIdentifier }) == false {
+//                    facility.placedAccessoires.remove(at: facility.placedAccessoires.index(of: placedAccessory)!)
+//                }
+//            }
         } else {
             self.facility = Facility()
         }
         
+    
         delegate?.didUpdateFacility(isSet: true)
     }
     
@@ -192,6 +199,21 @@ class FacilityButler: NSObject, HMHomeManagerDelegate {
         }
     }
     
+    // MARK: - Home Delegate
+//    func home(_ home: HMHome, didRemove accessory: HMAccessory) {
+//        do {
+//            try model.facility.unplaceAccessory(accessory)
+//            
+//            for subview in view.subviews {
+//                if let accessoryButton = subview as? AccessoryButton { //, accessoryButton.identifier == accessory.uniqueIdentifier.uuidString
+//                    log.debug("found accessory button")
+//                    //                    accessoryButton.removeFromSuperview()
+//                }
+//            }
+//        } catch {
+//            presentError(viewController: self, error: error)
+//        }
+//    }
 }
 
 protocol FacilityButlerDelegate {

@@ -34,6 +34,8 @@ enum FacilityError: Error {
     case accessoryUnreachable
     case serviceUnreachable
     case noOldValue
+    case readCharacteristicFailed(error: Error)
+    case enableCharacteristicNotificationFailed(error: Error)
 }
 
 // MARK: - Global Methods
@@ -62,6 +64,10 @@ enum FacilityError: Error {
             message = "Unable to communicate with requested accessory service."
         case .noOldValue:
             message = "Unable to retrieve current accessory state."
+        case .readCharacteristicFailed(let errorMessage):
+            message = "Failed to read accessory characteristic, due to unexpected error: \(errorMessage)"
+        case .enableCharacteristicNotificationFailed(let errorMessage):
+            message = "Failed to enable notifications for accessory characteristic, due to unexpected error: \(errorMessage)"
         }
         
         let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
