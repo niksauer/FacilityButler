@@ -17,6 +17,7 @@ struct Color {
     static let blackLight = UIColor(red: 28.0/255.0, green: 28.0/255.0, blue: 29.0/255.0, alpha: 1.0)
     static let blackDark = UIColor(red: 15.0/255.0, green: 15.0/255.0, blue: 15.0/255.0, alpha: 1.0)
     static let blue = UIColor(red: 0.0/255.0, green: 122.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    static let purple = UIColor(red: 121/255.0, green: 132/255.0, blue: 215/255.0, alpha: 1.0)
 }
 
 enum Theme: Int {
@@ -25,7 +26,7 @@ enum Theme: Int {
     var actionTintColor: UIColor {
         switch self {
         case .Light:
-            return Color.blue
+            return Color.purple
         case .Dark:
             return Color.orange
         }
@@ -34,7 +35,7 @@ enum Theme: Int {
     var barTintColor: UIColor {
         switch self {
         case .Light:
-            return Color.whiteDark
+            return Color.whiteLight
         case .Dark:
             return Color.blackLight
         }
@@ -116,10 +117,10 @@ struct ThemeManager {
         UserDefaults.standard.synchronize()
         log.debug("Applied \(theme) theme")
         
-        // only apply dark theme, otherwise use system defaults
-        guard theme == .Dark else {
-            return
-        }
+//        // only apply dark theme, otherwise use system defaults
+//        guard theme == .Dark else {
+//            return
+//        }
         
         /* does not need window reload > can be changed on the fly */
         // text

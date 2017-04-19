@@ -112,23 +112,11 @@ class FloorPlanController: UIViewController, FacilityButlerDelegate, DrawViewDel
     // MARK: - Actions
     /// places accessory on current floor
     func placeAccessory(accessory: HMAccessory, at position: CGPoint) {
-        let interactiveAccessory: AccessoryButton!
-        let category = accessory.category.categoryType
-        
-        if category.isEmpty {
-            interactiveAccessory = Lightbulb(of: accessory, at: position, delegate: self)
+        if let interactiveAccessory = AccessoryButton.getButton(for: accessory, at: position, delegate: self) {
+            drawTool.addSubview(interactiveAccessory)
         } else {
-            switch category {
-            case HMAccessoryCategoryTypeLightbulb:
-                interactiveAccessory = Lightbulb(of: accessory, at: position, delegate: self)
-            case HMAccessoryCategoryTypeBridge:
-                interactiveAccessory = Bridge(of: accessory, at: position, delegate: self)
-            default:
-                return
-            }
+            log.error("Failed to get AccessoryButton for accessory \(accessory)")
         }
-    
-        drawTool.addSubview(interactiveAccessory)
     }
     
     /// draws requested floorplan

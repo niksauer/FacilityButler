@@ -20,6 +20,7 @@ class AccessoryButton: UIButton, HMAccessoryDelegate {
     let accessory: HMAccessory
     var position: CGPoint
     let delegate: AccessoryButtonDelegate
+    var searchIndicator: UIActivityIndicatorView?
     
     var primaryCharacteristicSet = false {
         didSet {
@@ -32,8 +33,20 @@ class AccessoryButton: UIButton, HMAccessoryDelegate {
             if !reachable {
                 primaryCharacteristicSet = false
                 log.warning("Accessory \(accessory) is not reachable")
+                
+//                searchIndicator = UIActivityIndicatorView(activityIndicatorStyle: ThemeManager.currentTheme().activityIndicatorStyle)
+//                searchIndicator?.startAnimating()
+//                searchIndicator!.translatesAutoresizingMaskIntoConstraints = false
+//                self.addSubview(searchIndicator!)
+//                
+//                let topConstraint = searchIndicator!.topAnchor.constraint(equalTo: self.topAnchor)
+//                let rightConstraint = searchIndicator!.rightAnchor.constraint(equalTo: self.rightAnchor)
+//                
+//                topConstraint.isActive = true
+//                rightConstraint.isActive = true
             } else {
                 log.info("Accessory \(accessory) is reachable")
+                searchIndicator?.stopAnimating()
             }
         }
     }
@@ -53,9 +66,10 @@ class AccessoryButton: UIButton, HMAccessoryDelegate {
         accessory.delegate = self
         checkNetworkStatus()
         
-        let image = AccessoryButton.getBackgroundImage(for: accessory, state: primaryCharacteristicSet)
-        setImage(image, for: .normal)
-        frame = CGRect(x: position.x, y: position.y, width: image.size.width, height: image.size.height)
+        if let image = AccessoryButton.getBackgroundImage(for: accessory, state: primaryCharacteristicSet) {
+            setImage(image, for: .normal)
+            frame = CGRect(x: position.x, y: position.y, width: image.size.width, height: image.size.height)
+        }
         
         enablePrimaryCharacteristicNotifications()
     }
@@ -99,9 +113,9 @@ class AccessoryButton: UIButton, HMAccessoryDelegate {
     
     // MARK: Class Functions
     static let statePicturesLight = [
-        HMAccessoryCategoryTypeLightbulb : [#imageLiteral(resourceName: "lightbulb_off")],
-        HMAccessoryCategoryTypeBridge : [#imageLiteral(resourceName: "bridge_off")],
-        HMAccessoryCategoryTypeOther : [#imageLiteral(resourceName: "lightbulb_off")]
+        HMAccessoryCategoryTypeLightbulb : [#imageLiteral(resourceName: "lightbulb_off"), #imageLiteral(resourceName: "lightbulb_on")],
+        HMAccessoryCategoryTypeBridge : [#imageLiteral(resourceName: "bridge_off"), #imageLiteral(resourceName: "bridge_on")],
+        HMAccessoryCategoryTypeOther : [#imageLiteral(resourceName: "lightbulb_off"), #imageLiteral(resourceName: "lightbulb_on")]
     ]
     
     static let statePicturesDark = [
@@ -110,7 +124,7 @@ class AccessoryButton: UIButton, HMAccessoryDelegate {
         HMAccessoryCategoryTypeOther : [#imageLiteral(resourceName: "dark_lightbulb_off"), #imageLiteral(resourceName: "dark_lightbulb_on")]
     ]
     
-    static func getBackgroundImage(for accessory: HMAccessory, state: Bool) -> UIImage {
+    static func getBackgroundImage(for accessory: HMAccessory, state: Bool) -> UIImage? {
         var category = accessory.category.categoryType
         
         if category.isEmpty {
@@ -118,12 +132,19 @@ class AccessoryButton: UIButton, HMAccessoryDelegate {
         }
         
         let index = state ? 1 : 0
+        let image: UIImage?
         
         switch ThemeManager.currentTheme() {
         case .Light:
-            return statePicturesLight[category]![index]
+            image = statePicturesLight[category]?[index]
         case .Dark:
-            return statePicturesDark[category]![index]
+            image = statePicturesDark[category]?[index]
+        }
+        
+        if let background = image {
+            return background
+        } else {
+            return nil
         }
     }
     
@@ -144,6 +165,24 @@ class AccessoryButton: UIButton, HMAccessoryDelegate {
         } else {
             return nil
         }
+    }
+    
+    static func getButton(for accessory: HMAccessory, at position: CGPoint, delegate: AccessoryButtonDelegate) -> AccessoryButton? {
+        let category = accessory.category.categoryType
+        
+        if category.isEmpty {
+            return Lightbulb(of: accessory, at: position, delegate: delegate)
+        } else {
+            switch category {
+            case HMAccessoryCategoryTypeLightbulb:
+                return Lightbulb(of: accessory, at: position, delegate: delegate)
+            case HMAccessoryCategoryTypeBridge:
+                return Bridge(of: accessory, at: position, delegate: delegate)
+            default:
+                return nil
+            }
+        }
+
     }
     
     // MARK: Accessory Delegate
