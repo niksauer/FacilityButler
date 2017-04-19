@@ -22,8 +22,8 @@ class SettingsController: UITableViewController {
     // MARK: - Actions
     /// creates facility from given user input
     func addHome() {
-        let title = "New Facility"
-        let message = "Please enter a name for this facility."
+        let title = NSLocalizedString("New Facility", comment: "alert box title to add new facility")
+        let message = NSLocalizedString("Please enter a name for this facility.", comment: "alert box message to add new facility")
         
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
@@ -31,8 +31,8 @@ class SettingsController: UITableViewController {
             textField.addTarget(self, action: #selector(self.textChanged(_:)), for: .editingChanged)
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        let createAction = UIAlertAction(title: "Create", style: .default, handler: { (action) -> Void in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "alert box dismiss"), style: .cancel, handler: nil)
+        let createAction = UIAlertAction(title: NSLocalizedString("Create", comment: "alert box accept"), style: .default, handler: { (action) -> Void in
             let facilityName = (alertController.textFields![0].text)!
             self.model.createFacility(name: facilityName, completion: { (error) in
                 if !(presentError(viewController: self, error: error)) {
@@ -88,7 +88,7 @@ class SettingsController: UITableViewController {
                 if home.isPrimary {
                     list.primaryFacility = indexPath
                     cell.accessoryType = .checkmark
-                    cell.detailTextLabel?.text = "Primary home"
+                    cell.detailTextLabel?.text = NSLocalizedString("Primary home", comment: "Primary home marker")
                 }
             }
         } else {
@@ -100,7 +100,7 @@ class SettingsController: UITableViewController {
             
             switch setting {
             case .DarkMode:
-                cell.textLabel?.text = "Dark Mode"
+                cell.textLabel?.text = NSLocalizedString("Dark Mode", comment: "Label for dark mode switch")
                 enableSwitch.addTarget(self, action: #selector(toggleDarkMode(_:)), for: .valueChanged)
                 
                 switch ThemeManager.currentTheme() {
@@ -143,11 +143,11 @@ class SettingsController: UITableViewController {
             let home = model.butler.homes[indexPath.row-1]
             
             let title = "\(home.name)"
-            let message = "Are you sure you want to delete this facility?"
+            let message = NSLocalizedString("Are you sure you want to delete this facility?", comment: "alert box message for deleting facility")
             
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "alert box cancel button"), style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "alert box delete button"), style: .destructive, handler: { (action) -> Void in
                 self.model.deleteFacility(home: home, completion: { (error) in
                     if !(presentError(viewController: self, error: error)) {
                         self.tableView.reloadData()
@@ -189,7 +189,7 @@ class SettingsController: UITableViewController {
                     self.list.primaryFacility = indexPath
                     let newPrimaryFacilityCell = tableView.cellForRow(at: indexPath)
                     newPrimaryFacilityCell?.accessoryType = .checkmark
-                    newPrimaryFacilityCell?.detailTextLabel?.text = "Primary Facility"
+                    newPrimaryFacilityCell?.detailTextLabel?.text = NSLocalizedString("Primary Facility", comment: "primary facility marker")
                 }
             })
         case "addHomeUITableViewCell":
@@ -215,8 +215,8 @@ class SettingsController: UITableViewController {
             ThemeManager.setTheme(Theme.Light)
         }
         
-        let alert = UIAlertController(title: "Info", message: "Please force quit the app to see theme changes.", preferredStyle: .alert)
-        let dismissAction = UIAlertAction(title: "Dismiss", style: .default, handler: nil)
+        let alert = UIAlertController(title: NSLocalizedString("Info", comment: "information alert box title"), message: NSLocalizedString("Please force quit the app to see theme changes.", comment: "alert box message after changing themes"), preferredStyle: .alert)
+        let dismissAction = UIAlertAction(title: NSLocalizedString("Dismiss", comment: "alert box dismiss button"), style: .default, handler: nil)
         alert.addAction(dismissAction)
         
         self.present(alert, animated: true, completion: nil)

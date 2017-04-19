@@ -12,8 +12,8 @@ import HomeKit
 class AccessoryList {
     
     // MARK: - Instance Properties
-    let configuredSection = "not placed"
-    let unconfiguredSection = "newly discovered"
+    let configuredSection = NSLocalizedString("not placed", comment: "configured section title")
+    let unconfiguredSection = NSLocalizedString("newly discovered", comment: "unconfigured section title")
     var sectionTitles: [String]
     var accessories = Array(repeating: [HMAccessory](), count: 2)
     let accessoryBrowser = HMAccessoryBrowser()

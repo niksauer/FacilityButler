@@ -129,11 +129,11 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
             let accessory = list.accessories[indexPath.section][indexPath.row]
             
             let title = "\(accessory.name)"
-            let message = "Are you sure you want to delete this accessory?"
+            let message = NSLocalizedString("Are you sure you want to delete this accessory?", comment: "alert box message delete accessor")
             
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
+            let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: "alert box cancel"), style: .cancel, handler: nil)
+            let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: "alert box delete"), style: .destructive, handler: { (action) -> Void in
                 self.list.removeFromSection(indexPath.section, accessory: accessory)
                 self.tableView.deleteRows(at: [IndexPath(row: indexPath.row, section: indexPath.section)], with: .automatic)
                 self.model.deleteAccessory(accessory, completion: { (error) in
