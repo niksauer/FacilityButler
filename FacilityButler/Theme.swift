@@ -9,15 +9,16 @@
 import UIKit
 
 struct Color {
-    static let whiteLight = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1.0)
-    static let whiteDark = UIColor(red: 246.0/255.0, green: 245.0/255.0, blue: 247.0/255.0, alpha: 1.0)
-    static let white = UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
-    static let orange = UIColor(red: 254.0/255.0, green: 149.0/255.0, blue: 0.0/255.0, alpha: 1.0)
-    static let grey = UIColor(red: 45.0/255, green: 45.0/255, blue: 45.0/255.0, alpha: 1.0)
-    static let blackLight = UIColor(red: 28.0/255.0, green: 28.0/255.0, blue: 29.0/255.0, alpha: 1.0)
-    static let blackDark = UIColor(red: 15.0/255.0, green: 15.0/255.0, blue: 15.0/255.0, alpha: 1.0)
-    static let blue = UIColor(red: 0.0/255.0, green: 122.0/255.0, blue: 255.0/255.0, alpha: 1.0)
     static let purple = UIColor(red: 121/255.0, green: 132/255.0, blue: 215/255.0, alpha: 1.0)
+    static let orange = UIColor(red: 254.0/255.0, green: 149.0/255.0, blue: 0.0/255.0, alpha: 1.0)
+
+    static let white = UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+    static let whiteDark = UIColor(red: 241.0/255.0, green: 241.0/255.0, blue: 241.0/255.0, alpha: 1.0)
+    
+    static let grey = UIColor(red: 127.0/255, green: 127.0/255, blue: 127.0/255.0, alpha: 1.0)
+    static let greyDark = UIColor(red: 45.0/255, green: 45.0/255, blue: 45.0/255.0, alpha: 1.0)
+    
+    static let black = UIColor(red: 28.0/255.0, green: 28.0/255.0, blue: 29.0/255.0, alpha: 1.0)
 }
 
 enum Theme: Int {
@@ -35,49 +36,52 @@ enum Theme: Int {
     var barTintColor: UIColor {
         switch self {
         case .Light:
-            return Color.whiteLight
+            return Color.white
         case .Dark:
-            return Color.blackLight
+            return Color.greyDark
         }
     }
     
     var backgroundColor: UIColor {
         switch self {
         case .Light:
-            return Color.white
+            return Color.whiteDark
         case .Dark:
-            return Color.blackLight
+            return Color.black
         }
     }
     
     var textColor: UIColor {
         switch self {
         case .Light:
-            return Color.blackDark
+            return Color.black
         case .Dark:
             return Color.white
         }
     }
     
-    var contentBackground: UIColor {
+    var secondaryTextColor: UIColor {
         switch self {
         case .Light:
-            return Color.whiteLight
+            return Color.greyDark
         case .Dark:
             return Color.grey
         }
     }
     
+    var contentBackground: UIColor {
+        return self.barTintColor
+    }
+    
     var strokeColor: UIColor {
         switch self {
         case .Light:
-            return Color.blackDark
+            return Color.black
         case .Dark:
             return Color.white
         }
     }
-    
-    // default: translucency = true
+
     var barStyle: UIBarStyle {
         switch self {
         case .Light:
@@ -117,50 +121,69 @@ struct ThemeManager {
         UserDefaults.standard.synchronize()
         log.debug("Applied \(theme) theme")
         
-//        // only apply dark theme, otherwise use system defaults
-//        guard theme == .Dark else {
-//            return
-//        }
-        
-        /* does not need window reload > can be changed on the fly */
-        // text
+        // global
         let sharedApplication = UIApplication.shared
         sharedApplication.delegate?.window??.tintColor = theme.actionTintColor
         
-        /* needs window reload */
         let labelProxy = UILabel.appearance()
         labelProxy.textColor = theme.textColor
         
         let barButtonProxy = UIBarButtonItem.appearance()
         barButtonProxy.tintColor = theme.actionTintColor
         
-//        let switchProxy = UISwitch.appearance()
-//        switchProxy.onTintColor = theme.actionTintColor
         
-        // navigation bar + toolbar
+        // header
         let navigationBarProxy = UINavigationBar.appearance()
         navigationBarProxy.barStyle = theme.barStyle
         navigationBarProxy.barTintColor = theme.barTintColor
+        navigationBarProxy.isTranslucent = false
+        navigationBarProxy.shadowImage = UIImage()
+        navigationBarProxy.setBackgroundImage(UIImage(), for: .default)
         
+        let drawtoolBarViewProxy = DrawToolbarView.appearance()
+        drawtoolBarViewProxy.backgroundColor = theme.barTintColor
+        
+        // header hairline
+//        let path = UIBezierPath()
+//        path.move(to: CGPoint(x: drawtoolBarViewProxy.bounds.minX, y: drawtoolBarViewProxy.bounds.maxY ))
+//        path.addLine(to: CGPoint(x: drawtoolBarViewProxy.bounds.maxX, y: drawtoolBarViewProxy.bounds.maxY ))
+//        
+//        let shape = CAShapeLayer()
+//        shape.path = path.cgPath
+//        shape.strokeColor = UIColor.black.cgColor
+//        shape.fillColor = UIColor.clear.cgColor
+//        shape.lineWidth = 4
+//        shape.lineCap = kCALineCapRound
+//        
+//        drawtoolBarViewProxy.layer.addSublayer(shape)
+        
+        // footer
         let toolbarProxy = UIToolbar.appearance()
         toolbarProxy.barStyle = theme.barStyle
         toolbarProxy.barTintColor = theme.barTintColor
-    
-        // content background
-        let tableCellProxy = UITableViewCell.appearance()
-        tableCellProxy.backgroundColor = theme.contentBackground
+        toolbarProxy.isTranslucent = false
+//        toolbarProxy.clipsToBounds = true
         
-        let drawToolBarViewProxy = DrawToolBarView.appearance()
-        drawToolBarViewProxy.backgroundColor = theme.contentBackground
         
         // background
         let tableViewProxy = UITableView.appearance()
         tableViewProxy.backgroundColor = theme.backgroundColor
+        
+        let tableCellProxy = UITableViewCell.appearance()
+        tableCellProxy.backgroundColor = theme.contentBackground
         
         let drawViewProxy = DrawView.appearance()
         drawViewProxy.backgroundColor = theme.backgroundColor
         
         let floorPlanViewProxy = FloorPlanView.appearance()
         floorPlanViewProxy.backgroundColor = theme.backgroundColor
+        
+        
+//        let statusBarProxy = sharedApplication.value(forKey: "statusBar") as! UIView
+//        statusBarProxy.backgroundColor = theme.barTintColor
+//        
+//        let switchProxy = UISwitch.appearance()
+//        switchProxy.onTintColor = theme.actionTintColor
     }
 }
+

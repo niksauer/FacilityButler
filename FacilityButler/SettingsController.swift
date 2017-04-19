@@ -201,6 +201,12 @@ class SettingsController: UITableViewController {
         
     }
     
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let headerTitle = view as? UITableViewHeaderFooterView {
+            headerTitle.textLabel?.textColor = ThemeManager.currentTheme().secondaryTextColor
+        }
+    }
+    
     // MARK: - Settings Target Actions
     func toggleDarkMode(_ sender: UISwitch) {
         if sender.isOn {

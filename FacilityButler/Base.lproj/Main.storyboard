@@ -19,23 +19,23 @@
                         <viewControllerLayoutGuide type="bottom" id="4bB-Jh-kaD"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="fdv-LO-c1p" customClass="FloorPlanView" customModule="FacilityButler" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NpW-Gk-wUX">
-                                <rect key="frame" x="16" y="578" width="12.5" height="29"/>
+                                <rect key="frame" x="16" y="514" width="12.5" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumValue="-3" maximumValue="3" translatesAutoresizingMaskIntoConstraints="NO" id="BrM-mT-DBA">
-                                <rect key="frame" x="265" y="578" width="94" height="29"/>
+                                <rect key="frame" x="265" y="514" width="94" height="29"/>
                                 <connections>
                                     <action selector="goToFloor:" destination="pTL-tQ-DU7" eventType="valueChanged" id="xe7-qT-McD"/>
                                 </connections>
                             </stepper>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lau-1u-R06">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lau-1u-R06">
+                                <rect key="frame" x="0.0" y="559" width="375" height="44"/>
                                 <items>
                                     <barButtonItem enabled="NO" title="Undo" id="POb-31-hOE">
                                         <connections>
@@ -60,8 +60,8 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YYH-5g-hXm" customClass="DrawToolBarView" customModule="FacilityButler" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YYH-5g-hXm" customClass="DrawToolbarView" customModule="FacilityButler" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kmL-4G-AZW">
                                         <rect key="frame" x="16" y="8" width="343" height="29"/>
@@ -75,6 +75,7 @@
                                         </connections>
                                     </segmentedControl>
                                 </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="kmL-4G-AZW" firstAttribute="centerX" secondItem="YYH-5g-hXm" secondAttribute="centerX" id="9qv-CN-BbY"/>
                                     <constraint firstItem="kmL-4G-AZW" firstAttribute="centerY" secondItem="YYH-5g-hXm" secondAttribute="centerY" id="Ff2-An-wof"/>
@@ -83,11 +84,12 @@
                                     <constraint firstItem="kmL-4G-AZW" firstAttribute="leading" secondItem="YYH-5g-hXm" secondAttribute="leading" constant="16" id="fv2-oq-9dx"/>
                                 </constraints>
                             </view>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vyj-lX-xfh" customClass="DrawView" customModule="FacilityButler" customModuleProvider="target">
-                                <rect key="frame" x="16" y="124" width="343" height="438"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vyj-lX-xfh" userLabel="Draw Tool" customClass="DrawView" customModule="FacilityButler" customModuleProvider="target">
+                                <rect key="frame" x="16" y="60" width="343" height="438"/>
+                                <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
+                        <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="YYH-5g-hXm" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" id="6nU-qc-utN"/>
                             <constraint firstItem="BrM-mT-DBA" firstAttribute="top" secondItem="vyj-lX-xfh" secondAttribute="bottom" constant="16" id="AmG-yY-XeD"/>
@@ -97,10 +99,10 @@
                             <constraint firstItem="BrM-mT-DBA" firstAttribute="trailing" secondItem="fdv-LO-c1p" secondAttribute="trailingMargin" id="SIT-oC-u84"/>
                             <constraint firstItem="Lau-1u-R06" firstAttribute="top" secondItem="NpW-Gk-wUX" secondAttribute="bottom" constant="16" id="TYw-nd-BiW"/>
                             <constraint firstItem="NpW-Gk-wUX" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leadingMargin" id="TwH-3s-LXj"/>
-                            <constraint firstItem="vyj-lX-xfh" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leadingMargin" id="e0i-de-Vbd"/>
+                            <constraint firstItem="vyj-lX-xfh" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" constant="16" id="e0i-de-Vbd"/>
                             <constraint firstAttribute="trailing" secondItem="Lau-1u-R06" secondAttribute="trailing" id="g6t-l4-Wn4"/>
                             <constraint firstAttribute="trailing" secondItem="YYH-5g-hXm" secondAttribute="trailing" id="kAY-dw-QdH"/>
-                            <constraint firstItem="vyj-lX-xfh" firstAttribute="trailing" secondItem="fdv-LO-c1p" secondAttribute="trailingMargin" id="mNS-7v-5Qr"/>
+                            <constraint firstItem="vyj-lX-xfh" firstAttribute="trailing" secondItem="fdv-LO-c1p" secondAttribute="trailing" constant="-16" id="mNS-7v-5Qr"/>
                             <constraint firstItem="4bB-Jh-kaD" firstAttribute="top" secondItem="Lau-1u-R06" secondAttribute="bottom" id="nme-ho-7Wd"/>
                             <constraint firstItem="Lau-1u-R06" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" id="rrU-fu-oAG"/>
                             <constraint firstItem="NpW-Gk-wUX" firstAttribute="height" secondItem="BrM-mT-DBA" secondAttribute="height" id="uKO-Qw-EYz"/>
@@ -221,7 +223,7 @@
             <objects>
                 <tableViewController id="uq7-YC-3KE" customClass="SettingsController" customModule="FacilityButler" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="KAd-vK-tJx">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
@@ -303,12 +305,12 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ahJ-Yy-UH1" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pbq-t6-lyL">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="pbq-t6-lyL">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
-                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="155-E6-loc">
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="155-E6-loc">
                         <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>

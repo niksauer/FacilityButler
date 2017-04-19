@@ -66,12 +66,15 @@ class AccessoryButton: UIButton, HMAccessoryDelegate {
         accessory.delegate = self
         checkNetworkStatus()
         
+        if accessory.isReachable {
+            checkPrimaryCharacteristic()
+            enablePrimaryCharacteristicNotifications()
+        }
+        
         if let image = AccessoryButton.getBackgroundImage(for: accessory, state: primaryCharacteristicSet) {
             setImage(image, for: .normal)
             frame = CGRect(x: position.x, y: position.y, width: image.size.width, height: image.size.height)
         }
-        
-        enablePrimaryCharacteristicNotifications()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -198,9 +201,7 @@ class Lightbulb: AccessoryButton {
     // MARK: Initializers
     required init(of accessory: HMAccessory, at position: CGPoint, delegate: AccessoryButtonDelegate) {
         super.init(of: accessory, at: position, delegate: delegate)
-        
         addTarget(self, action: #selector(togglePowerState), for: .touchUpInside)
-        checkPrimaryCharacteristic()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -270,7 +271,6 @@ class Bridge: AccessoryButton {
     // MARK: Initializers
     required init(of accessory: HMAccessory, at position: CGPoint, delegate: AccessoryButtonDelegate) {
         super.init(of: accessory, at: position, delegate: delegate)
-        checkPrimaryCharacteristic()
     }
     
     required init?(coder aDecoder: NSCoder) {

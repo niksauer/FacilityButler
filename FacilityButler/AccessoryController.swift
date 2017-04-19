@@ -170,7 +170,7 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
         let sectionLabel = UILabel()
         sectionLabel.text = list.sectionTitles[section].uppercased()
         sectionLabel.font = UIFont.systemFont(ofSize: 13)
-        sectionLabel.textColor = UIColor.gray
+        sectionLabel.textColor = ThemeManager.currentTheme().secondaryTextColor
 
         sectionLabel.translatesAutoresizingMaskIntoConstraints = false
         stack.addArrangedSubview(sectionLabel)
