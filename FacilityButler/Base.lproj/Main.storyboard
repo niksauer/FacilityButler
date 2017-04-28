@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ahJ-Yy-UH1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="ahJ-Yy-UH1">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,90 +21,95 @@
                         <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NpW-Gk-wUX">
-                                <rect key="frame" x="16" y="514" width="12.5" height="29"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumValue="-3" maximumValue="3" translatesAutoresizingMaskIntoConstraints="NO" id="BrM-mT-DBA">
-                                <rect key="frame" x="265" y="514" width="94" height="29"/>
-                                <connections>
-                                    <action selector="goToFloor:" destination="pTL-tQ-DU7" eventType="valueChanged" id="xe7-qT-McD"/>
-                                </connections>
-                            </stepper>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lau-1u-R06">
-                                <rect key="frame" x="0.0" y="559" width="375" height="44"/>
-                                <items>
-                                    <barButtonItem enabled="NO" title="Undo" id="POb-31-hOE">
-                                        <connections>
-                                            <action selector="undo:" destination="pTL-tQ-DU7" id="juv-lF-vno"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Redo" id="V00-zk-0oG">
-                                        <connections>
-                                            <action selector="redo:" destination="pTL-tQ-DU7" id="Pn8-j5-awy"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="b65-OL-J7Y"/>
-                                    <barButtonItem enabled="NO" title="Clear" id="gNZ-Tm-A8w">
-                                        <connections>
-                                            <action selector="clear:" destination="pTL-tQ-DU7" id="qt6-wd-gBA"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem enabled="NO" title="Done" id="vKu-Mr-lFt">
-                                        <connections>
-                                            <action selector="done:" destination="pTL-tQ-DU7" id="doz-9t-0s8"/>
-                                        </connections>
-                                    </barButtonItem>
-                                </items>
-                            </toolbar>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YYH-5g-hXm" customClass="DrawToolbarView" customModule="FacilityButler" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="gNG-KE-9Jr">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                 <subviews>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kmL-4G-AZW">
-                                        <rect key="frame" x="16" y="8" width="343" height="29"/>
-                                        <segments>
-                                            <segment title="Vertical"/>
-                                            <segment title="Horizontal"/>
-                                            <segment title="Diagonal"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="changeLineType:" destination="pTL-tQ-DU7" eventType="valueChanged" id="Aaj-2h-SHg"/>
-                                        </connections>
-                                    </segmentedControl>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YYH-5g-hXm" customClass="DrawToolbarView" customModule="FacilityButler" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="490"/>
+                                        <subviews>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="kmL-4G-AZW">
+                                                <rect key="frame" x="16" y="231" width="343" height="29"/>
+                                                <segments>
+                                                    <segment title="Vertical"/>
+                                                    <segment title="Horizontal"/>
+                                                    <segment title="Diagonal"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="changeLineType:" destination="pTL-tQ-DU7" eventType="valueChanged" id="Aaj-2h-SHg"/>
+                                                </connections>
+                                            </segmentedControl>
+                                        </subviews>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="kmL-4G-AZW" secondAttribute="trailing" constant="16" id="WwS-rs-WCK"/>
+                                            <constraint firstItem="kmL-4G-AZW" firstAttribute="leading" secondItem="YYH-5g-hXm" secondAttribute="leading" constant="16" id="nOj-0E-vhA"/>
+                                            <constraint firstItem="kmL-4G-AZW" firstAttribute="centerY" secondItem="YYH-5g-hXm" secondAttribute="centerY" id="p7c-wX-GwZ"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jN4-Tm-aFV">
+                                        <rect key="frame" x="0.0" y="490" width="375" height="69"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NpW-Gk-wUX">
+                                                <rect key="frame" x="16" y="20" width="12.5" height="29"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" minimumValue="-3" maximumValue="3" translatesAutoresizingMaskIntoConstraints="NO" id="BrM-mT-DBA">
+                                                <rect key="frame" x="265" y="20" width="94" height="29"/>
+                                                <connections>
+                                                    <action selector="goToFloor:" destination="pTL-tQ-DU7" eventType="valueChanged" id="xe7-qT-McD"/>
+                                                </connections>
+                                            </stepper>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="NpW-Gk-wUX" firstAttribute="height" secondItem="BrM-mT-DBA" secondAttribute="height" id="JLG-XH-7tU"/>
+                                            <constraint firstItem="BrM-mT-DBA" firstAttribute="centerY" secondItem="jN4-Tm-aFV" secondAttribute="centerY" id="Tva-AC-nCa"/>
+                                            <constraint firstItem="NpW-Gk-wUX" firstAttribute="centerY" secondItem="BrM-mT-DBA" secondAttribute="centerY" id="Y45-wq-VzD"/>
+                                            <constraint firstAttribute="trailing" secondItem="BrM-mT-DBA" secondAttribute="trailing" constant="16" id="gip-ds-aOQ"/>
+                                            <constraint firstItem="NpW-Gk-wUX" firstAttribute="leading" secondItem="jN4-Tm-aFV" secondAttribute="leading" constant="16" id="qL6-xE-Y0w"/>
+                                            <constraint firstAttribute="height" constant="69" id="qOf-Ly-L6a"/>
+                                        </constraints>
+                                    </view>
+                                    <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SRY-6v-iCC">
+                                        <rect key="frame" x="0.0" y="559" width="375" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="OgR-Pl-efi"/>
+                                        </constraints>
+                                        <items>
+                                            <barButtonItem enabled="NO" title="Undo" id="POb-31-hOE">
+                                                <connections>
+                                                    <action selector="undo:" destination="pTL-tQ-DU7" id="juv-lF-vno"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem enabled="NO" title="Redo" id="V00-zk-0oG">
+                                                <connections>
+                                                    <action selector="redo:" destination="pTL-tQ-DU7" id="Pn8-j5-awy"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem style="plain" systemItem="flexibleSpace" id="b65-OL-J7Y"/>
+                                            <barButtonItem enabled="NO" title="Clear" id="gNZ-Tm-A8w">
+                                                <connections>
+                                                    <action selector="clear:" destination="pTL-tQ-DU7" id="qt6-wd-gBA"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem enabled="NO" title="Done" id="vKu-Mr-lFt">
+                                                <connections>
+                                                    <action selector="done:" destination="pTL-tQ-DU7" id="doz-9t-0s8"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem title="Item" id="S7a-a4-wb3"/>
+                                        </items>
+                                    </toolbar>
                                 </subviews>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="kmL-4G-AZW" firstAttribute="centerX" secondItem="YYH-5g-hXm" secondAttribute="centerX" id="9qv-CN-BbY"/>
-                                    <constraint firstItem="kmL-4G-AZW" firstAttribute="centerY" secondItem="YYH-5g-hXm" secondAttribute="centerY" id="Ff2-An-wof"/>
-                                    <constraint firstAttribute="height" constant="44" id="WQS-ub-s98"/>
-                                    <constraint firstAttribute="trailing" secondItem="kmL-4G-AZW" secondAttribute="trailing" constant="16" id="e1u-0D-pet"/>
-                                    <constraint firstItem="kmL-4G-AZW" firstAttribute="leading" secondItem="YYH-5g-hXm" secondAttribute="leading" constant="16" id="fv2-oq-9dx"/>
-                                </constraints>
-                            </view>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vyj-lX-xfh" userLabel="Draw Tool" customClass="DrawView" customModule="FacilityButler" customModuleProvider="target">
-                                <rect key="frame" x="16" y="60" width="343" height="438"/>
-                                <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.94509803921568625" green="0.94509803921568625" blue="0.94509803921568625" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="YYH-5g-hXm" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" id="6nU-qc-utN"/>
-                            <constraint firstItem="BrM-mT-DBA" firstAttribute="top" secondItem="vyj-lX-xfh" secondAttribute="bottom" constant="16" id="AmG-yY-XeD"/>
-                            <constraint firstItem="Lau-1u-R06" firstAttribute="top" secondItem="BrM-mT-DBA" secondAttribute="bottom" constant="16" id="FXB-8y-EJm"/>
-                            <constraint firstItem="vyj-lX-xfh" firstAttribute="top" secondItem="YYH-5g-hXm" secondAttribute="bottom" constant="16" id="IDf-mk-OPy"/>
-                            <constraint firstItem="YYH-5g-hXm" firstAttribute="top" secondItem="fHP-rj-CE5" secondAttribute="bottom" id="Iu0-Mr-4Rm"/>
-                            <constraint firstItem="BrM-mT-DBA" firstAttribute="trailing" secondItem="fdv-LO-c1p" secondAttribute="trailingMargin" id="SIT-oC-u84"/>
-                            <constraint firstItem="Lau-1u-R06" firstAttribute="top" secondItem="NpW-Gk-wUX" secondAttribute="bottom" constant="16" id="TYw-nd-BiW"/>
-                            <constraint firstItem="NpW-Gk-wUX" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leadingMargin" id="TwH-3s-LXj"/>
-                            <constraint firstItem="vyj-lX-xfh" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" constant="16" id="e0i-de-Vbd"/>
-                            <constraint firstAttribute="trailing" secondItem="Lau-1u-R06" secondAttribute="trailing" id="g6t-l4-Wn4"/>
-                            <constraint firstAttribute="trailing" secondItem="YYH-5g-hXm" secondAttribute="trailing" id="kAY-dw-QdH"/>
-                            <constraint firstItem="vyj-lX-xfh" firstAttribute="trailing" secondItem="fdv-LO-c1p" secondAttribute="trailing" constant="-16" id="mNS-7v-5Qr"/>
-                            <constraint firstItem="4bB-Jh-kaD" firstAttribute="top" secondItem="Lau-1u-R06" secondAttribute="bottom" id="nme-ho-7Wd"/>
-                            <constraint firstItem="Lau-1u-R06" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" id="rrU-fu-oAG"/>
-                            <constraint firstItem="NpW-Gk-wUX" firstAttribute="height" secondItem="BrM-mT-DBA" secondAttribute="height" id="uKO-Qw-EYz"/>
+                            <constraint firstItem="gNG-KE-9Jr" firstAttribute="top" secondItem="fHP-rj-CE5" secondAttribute="bottom" id="Ml7-T8-MFX"/>
+                            <constraint firstAttribute="bottom" secondItem="gNG-KE-9Jr" secondAttribute="bottom" id="Wcv-oc-f7Q"/>
+                            <constraint firstItem="gNG-KE-9Jr" firstAttribute="leading" secondItem="fdv-LO-c1p" secondAttribute="leading" id="YjK-Ky-kXG"/>
+                            <constraint firstAttribute="trailing" secondItem="gNG-KE-9Jr" secondAttribute="trailing" id="bb4-k1-Ksj"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Ground Floor" id="YHe-dh-RCe">
@@ -126,7 +130,6 @@
                         <outlet property="currentFloorLabel" destination="NpW-Gk-wUX" id="1ez-us-Q56"/>
                         <outlet property="currentFloorStepper" destination="BrM-mT-DBA" id="yfI-07-6m3"/>
                         <outlet property="doneButton" destination="vKu-Mr-lFt" id="dwk-Tn-Ibr"/>
-                        <outlet property="drawTool" destination="vyj-lX-xfh" id="PJ6-Bz-uZ1"/>
                         <outlet property="redoButton" destination="V00-zk-0oG" id="HfS-hG-zyh"/>
                         <outlet property="undoButton" destination="POb-31-hOE" id="7u2-tL-kYo"/>
                     </connections>
