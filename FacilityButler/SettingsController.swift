@@ -66,15 +66,17 @@ class SettingsController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let homeSectionIndex = list.sectionTitles.index(of: list.homeSection), homeSectionIndex == section {
             return (model.butler.homes.count+1)
+        } else if let designSectionIndex = list.sectionTitles.index(of: list.designSection), designSectionIndex == section {
+            return list.designSettings.count
         } else {
-            return list.settings.count
+            return 1
         }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let sectionIndex = indexPath.section
         let rowIndex = indexPath.row
-        let cell: UITableViewCell
+        var cell = UITableViewCell()
         
         if let homeSectionIndex = list.sectionTitles.index(of: list.homeSection), homeSectionIndex == sectionIndex {
             if indexPath.row == 0 {
@@ -91,12 +93,13 @@ class SettingsController: UITableViewController {
                     cell.detailTextLabel?.text = NSLocalizedString("Primary home", comment: "Primary home marker")
                 }
             }
-        } else {
+        } else if let designSectionIndex = list.sectionTitles.index(of: list.designSection), designSectionIndex == sectionIndex {
             cell = tableView.dequeueReusableCell(withIdentifier: "settingUITableViewCell", for: indexPath)
+            
             let enableSwitch = UISwitch()
             cell.accessoryView = enableSwitch
             
-            let setting = list.settings[rowIndex]
+            let setting = list.designSettings[rowIndex]
             
             switch setting {
             case .DarkMode:
@@ -121,6 +124,8 @@ class SettingsController: UITableViewController {
                     }
                 }
             }
+        } else if let developerSectionIndex = list.sectionTitles.index(of: list.developerSection), developerSectionIndex == sectionIndex {
+            cell = tableView.dequeueReusableCell(withIdentifier: "showLogUITableViewCell", for: indexPath)
         }
         
         return cell
@@ -194,7 +199,6 @@ class SettingsController: UITableViewController {
             })
         case "addHomeUITableViewCell":
             addHome()
-            break
         default:
             break
         }

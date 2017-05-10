@@ -13,6 +13,7 @@ class SettingsList {
     // MARK: - Instance Properties
     let homeSection = NSLocalizedString("my facilities", comment: "list of facilities")
     let designSection = NSLocalizedString("look & feel", comment: "options for look and optics")
+    let developerSection = NSLocalizedString("developer", comment: "options for developers")
     var sectionTitles: [String]
     var primaryFacility: IndexPath?
     
@@ -21,12 +22,12 @@ class SettingsList {
         case DarkIcon
     }
     
-    let settings = [ Setting.DarkMode, Setting.DarkIcon ]
+    let designSettings = [ Setting.DarkMode, Setting.DarkIcon ]
     
     // MARK: - Initialization
     /// allows rearrangement of sections
     init() {
-        sectionTitles = [homeSection, designSection]
+        sectionTitles = [homeSection, designSection, developerSection]
     }
 
 }
