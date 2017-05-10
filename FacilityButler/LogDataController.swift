@@ -14,14 +14,18 @@ class LogDataController: UIViewController {
     @IBOutlet weak var logTextView: UITextView!
     
     // MARK: - Instance Properties
-    let logData: String! = nil
+    let logDataPath = CachesDirectory.appendingPathComponent("swiftybeaver.log")
     
     // MARK: - Initialization
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let path = CachesDirectory.appendingPathComponent("swiftybeaver.log")
-        log.debug(path);
+        do {
+            let logData = try String(contentsOf: logDataPath, encoding: .utf8)
+            logTextView.text = logData
+        } catch let error {
+            log.debug(error)
+        }
     }
     
 }

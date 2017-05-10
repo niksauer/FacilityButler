@@ -131,7 +131,11 @@ struct ThemeManager {
         let barButtonProxy = UIBarButtonItem.appearance()
         barButtonProxy.tintColor = theme.actionTintColor
         
+        let textViewProxy = UITextView.appearance()
+        textViewProxy.backgroundColor = theme.backgroundColor
+        textViewProxy.textColor = theme.textColor
         
+        /* FloorPlan Controller */
         // header
         let navigationBarProxy = UINavigationBar.appearance()
         navigationBarProxy.barStyle = theme.barStyle

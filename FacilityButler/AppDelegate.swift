@@ -23,7 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // logging config
         let console = ConsoleDestination()
+    
         let file = FileDestination()
+        let _ = file.deleteLogFile()
+        file.format = "$DHH:mm:ss$d $N.$F - $L:\n$M \n"
         
         log.addDestination(console)
         log.addDestination(file)
