@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+// MARK: - Color Definition
 struct Color {
     static let purple = UIColor(red: 121/255.0, green: 132/255.0, blue: 215/255.0, alpha: 1.0)
     static let orange = UIColor(red: 254.0/255.0, green: 149.0/255.0, blue: 0.0/255.0, alpha: 1.0)
@@ -21,6 +21,8 @@ struct Color {
     static let black = UIColor(red: 28.0/255.0, green: 28.0/255.0, blue: 29.0/255.0, alpha: 1.0)
 }
 
+// MARK: - Theme Definition
+// INFO: - Add new cases to enumeration to add additional themes
 enum Theme: Int {
     case Light, Dark
     
@@ -100,8 +102,9 @@ enum Theme: Int {
         }
     }
 }
-
+// MARK: - Theme Functions
 struct ThemeManager {
+    // INFO: - Function to return the currently set theme
     static func currentTheme() -> Theme {
         if let storedTheme = (UserDefaults.standard.value(forKey: PropertyKey.currentTheme)) as? Int {
             return Theme(rawValue: storedTheme)!
@@ -110,12 +113,14 @@ struct ThemeManager {
         }
     }
     
+    // INFO: - Function to set the selected theme as new default
     static func setTheme(_ theme: Theme) {
         UserDefaults.standard.setValue(theme.rawValue, forKey: PropertyKey.currentTheme)
         UserDefaults.standard.synchronize()
         log.info("Set \(theme) theme for next application launch")
     }
     
+    // INFO: - Function to apply the selected theme to the appearance
     static func applyTheme(_ theme: Theme) {
         UserDefaults.standard.setValue(theme.rawValue, forKey: PropertyKey.currentTheme)
         UserDefaults.standard.synchronize()
