@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         log.debug("Documents path: \(DocumentsDirectory)")
         log.debug("Caches path: \(CachesDirectory)")
         
-        // theme config
+        // Apply the selected theme from previous session
         ThemeManager.applyTheme(ThemeManager.currentTheme())
         
         // setup initial view controller
