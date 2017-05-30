@@ -152,27 +152,11 @@ struct ThemeManager {
         let drawtoolBarViewProxy = DrawToolbarView.appearance()
         drawtoolBarViewProxy.backgroundColor = theme.barTintColor
         
-        // header hairline
-//        let path = UIBezierPath()
-//        path.move(to: CGPoint(x: drawtoolBarViewProxy.bounds.minX, y: drawtoolBarViewProxy.bounds.maxY ))
-//        path.addLine(to: CGPoint(x: drawtoolBarViewProxy.bounds.maxX, y: drawtoolBarViewProxy.bounds.maxY ))
-//        
-//        let shape = CAShapeLayer()
-//        shape.path = path.cgPath
-//        shape.strokeColor = UIColor.black.cgColor
-//        shape.fillColor = UIColor.clear.cgColor
-//        shape.lineWidth = 4
-//        shape.lineCap = kCALineCapRound
-//        
-//        drawtoolBarViewProxy.layer.addSublayer(shape)
-        
         // footer
         let toolbarProxy = UIToolbar.appearance()
         toolbarProxy.barStyle = theme.barStyle
         toolbarProxy.barTintColor = theme.barTintColor
-        toolbarProxy.isTranslucent = false
-//        toolbarProxy.clipsToBounds = true
-        
+        toolbarProxy.isTranslucent = false        
         
         // background
         let tableViewProxy = UITableView.appearance()
@@ -187,12 +171,6 @@ struct ThemeManager {
         let floorPlanViewProxy = FloorPlanView.appearance()
         floorPlanViewProxy.backgroundColor = theme.backgroundColor
         
-        
-//        let statusBarProxy = sharedApplication.value(forKey: "statusBar") as! UIView
-//        statusBarProxy.backgroundColor = theme.barTintColor
-//        
-//        let switchProxy = UISwitch.appearance()
-//        switchProxy.onTintColor = theme.actionTintColor
     }
 }
 
