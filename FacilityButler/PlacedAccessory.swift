@@ -7,12 +7,14 @@
 //
 
 import Foundation
+import UIKit
 
 class PlacedAccessory: NSObject, NSCoding {
     
     // MARK: - Instance Properties
     let uniqueIdentifier: String
     var floorNumber: Int
+    var position: CGPoint?
     
     // MARK: - Initialization
     init(uniqueIdentifier: String, floorNumber: Int) {

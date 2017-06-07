@@ -18,10 +18,6 @@ class FacilityButler: NSObject, HMHomeManagerDelegate, HMHomeDelegate {
     var isInitialSetup = true
     var delegate: FacilityButlerDelegate?
     
-    let primaryFunction = [
-        HMAccessoryCategoryTypeLightbulb : [HMServiceTypeLightbulb, HMCharacteristicTypePowerState]
-    ]
-    
     // MARK: - Initialization
     override init() {
         super.init()

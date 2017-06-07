@@ -9,6 +9,6 @@
 import UIKit
 import HomeKit
 
-class DrawToolBarView: UIView { }
+class DrawToolbarView: UIView { }
 
 class FloorPlanView: UIView { }

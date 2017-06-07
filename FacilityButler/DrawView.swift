@@ -118,6 +118,10 @@ class DrawView: UIView {
         }
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.setNeedsDisplay()
+    }
     
     func setStroke(color: UIColor) {
         self.strokeColor = color

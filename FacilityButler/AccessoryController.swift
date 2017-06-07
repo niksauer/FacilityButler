@@ -170,20 +170,14 @@ class AccessoryController: UITableViewController, HMAccessoryBrowserDelegate {
         let sectionLabel = UILabel()
         sectionLabel.text = list.sectionTitles[section].uppercased()
         sectionLabel.font = UIFont.systemFont(ofSize: 13)
-        sectionLabel.textColor = UIColor.gray
+        sectionLabel.textColor = ThemeManager.currentTheme().secondaryTextColor
 
         sectionLabel.translatesAutoresizingMaskIntoConstraints = false
         stack.addArrangedSubview(sectionLabel)
 
         // acitivity indicator should only display at the unconfigured accessory sections
         if let unconfiguredSectionIndex = list.sectionTitles.index(of: list.unconfiguredSection), unconfiguredSectionIndex == section {
-            switch ThemeManager.currentTheme() {
-            case .Light:
-                activityIndicator.activityIndicatorViewStyle = .gray
-            case .Dark:
-                activityIndicator.activityIndicatorViewStyle = .white
-            }
-            
+            activityIndicator.activityIndicatorViewStyle = ThemeManager.currentTheme().activityIndicatorStyle
             stack.addArrangedSubview(activityIndicator)
         }
 

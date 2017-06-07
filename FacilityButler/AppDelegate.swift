@@ -11,6 +11,7 @@ import HomeKit
 
 let log = SwiftyBeaver.self
 let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+let CachesDirectory = FileManager().urls(for: .cachesDirectory, in: .userDomainMask).first!
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -22,10 +23,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // logging config
         let console = ConsoleDestination()
-        log.addDestination(console)
-        log.debug("Documents path: \(DocumentsDirectory)")
+    
+        let file = FileDestination()
+        let _ = file.deleteLogFile()
+        file.format = "$DHH:mm:ss$d $N.$F - $L:\n$M \n"
         
-        // theme config
+        log.addDestination(console)
+        log.addDestination(file)
+        
+        log.debug("Documents path: \(DocumentsDirectory)")
+        log.debug("Caches path: \(CachesDirectory)")
+        
+        // Apply the selected theme from previous session
         ThemeManager.applyTheme(ThemeManager.currentTheme())
         
         // setup initial view controller
