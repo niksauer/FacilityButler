@@ -184,22 +184,10 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		24CDFFB520739DB10094A9ED /* FacilityButler */ = {
-			isa = PBXGroup;
-			children = (
-				248B091F1E94E9C800524AFD /* FacilityButler.swift */,
-				2441B7B21E84509100A428D9 /* Facility.swift */,
-				24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */,
-				241090E81E924A0600F78D45 /* PlacedAccessory.swift */,
-			);
-			name = FacilityButler;
-			path = ..;
-			sourceTree = "<group>";
-		};
 		24CDFFB720739DC60094A9ED /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				24CDFFB520739DB10094A9ED /* FacilityButler */,
+				24CDFFDF2073A24F0094A9ED /* FacilityButler */,
 				246B63711E97CE77008F7D8E /* Line.swift */,
 				0BC1F2421E98F0BA00FB54EA /* Theme.swift */,
 				248B091D1E94323200524AFD /* Global.swift */,
@@ -259,6 +247,17 @@
 				24CDFFD620739FA50094A9ED /* SwiftyBeaver.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		24CDFFDF2073A24F0094A9ED /* FacilityButler */ = {
+			isa = PBXGroup;
+			children = (
+				248B091F1E94E9C800524AFD /* FacilityButler.swift */,
+				2441B7B21E84509100A428D9 /* Facility.swift */,
+				24A8BE751E8AFA8B008D3E73 /* FloorPlan.swift */,
+				241090E81E924A0600F78D45 /* PlacedAccessory.swift */,
+			);
+			path = FacilityButler;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
