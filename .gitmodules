@@ -1,5 +1,3 @@
 [submodule "Frameworks/SwiftyBeaver"]
 	path = Frameworks/SwiftyBeaver
 	url = https://github.com/SwiftyBeaver/SwiftyBeaver
-	ignore = dirty
-	branch = master
