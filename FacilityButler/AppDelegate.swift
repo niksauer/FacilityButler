@@ -8,6 +8,7 @@
 
 import UIKit
 import HomeKit
+import SwiftyBeaver
 
 let log = SwiftyBeaver.self
 let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
