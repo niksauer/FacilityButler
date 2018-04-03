@@ -209,7 +209,7 @@ class Lightbulb: AccessoryButton {
     }
     
     // MARK: Actions
-    func togglePowerState() {
+    @objc func togglePowerState() {
         if accessory.isReachable {
             if !accessory.isBlocked {
                 if let lightBulbService = accessory.services.first(where: { $0.serviceType == HMServiceTypeLightbulb }), let powerState = lightBulbService.characteristics.first(where: { $0.characteristicType == HMCharacteristicTypePowerState }) {

@@ -54,7 +54,7 @@ class SettingsController: UITableViewController {
     
     /// dis/enables create home alert action depending on input length
     /// - Parameter sender: textfield that receives input
-    func textChanged(_ sender: UITextField) {
+    @objc func textChanged(_ sender: UITextField) {
         createAlertAction?.isEnabled = ((sender.text?.utf16.count)! >= 1)
     }
     
@@ -212,7 +212,7 @@ class SettingsController: UITableViewController {
     }
     
     // MARK: - Settings Target Actions
-    func toggleDarkMode(_ sender: UISwitch) {
+    @objc func toggleDarkMode(_ sender: UISwitch) {
         if sender.isOn {
             ThemeManager.setTheme(Theme.Dark)
         } else {
@@ -226,7 +226,7 @@ class SettingsController: UITableViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @available(iOS 10.3, *)
+    @objc @available(iOS 10.3, *)
     func toggleAppIcon(_ sender: UISwitch) {
         if sender.isOn {
             UIApplication.shared.setAlternateIconName("darkAppIcon", completionHandler: { (error) in
